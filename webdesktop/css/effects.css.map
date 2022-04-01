@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,UAAU,CAAV,QAAU;EACT,IAAI;IAAG,SAAS,EAAE,cAAc;;;;AAEjC,UAAU,CAAV,WAAU;EACT,IAAI;IAAG,SAAS,EAAE,eAAe;;;;AAElC,UAAU,CAAV,SAAU;EACT,GAAG;IAAG,SAAS,EAAE,UAAS",
+    "sources": [
+        "effects.scss"
+    ],
+    "names": [],
+    "file": "effects.css"
+}

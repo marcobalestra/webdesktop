@@ -1,0 +1,9 @@
+@keyframes rotating {
+	100% { transform: rotate(360deg); }
+}
+@keyframes revrotating {
+	100% { transform: rotate(-360deg); }
+}
+@keyframes pulsating {
+	50% { transform: scale(.8); }
+}
