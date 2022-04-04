@@ -1,0 +1,40 @@
+@import url(basic.css);
+@import url(fonts.css);
+@import url(effects.css);
+.main-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  overflow: auto;
+}
+
+.main-wrapper.mabro-desktop {
+  z-index: -1;
+  background-size: contain;
+  background-image: url(/mabro/webdestop/themes/default/desktopbg.svg);
+  background-repeat: no-repeat;
+  background-position: 0 50%;
+  background-color: #f0f0f0;
+}
+
+.main-wrapper.mabro-menu-wrapper {
+  bottom: unset;
+  height: 24px;
+  overflow: visible;
+  z-index: 1;
+  background-color: #fff;
+}
+
+.main-wrapper.mabro-main-wrapper {
+  top: 24px;
+  bottom: 24px;
+}
+
+.main-wrapper.mabro-dock-wrapper {
+  top: unset;
+  height: 24px;
+}
+/*# sourceMappingURL=mabro.css.map */

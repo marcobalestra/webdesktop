@@ -15,6 +15,7 @@
 	<script type="text/javascript" src="/jslibs/fancybox/jquery.fancybox.min.js"></script>
 	<link type="text/css" rel="stylesheet" href="/jslibs/select2/select2.min.css" />
 	<script type="text/javascript" src="/jslibs/select2/select2.min.js"></script>
+	<script type="text/javascript" src="/mabro/js/glob.js"></script>
 	<meta name="glob.localize.dontLabelize" value="true" />
 	<title>mabro.app</title>
 	<link rel="apple-touch-icon" href="/static/mabro-160.png" />
@@ -23,8 +24,13 @@
 </head>
 
 <body>
-	<div class="wrapper mainWrapper">
+	<div class="wrapper main-wrapper mabro-desktop"></div>
+	<div class="wrapper main-wrapper mabro-menu-wrapper"></div>
+	<div class="wrapper main-wrapper mabro-main-wrapper">
 		<div id="mainContent"></div>
+	</div>
+	<div class="wrapper main-wrapper mabro-dock-wrapper">
+		<div class="mabro-dock-content"></div>
 	</div>
 </body>
 </html>
