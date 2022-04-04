@@ -37,13 +37,18 @@ const loadLocales = ( manifest ) => {
 const getClass = async (pars) => {
 	const MB = class {
 		#prop;
+		#fs;
 		constructor() {
 			this.#prop = JSON.parse(JSON.stringify(pars));
 			this.#prop.manifests = {};
+			this.#prop.plugins = {};
 		};
 		static init = async (mb) => {
-			mb.loadCSS(mb.getProp('mabro_base')+'/css/mabro.css');
+			mb.loadCSS(mb.getProp('mabro_base')+'css/mabro.css');
+			if ( typeof glob.localize.main !== 'object') glob.localize.main = {};
+			if ( typeof glob.localize.main.icon !== 'object') glob.localize.main.icon = {};
 			mb.getManifest(mb.getProp('mabro_base')).then( man => { loadLocales(man); });
+			const fs = await mb.getFs();
 		};
 		async init() {
 			return await MB.init(this);
@@ -56,8 +61,34 @@ const getClass = async (pars) => {
 			if ( ! this.#prop.manifests[uri] ) {
 				this.#prop.manifests[uri] = (await glob.get(muri))||{error:"Not found"};
 				this.#prop.manifests[uri].base_uri = uri;
+				if ( this.#prop.manifests[uri].app_icon && this.#prop.manifests[uri].app_name ) {
+					glob.localize.main.icon[ 'app_' + this.#prop.manifests[uri].app_name ] = this.#prop.manifests[uri].app_icon;
+				}
 			}
 			return this.#prop.manifests[uri];
+		};
+		async getFs() {
+			if ( typeof this.#fs === 'undefined' ) this.#fs = this.loadPlugin(this.getProp('mabro_base')+'plugins/fs/',this);
+			return this.#fs;
+		};
+		async loadPlugin(uri,initData) {
+			const pc = await this.loadPluginClass(uri);
+			if ( pc ) return (new pc(initData));
+			return false;
+		};
+		async loadPluginClass(puri) {
+			if ( puri.endsWith('plugin.mjs') ) puri = puri.replace(/plugin\.mjs/,'');
+			if ( ! puri.endsWith('/') ) puri += '/';
+			if ( typeof this.#prop.plugins[puri] === 'undefined' ) {
+				const mod = await import(`${puri}plugin.${this.getProp('mjs_suffix')}`);
+				try {
+					this.#prop.plugins[puri] = mod.default();
+				} catch (e) {
+					console.log("Error loading plugin",puri,e);
+					this.#prop.plugins[puri] = false;
+				}
+			}
+			return this.#prop.plugins[puri]
 		};
 	};
 	return MB;

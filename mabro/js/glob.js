@@ -3,6 +3,7 @@
 	glob object => all global methods and properties
 	_l => localize function
 	_lang => current user language
+	_icon => localize in icon language
 */
 if ( typeof glob !== 'object' ) glob = {};
 if ( typeof glob.prop !== 'object' ) glob.prop = {};
@@ -110,7 +111,7 @@ glob.rmCookie = (n,o) => {
 	return out;
 };
 
-glob.uid = () => (([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c => (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)));
+glob.uid = (base) => ((base||'')+(([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c => (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16))));
 
 glob.localize = {
 	def : 'en',
@@ -152,7 +153,7 @@ glob.localize = {
 			});
 		}
 		while ( txt.match(/\{\{icon:[^}]+\}\}/) ) {
-			txt = txt.replace(/\{\{icon:([^}]+)\}\}/g,function(x,y){ return y /* AS.icon(y); */ });
+			txt = txt.replace(/\{\{icon:([^}]+)\}\}/g,function(x,y){ return glob.localize.label(y,undefined,'icon') });
 		}
 		return txt;
 	},
@@ -646,6 +647,7 @@ glob.menu = (ev,menu)=>{
 (() => {
 	glob.localize.init();
 	window._l = glob.label = glob.localize.label;
+	window._icon = (x)=>(glob.localize.label(x,undefined,'icon'));
 })();
 
 /* When document is loaded */
@@ -654,8 +656,8 @@ $( ()=> {
 	if ( typeof window.MBobj === 'undefined') {
 		const opts = {
 			mabro_base : "/mabro/",
-			mjs_suffix : "mjs",
-			js_suffix : "js",
+			mjs_suffix : "min.mjs",
+			js_suffix : "min.js",
 		};
 		import(`${opts.mabro_base}js/app.${opts.mjs_suffix}`).then( mbmodule => {
 			mbmodule.default(opts).then( mbclass => { (window.MBobj = new mbclass(opts.mabro_base)).init(); });
