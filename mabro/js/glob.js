@@ -371,11 +371,11 @@ glob.get = async ( url = '') => {
 		method: 'GET',
 		cache: 'reload', // *default, no-cache, reload, force-cache, only-if-cached
 		redirect: 'follow', // manual, *follow, error
-		referrerPolicy: 'no-referrer',
-		headers : {
-			'pragma': 'no-cache',
-			'cache-control': 'no-cache'
-		}
+		// referrerPolicy: 'no-referrer',
+		// headers : {
+		// 	'pragma': 'no-cache',
+		// 	'cache-control': 'no-cache'
+		// }
 	});
 	switch ( response.status ) {
 		case 200 : return response.json();
