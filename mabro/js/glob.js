@@ -664,11 +664,13 @@ $( ()=> {
 	const s = document.documentElement.getElementsByTagName('head')[0].querySelector('script[tag="mabro-starter"]');
 	if ( ! s ) return;
 	const src = s.getAttribute('src');
+	const is_prod = !! src.includes('://');
 	const opts = {
 		mabro_base : src.replace(/js\/[^\/]+$/,''),
-		mjs_suffix : src.includes('://') ? "min.mjs" : "mjs",
-		js_suffix : src.includes('://') ? "min.js" : "js",
+		mjs_suffix : is_prod ? "min.mjs" : "mjs",
+		js_suffix : is_prod ? "min.js" : "js"
 	};
+	opts[is_prod?'is_prod':'is_dev'] = true;
 	import(`${opts.mabro_base}js/app.${opts.mjs_suffix}`).then( mbmodule => {
 		mbmodule.default(opts).then( mbclass => {
 			glob.prop.MBobjStarted = true;
