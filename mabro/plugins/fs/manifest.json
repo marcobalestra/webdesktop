@@ -1,0 +1,11 @@
+{
+	"script" : "plugin.min.mjs",
+	"singleton" : true,
+	"version" : "0.1",
+	"copyright" : "altersoftware.it",
+	"copyright_link" : "https://altersoftware.it",
+	"creator" : "fs.mabro.altersoftware.it",
+	"locales" : ["en","it"],
+	"locales_dir" : "locales/",
+	"locales_suffix" : ".json"
+}

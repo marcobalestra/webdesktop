@@ -1,0 +1,16 @@
+{
+	"ComputerChoiceCanSaveSession" : "Qualunque sia il livello di privacy potrai salvare i tuoi dati su un file prima di chiudere la sessione.<br />In seguito potrai caricare quel file per riprendere la sessione.",
+	"ComputerIsTrusted" : "Questo è il mio computer personale",
+	"ComputerIsTrustedDesc" : "Sono il solo che utilizza questo browser.",
+	"ComputerIsTrustedHelp" : "I tuoi dati saranno salvati nel browser, disponibili quando con lo stesso browser visiterai ancora questo sito (se non cancelli la cronologia).",
+	"ComputerNotTrusted" : "Questo computer è condiviso",
+	"ComputerNotTrustedDesc" : "Altri oltre a me possono usare questo browser.",
+	"ComputerNotTrustedHelp" : "I tuoi dati saranno registrati in sessione, cancellati automaticamente quando il browser verrà chiuso.",
+	"Operation in progress" : "Operazione in corso",
+	"Privacy level" : "Livello di privacy",
+	"StorageInitLoad" : "Carica un file di sessione",
+	"StorageInitNew" : "Avvia una nuove sessione",
+	"Session" : "Avvia una sessione temporanea",
+	"StoragesMultiFound" : "Sono stati trovati gli archivi sia di sessione che locale.",
+	"StoragesNotFound" : "Nessun archivio locale trovato."
+}

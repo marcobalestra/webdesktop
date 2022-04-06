@@ -37,4 +37,8 @@
   top: unset;
   height: 24px;
 }
+
+.modal-dialog label {
+  margin-bottom: 0;
+}
 /*# sourceMappingURL=mabro.css.map */

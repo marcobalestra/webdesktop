@@ -24,12 +24,17 @@ const loadCSS = ( mb, cssfiles ) => {
 	return count;
 };
 
-const loadLocales = ( manifest ) => {
+const loadLocales = ( manifest, prefix ) => {
 	if ( ! Array.isArray(manifest.locales) ) return;
-	manifest.locales.forEach( l => {
+	const ls = [];
+	if ( manifest.locales.includes('en') ) ls.push('en');
+	if ( manifest.locales.includes('multi') ) ls.push('multi');
+	if ( manifest.locales.includes('icon') ) ls.push('icon');
+	if ( _lang !== 'en' && manifest.locales.includes(_lang) ) ls.push(_lang);
+	if ( ls.length ) ls.forEach( l => {
 		const uri = manifest.base_uri + manifest.locales_dir + l + manifest.locales_suffix;
 		if ( cache.loaded[uri] ) return;
-		glob.localize.loadjs( uri, l, true );
+		glob.localize.loadjs( uri, l, true, prefix );
 		cache.loaded[uri] = true;
 	});
 };
@@ -42,6 +47,7 @@ const getClass = async (pars) => {
 			this.#prop = JSON.parse(JSON.stringify(pars));
 			this.#prop.manifests = {};
 			this.#prop.plugins = {};
+			this.#prop.pluginsingletons = {};
 		};
 		static init = async (mb) => {
 			mb.loadCSS(mb.getProp('mabro_base')+'css/mabro.css');
@@ -49,10 +55,12 @@ const getClass = async (pars) => {
 			if ( typeof glob.localize.main.icon !== 'object') glob.localize.main.icon = {};
 			mb.getManifest(mb.getProp('mabro_base')).then( man => { loadLocales(man); });
 			const fs = await mb.getFs();
+			fs.boot();
 		};
 		async init() {
 			return await MB.init(this);
 		};
+		async dialog(options) { return await this.plugin('dialog',options); };
 		loadCSS( ...args ) { return loadCSS.call(window,this,args) };
 		getProp(pname) { return this.#prop[pname]; };
 		async getManifest(uri) {
@@ -68,27 +76,48 @@ const getClass = async (pars) => {
 			return this.#prop.manifests[uri];
 		};
 		async getFs() {
-			if ( typeof this.#fs === 'undefined' ) this.#fs = this.loadPlugin(this.getProp('mabro_base')+'plugins/fs/',this);
+			if ( typeof this.#fs === 'undefined' ) this.#fs = this.plugin('fs');
 			return this.#fs;
 		};
-		async loadPlugin(uri,initData) {
-			const pc = await this.loadPluginClass(uri);
-			if ( pc ) return (new pc(initData));
+		async plugin(pluginName,initData,uri) {
+			const pc = await this.pluginClass(pluginName,uri);
+			if ( pc ) {
+				if ( pc.manifest.singleton && this.#prop.pluginsingletons[pluginName] ) return this.#prop.pluginsingletons[pluginName];
+				const o = (new pc.classfunc(pc.manifest,initData));
+				if ( pc.manifest.singleton ) this.#prop.pluginsingletons[pluginName] = o;
+				return o;
+			}
 			return false;
 		};
-		async loadPluginClass(puri) {
-			if ( puri.endsWith('plugin.mjs') ) puri = puri.replace(/plugin\.mjs/,'');
-			if ( ! puri.endsWith('/') ) puri += '/';
-			if ( typeof this.#prop.plugins[puri] === 'undefined' ) {
-				const mod = await import(`${puri}plugin.${this.getProp('mjs_suffix')}`);
-				try {
-					this.#prop.plugins[puri] = mod.default();
-				} catch (e) {
-					console.log("Error loading plugin",puri,e);
-					this.#prop.plugins[puri] = false;
+		async pluginClass(pluginName,puri,classInitData) {
+			if ( typeof this.#prop.plugins[pluginName] === 'undefined' ) {
+				if ( ! puri ) {
+					if ( typeof classInitData === 'undefined' ) classInitData = this;
+					puri = this.getProp('mabro_base') + 'plugins/'+pluginName+'/';
+				}
+				const manifest = await this.getManifest(puri);
+				if ( manifest && typeof manifest === 'object' ) {
+					loadLocales( manifest );
+					this.#prop.plugins[pluginName] = { manifest: manifest }
+					if ( manifest.script ) {
+						let mod,cl;
+						try {
+							mod = await import(`${manifest.base_uri}${manifest.script}`);
+						} catch(e) {
+							console.log("Error loading plugin script",manifest,e);
+						}
+						if ( mod ) {
+							try {
+								cl = await mod.default(classInitData);
+								if ( typeof cl === 'function' ) this.#prop.plugins[pluginName].classfunc = cl;
+							} catch (e) {
+								console.log("Error loading plugin class",manifest,e);
+							}
+						}
+					}
 				}
 			}
-			return this.#prop.plugins[puri]
+			return this.#prop.plugins[pluginName];
 		};
 	};
 	return MB;

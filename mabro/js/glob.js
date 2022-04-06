@@ -102,6 +102,7 @@ glob.rmCookie = (n,o) => {
 	if ( typeof c === 'undefined' ) return false;
 	o = typeof o === 'object' ? o : {};
 	o.expires = 'Thu, 01 Jan 1970 00:00:01 GMT';
+	o.sameSite = true;
 	if ( o.domain === true ) o.domain = window.location.hostname;
 	if ( typeof o.domain === 'string' && o.domain != '' ) o.domain = o.domain.replace(/^\./,'');
 	let out = glob.setCookie( n, '', o );
@@ -131,12 +132,14 @@ glob.localize = {
 			glob.localize.setLanguage( glob.getCookie('lang').replace(/^([a-z]{2}).*$/i,"$1").toLowerCase() );
 		} else if ( window.navigator.userLanguage || window.navigator.language ) {
 			glob.localize.setLanguage( (window.navigator.userLanguage || window.navigator.language).replace(/^(..).*$/,"$1").toLowerCase() );
+		} else if ( Array.isArray(window.navigator.languages) && window.navigator.languages.length ) {
+			glob.localize.setLanguage( (window.navigator.languages[0]).replace(/^(..).*$/,"$1").toLowerCase() );
 		} else {
 			glob.localize.setLanguage();
 		}
 		setTimeout( glob.localize.page, 1 );
 	},
-	forceLang: (l) => { glob.setCookie('forcelang',l,{path:'/', domain: true, firstLevel: true }); },
+	forceLang: (l) => { glob.setCookie('forcelang',l,{path:'/', domain: true, firstLevel: true, sameSite: true }); },
 	labelize : ( txt ) => {
 		while ( txt.match(/\{\{label:[^}]+\}(\{[^:]+:[^}]+\})*\}/) ) {
 			txt = txt.replace(/\{\{label:([^}]+)\}((\{[^:]+:[^}]*\})*)\}/g,(x,y,z) => {
@@ -228,7 +231,11 @@ glob.localize = {
 				}
 			});
 			glob.localize.pending--;
-			glob.localize.loaded = true;
+			if (glob.localize.pending == 0) glob.localize.loaded = true;
+			glob.localize.langloaded = true;
+		}).catch( e => {
+			glob.localize.pending--;
+			if (glob.localize.pending == 0) glob.localize.loaded = true;
 			glob.localize.langloaded = true;
 		})
 		if ( skipNewLoad ) return true;
@@ -277,7 +284,7 @@ glob.localize = {
 		if ( typeof mainLang === 'string' ) window._lang = glob.localize.current = mainLang.toLowerCase();
 		let d = new Date();
 		d.setFullYear( d.getFullYear() + 1 );
-		glob.setCookie('language',glob.localize.current,{expires:d,path:'/'});
+		glob.setCookie('language',glob.localize.current,{expires:d,path:'/',sameSite:true});
 		if ( document.documentElement.querySelector('head meta[name="glob.localize.dontLoadAuto"]')) return void(0);
 	},
 	ready : () => { return !! glob.localize.loaded; },
@@ -656,8 +663,8 @@ $( ()=> {
 	if ( typeof window.MBobj === 'undefined') {
 		const opts = {
 			mabro_base : "/mabro/",
-			mjs_suffix : "min.mjs",
-			js_suffix : "min.js",
+			mjs_suffix : "mjs",
+			js_suffix : "js",
 		};
 		import(`${opts.mabro_base}js/app.${opts.mjs_suffix}`).then( mbmodule => {
 			mbmodule.default(opts).then( mbclass => { (window.MBobj = new mbclass(opts.mabro_base)).init(); });

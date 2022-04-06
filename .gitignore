@@ -8,3 +8,6 @@ monitor.pl
 monitorLog.txt
 Artwork/
 test/
+dist/
+Quest\ Software/
+.vscode/

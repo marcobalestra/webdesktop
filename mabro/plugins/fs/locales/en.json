@@ -1,0 +1,13 @@
+{
+	"ComputerChoiceCanSaveSession" : "Regardless of your privacy level you’ll be given the option to save your session data on a file before closing the session.<br />Later on you’ll be able to load such file and restore the session.",
+	"ComputerIsTrusted" : "This is my private computer",
+	"ComputerIsTrustedDesc" : "I’m the only who can access this browser.",
+	"ComputerIsTrustedHelp" : "Your data will persist in browser storage, will be available on your next visit with this same browser (unless browsing data are deleted).",
+	"ComputerNotTrusted" : "This is a shared computer",
+	"ComputerNotTrustedDesc" : "People other than me can access this browser.",
+	"ComputerNotTrustedHelp" : "Your data will be stored in browser session, automatically deleted when browser window is closed.",
+	"StorageInitLoad" : "Load a session file",
+	"StorageInitNew" : "Start a new session",
+	"StoragesMultiFound" : "Multiple archives found (both local and session).",
+	"StoragesNotFound" : "Couldn’t find any local archive."
+}
