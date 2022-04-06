@@ -1,7 +1,6 @@
 const getClass = async (mb) => {
 	const DLOG = class {
-		#prop;
-		#dlog;
+		#prop; #dlog; #manifest;
 		constructor( manifest, options ) {
 			const dlogDefaults = {
 				uid : glob.uid('dlog'),
@@ -17,6 +16,7 @@ const getClass = async (mb) => {
 				dkeys.filter(k => (! okeys.includes(k))).forEach( k => { options[k] = dlogDefaults[k] });
 			}
 			this.#prop = options;
+			this.#manifest = manifest;
 		};
 		static makeDlog(p) {
 			return $(`<div class="modal fade mabro-global-system-modal" id="${p.uid}" tabindex="-1" role="dialog" aria-labelledby="${p.tooltip}" data-backdrop="${p.canclose?true:'static'}" data-keyboard="${!!p.canclose}" aria-hidden="true">

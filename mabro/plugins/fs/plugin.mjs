@@ -53,9 +53,7 @@ const existingStorages = () => {
 
 const getClass = async (mb) => {
 	const FS = class {
-		#prop;
-		#storage;
-		#data;
+		#prop; #storage; #data;
 		constructor(manifest) {
 			this.#prop = {};
 			this.#prop.manifest = manifest;
