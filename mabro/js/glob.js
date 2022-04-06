@@ -663,10 +663,11 @@ $( ()=> {
 	if ( glob.prop.MBobjStarted ) return;
 	const s = document.documentElement.getElementsByTagName('head')[0].querySelector('script[tag="mabro-starter"]');
 	if ( ! s ) return;
+	const src = s.getAttribute('src');
 	const opts = {
-		mabro_base : s.getAttribute('src').replace(/js\/[^\/]+$/,''),
-		mjs_suffix : "mjs",
-		js_suffix : "js",
+		mabro_base : src.replace(/js\/[^\/]+$/,''),
+		mjs_suffix : src.includes('://') ? "min.mjs" : "mjs",
+		js_suffix : src.includes('://') ? "min.js" : "js",
 	};
 	import(`${opts.mabro_base}js/app.${opts.mjs_suffix}`).then( mbmodule => {
 		mbmodule.default(opts).then( mbclass => {
