@@ -14,7 +14,7 @@
 .main-wrapper.mabro-desktop {
   z-index: -1;
   background-size: contain;
-  background-image: url(/mabro/webdestop/themes/default/desktopbg.svg);
+  background-image: url(../webdestop/themes/default/desktopbg.svg);
   background-repeat: no-repeat;
   background-position: 0 50%;
   background-color: #f0f0f0;
