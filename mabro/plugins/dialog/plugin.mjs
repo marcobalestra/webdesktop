@@ -2,7 +2,7 @@ const getClass = async (mb) => {
 	const DLOG = class {
 		#prop;
 		#dlog;
-		constructor( options ) {
+		constructor( manifest, options ) {
 			const dlogDefaults = {
 				uid : glob.uid('dlog'),
 				canclose: true,

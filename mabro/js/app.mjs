@@ -79,8 +79,8 @@ const getClass = async (pars) => {
 			if ( typeof this.#fs === 'undefined' ) this.#fs = this.plugin('fs');
 			return this.#fs;
 		};
-		async plugin(pluginName,initData,uri) {
-			const pc = await this.pluginClass(pluginName,uri);
+		async plugin(pluginName,initData,uri,classInitData) {
+			const pc = await this.pluginClass(pluginName,uri,classInitData);
 			if ( pc ) {
 				if ( pc.manifest.singleton && this.#prop.pluginsingletons[pluginName] ) return this.#prop.pluginsingletons[pluginName];
 				const o = (new pc.classfunc(pc.manifest,initData));
