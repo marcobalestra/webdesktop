@@ -660,14 +660,18 @@ glob.menu = (ev,menu)=>{
 /* When document is loaded */
 
 $( ()=> {
-	if ( typeof window.MBobj === 'undefined') {
-		const opts = {
-			mabro_base : "/mabro/",
-			mjs_suffix : "mjs",
-			js_suffix : "js",
-		};
-		import(`${opts.mabro_base}js/app.${opts.mjs_suffix}`).then( mbmodule => {
-			mbmodule.default(opts).then( mbclass => { (window.MBobj = new mbclass(opts.mabro_base)).init(); });
+	if ( glob.prop.MBobjStarted ) return;
+	const s = document.documentElement.getElementsByTagName('head')[0].querySelector('script[tag="mabro-starter"]');
+	if ( ! s ) return;
+	const opts = {
+		mabro_base : s.getAttribute('src').replace(/js\/[^\/]+$/,''),
+		mjs_suffix : "mjs",
+		js_suffix : "js",
+	};
+	import(`${opts.mabro_base}js/app.${opts.mjs_suffix}`).then( mbmodule => {
+		mbmodule.default(opts).then( mbclass => {
+			glob.prop.MBobjStarted = true;
+			(new mbclass(opts.mabro_base)).init();
 		});
-	}
+	});
 });
