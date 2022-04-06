@@ -99,7 +99,8 @@ const getClass = async (pars) => {
 				if ( manifest && typeof manifest === 'object' ) {
 					loadLocales( manifest );
 					this.#prop.plugins[pluginName] = { manifest: manifest }
-					if ( manifest.script ) {
+					if ( typeof manifest.script === "string" ) {
+						if (manifest.script.includes('<mjs_suffix>')) manifest.script = manifest.script.replace(/\<mjs_suffix\>/,this.getProp('mjs_suffix'));
 						let mod,cl;
 						try {
 							mod = await import(`${manifest.base_uri}${manifest.script}`);
