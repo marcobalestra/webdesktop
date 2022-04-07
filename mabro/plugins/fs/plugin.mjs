@@ -109,11 +109,11 @@ const VAULT = class {
 			data = await window.crypto.subtle.encrypt({name: "AES-GCM", iv: this.#prop.vector}, key_object, data);
 			data = arraybuffer2string(data);
 		}
-		return window.btoa(data);
+		return window.btoa(window.encodeURIComponent(data));
 	};
 	async decrypt( data ) {
 		let key_object = await this.getKey();
-		data = window.atob(data);
+		data = window.decodeURIComponent(window.atob(data));
 		if ( key_object ) {
 			try {
 				data = await window.crypto.subtle.decrypt({name: "AES-GCM", iv: this.#prop.vector }, key_object, data );
