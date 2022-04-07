@@ -59,6 +59,15 @@ const existingStorages = () => {
 	return out;
 };
 
+const string2arraybuffer = (str) => {
+	let encoder = new TextEncoder("utf-8");
+	return encoder.encode(str);
+};
+const arraybuffer2string = (buffer) => {
+	let decoder = new TextDecoder("utf-8");
+	return decoder.decode(buffer);
+}
+
 const VAULT = class {
 	#prop;
 	constructor( password ) {
@@ -71,9 +80,8 @@ const VAULT = class {
 	async getKey() {
 		if ( this.#prop.key_object ) return this.#prop.key_object;
 		if ( ! this.#prop.password ) return false;
-		const encoder = new TextEncoder("utf-8");
-		const password = encoder.encode(this.#prop.password);
-		const pepper = encoder.encode("¡Hasta la victoria siempre!");
+		const password = string2arraybuffer(this.#prop.password);
+		const pepper = string2arraybuffer("¡Hasta la victoria siempre!");
 		//try {
 			const importedPassword = await window.crypto.subtle.importKey( "raw", password, {name:"PBKDF2"}, false, ["deriveKey"] );
 			this.#prop.key_object = await window.crypto.subtle.deriveKey(
@@ -92,15 +100,14 @@ const VAULT = class {
 		this.#prop.password = password;
 		this.#prop.key_object = null;
 	};
-	isEncrypted() { return !! this.#prop.password };
+	async isEncrypted() { return !! ( this.#prop.password && (await this.getKey()) ) };
 	async encrypt( data ) {
 		let key_object = await this.getKey();
 		if ( typeof data === 'object' ) data = JSON.stringify(data);
 		if ( key_object ) {
-			const encoder = new TextEncoder("utf-8");
-			data = encoder.encode(data);
+			data = string2arraybuffer(data);
 			data = await window.crypto.subtle.encrypt({name: "AES-GCM", iv: this.#prop.vector}, key_object, data);
-			data = encoder.decode(data);
+			data = arraybuffer2string(data);
 		}
 		return window.btoa(data);
 	};
@@ -114,8 +121,7 @@ const VAULT = class {
 				console.log('vault decrypt',e);
 				return { error : 'decrypt', message : e.message };
 			}
-			const encoder = new TextEncoder("utf-8");
-			data = encoder.decode(data);
+			data = arraybuffer2string(data);
 		}
 		return JSON.parse( data );
 	};
@@ -153,12 +159,16 @@ const getClass = async (mb) => {
 				delete this.#prop.commitTimeout;
 			}
 			if ( force ) {
-				this.#vault.encrypt( this.#data ).then( enc => { this.#storage.setItem('mabro',enc); });
-				if ( this.#vault.isEncrypted() ) {
-					this.#storage.setItem('mabro-encrypted',"true");
-				} else if ( this.#storage.getItem('mabro-encrypted') ) {
-					this.#storage.removeItem('mabro-encrypted');
-				}
+				this.#vault.encrypt( this.#data ).then( enc => {
+					this.#storage.setItem('mabro',enc);
+					this.#vault.isEncrypted().then( isE => {
+						if ( isE ) {
+							this.#storage.setItem('mabro-encrypted',"true");
+						} else if ( this.#storage.getItem('mabro-encrypted') ) {
+							this.#storage.removeItem('mabro-encrypted');
+						}
+					});
+				});
 			} else {
 				this.#prop.commitTimeout = window.setTimeout( ()=>{ this.commit(true); }, writeLatency);
 			}
