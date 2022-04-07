@@ -6,6 +6,7 @@
 	"ComputerNotTrusted" : "This is a shared computer",
 	"ComputerNotTrustedDesc" : "People other than me can access this browser.",
 	"ComputerNotTrustedHelp" : "Your data will be stored in browser session, automatically deleted when browser window is closed.",
+	"PasswordHelp" : "If password isn’t empty it will be necessary to read session data.<br />Data are encrypted with password, the same password must be provided when loading a password-protected session file.",
 	"StorageInitLoad" : "Load a session file",
 	"StorageInitNew" : "Start a new session",
 	"StoragesMultiFound" : "Multiple archives found (both local and session).",

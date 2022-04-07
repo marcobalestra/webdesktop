@@ -41,8 +41,7 @@ const loadLocales = ( manifest, prefix ) => {
 
 const getClass = async (pars) => {
 	const MB = class {
-		#prop;
-		#fs;
+		#prop; #fs;
 		constructor() {
 			this.#prop = JSON.parse(JSON.stringify(pars));
 			this.#prop.manifests = {};
@@ -54,11 +53,11 @@ const getClass = async (pars) => {
 			if ( typeof glob.localize.main !== 'object') glob.localize.main = {};
 			if ( typeof glob.localize.main.icon !== 'object') glob.localize.main.icon = {};
 			mb.getManifest(mb.getProp('mabro_base')).then( man => { loadLocales(man); });
-			const fs = await mb.getFs();
-			fs.boot();
+			(await mb.getFs()).boot();
 		};
-		async init() {
-			return await MB.init(this);
+		async init() { return await MB.init(this); };
+		async start() {
+			
 		};
 		async dialog(options) { return await this.plugin('dialog',options); };
 		loadCSS( ...args ) { return loadCSS.call(window,this,args) };
