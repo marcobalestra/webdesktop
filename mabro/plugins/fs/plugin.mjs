@@ -108,13 +108,16 @@ const VAULT = class {
 			data = string2arraybuffer(data);
 			data = await window.crypto.subtle.encrypt({name: "AES-GCM", iv: this.#prop.vector}, key_object, data);
 			data = arraybuffer2string(data);
+			data = window.encodeURIComponent(data);
+		} else {
+			data = window.btoa(window.encodeURIComponent(data));
 		}
-		return window.btoa(window.encodeURIComponent(data));
+		return data;
 	};
 	async decrypt( data ) {
 		let key_object = await this.getKey();
-		data = window.decodeURIComponent(window.atob(data));
 		if ( key_object ) {
+			data = window.decodeURIComponent(data);
 			try {
 				data = await window.crypto.subtle.decrypt({name: "AES-GCM", iv: this.#prop.vector }, key_object, data );
 			} catch(e) {
@@ -122,6 +125,8 @@ const VAULT = class {
 				return { error : 'decrypt', message : e.message };
 			}
 			data = arraybuffer2string(data);
+		} else {
+			data = window.decodeURIComponent(window.atob(data));
 		}
 		return JSON.parse( data );
 	};
