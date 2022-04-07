@@ -19,22 +19,30 @@ const initFs = async (mb) => {
 	} else {
 		$dlog.title(_l('StoragesMultiFound'));
 	}
+	const $form = $('<form class="d-block ml-4"></form>');
+	if ( window.location.href.startsWith('https://')) {
+		const $pwd = $(`<div class="mb-3" data-placement="bottom" data-html="true">${_l('PasswordDesc')}<div class="input-group"><input type="password" class="form-control"><div class="input-group-append"><span class="input-group-text">${_l('Password')}</span></div></div></div>`);
+		$pwd.attr('title',_l('PasswordHelp'));
+		$pwd.tooltip();
+		$('input',$pwd).on('keyup change',()=>{ password = $('input',$pwd).val() });
+		$form.append($pwd);
+	}
 	const ntbid = glob.uid('btn');
-	const $ntb = $(`<p><input name="secured" checked="checked" type="radio" id="${ntbid}"><label for="${ntbid}"> <b>${_l('ComputerNotTrusted')}</b></label><br /><i>“${_l('ComputerNotTrustedDesc')}”</i><small style="display:block;font-size:75%;">${_l('ComputerNotTrustedHelp')}</small></p>`);
+	const $ntb = $(`<div class="mb-3" data-placement="right" data-html="true"><input name="secured" checked="checked" type="radio" id="${ntbid}"><label for="${ntbid}"> <b>${_l('ComputerNotTrusted')}</b></label><br /><i>“${_l('ComputerNotTrustedDesc')}”</i></div>`);
+	$ntb.attr('title', _l('ComputerNotTrustedHelp'));
+	$ntb.tooltip();
 	$('input',$ntb).on('click',()=>{ secured = false; });
 	const tbid = glob.uid('btn');
-	const $tb = $(`<p><input name="secured" type="radio" id="${tbid}"><label for="${tbid}"> <b>${_l('ComputerIsTrusted')}</b></label><br /><i>“${_l('ComputerIsTrustedDesc')}”</i><small style="display:block;font-size:75%;">${_l('ComputerIsTrustedHelp')}</small></p>`);
+	const $tb = $(`<div class="mb-3" data-placement="right" data-html="true"><input name="secured" type="radio" id="${tbid}"><label for="${tbid}"> <b>${_l('ComputerIsTrusted')}</b></label><br /><i>“${_l('ComputerIsTrustedDesc')}”</i></div>`);
+	$tb.attr('title',_l('ComputerIsTrustedHelp'));
+	$tb.tooltip();
 	$('input',$tb).on('click',()=>{ secured = true; });
+	$form.append($ntb,$tb);
 	$body.append(
-		$('<p></p>').append(_l('Privacy level'),':'),
-		$('<form class="d-block ml-4"></form>').append($ntb,$tb)
+		$('<div class="mb-2"></div>').append(_l('Privacy level'),':'),
+		$form,
+		$('<div></div>').append( _l('ComputerChoiceCanSaveSession'))
 	);
-	if ( window.location.href.startsWith('https://')) {
-		const $pwd = $(`<p><input type="password" class="form-control"><small style="display:block;font-size:75%;">${_l('PasswordHelp')}</small></p>`);
-		$('input',$pwd).on('keyup change',()=>{ password = $('input',$pwd).val() });
-		$body.append($('<p></p>').append(_l('Password'),':'), $('<form class="d-block ml-4"></form>').append($pwd));
-	}
-	$body.append($('<div></div>').append( _l('ComputerChoiceCanSaveSession')));
 	const initStorage = async () =>{
 		$dlog.body(_l('Operation in progress'));
 		$dlog.footer('');
@@ -82,7 +90,7 @@ const VAULT = class {
 		if ( ! this.#prop.password ) return false;
 		const password = string2arraybuffer(this.#prop.password);
 		const pepper = string2arraybuffer("¡Hasta la victoria siempre!");
-		//try {
+		try {
 			const importedPassword = await window.crypto.subtle.importKey( "raw", password, {name:"PBKDF2"}, false, ["deriveKey"] );
 			this.#prop.key_object = await window.crypto.subtle.deriveKey(
 				{ name: "PBKDF2", salt: pepper, iterations: 100000, hash: "SHA-256" },
@@ -91,9 +99,9 @@ const VAULT = class {
 				false,
 				["encrypt", "decrypt"]
 			);
-		//} catch(e) {
-		//	console.log("Error while importing key: " + e.message);
-		//}
+		} catch(e) {
+			console.log("Error while importing key: " + e.message);
+		}
 		return this.#prop.key_object;
 	};
 	setPassword( password ) {

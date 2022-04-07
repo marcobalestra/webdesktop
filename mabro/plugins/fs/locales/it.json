@@ -7,6 +7,8 @@
 	"ComputerNotTrustedDesc" : "Altri oltre a me possono usare questo browser.",
 	"ComputerNotTrustedHelp" : "I tuoi dati saranno registrati in sessione, cancellati automaticamente quando il browser verrà chiuso.",
 	"Operation in progress" : "Operazione in corso",
+	"PasswordDesc" : "Lascia vuoto se non vuoi password.",
+	"PasswordHelp" : "Se la password non è vuota sarà necessaria per leggere i dati.<br />I dati sono criptati sulla base della password, la stessa password deve essere fornita per caricare un file di sessione protetto da password.",
 	"Privacy level" : "Livello di privacy",
 	"StorageInitLoad" : "Carica un file di sessione",
 	"StorageInitNew" : "Avvia una nuove sessione",
