@@ -6,81 +6,88 @@
 $dockheight: 40px;
 $menuheight : 32px;
 
-.mabro-wrapper {
+
+.mabro-main-container, .mabro-wrapper, .mabro-webdesktop, .mabro-app.mabro-fullscreen {
 	position: absolute;
 	top: 0;
 	left: 0;
 	right: 0;
 	bottom: 0;
 	margin: 0;
-	overflow: hidden;
-	&.mabro-webdesktop {
-		z-index: -1;
-		background-size: contain;
-		background-image: url(../apps/webdesktop/themes/default/desktopbg.svg);
-		background-repeat: no-repeat;
-		background-position: 0 50%;
-		background-color: #f0f0f0;
-	}
-	&.mabro-menu-wrapper {
-		bottom: unset;
-		height: $menuheight;
-		overflow: visible;
-		z-index: 1;
-		background-color: #fff;
-	}
-	&.mabro-main-wrapper {
-		top : $menuheight;
-		bottom: $dockheight;
-	};
-	&.mabro-dock-wrapper {
-		top: unset;
-		height: $dockheight;
-		overflow: visible;
-		display: flex;
-		flex-wrap: nowrap;
-		justify-content : center;
-		> .mabro-dock-content {
+}
+
+.mabro-main-container {
+	background-size: contain;
+	background-image: url(../apps/webdesktop/themes/default/desktopbg.svg);
+	background-repeat: no-repeat;
+	background-position: 0 50%;
+	background-color: #f0f0f0;
+	> .mabro-wrapper {
+		&.mabro-menu-wrapper {
+			bottom: unset;
+			height: $menuheight;
+			overflow: visible;
+			z-index: 1;
+			background-color: #fff;
+		}
+		&.mabro-main-wrapper {
+			top : $menuheight;
+			bottom: $dockheight;
+			z-index: -1;
+			.mabro-webdesktop {
+				z-index: -1;
+			}
+			.mabro-app:not(.mabro-webdesktop) {
+				position: relative;
+				background-color: white;
+				&.active {
+					z-index: 1;
+				}
+				&.inactive {
+					z-index: 0;
+				}
+				&.mabro-fullscreen {
+					position: absolute;
+					top: 0;
+					left: 0;
+					right: 0;
+					bottom: 0;
+				}
+			}
+		};
+		&.mabro-dock-wrapper {
+			top: unset;
 			height: $dockheight;
+			overflow: visible;
 			display: flex;
 			flex-wrap: nowrap;
 			justify-content : center;
-			background-color: #ffffffcc;
-			align-items : flex-end;
-			> div {
-				padding: 0 12px 4px 12px;
-				> svg {
-					width: 32px;
-					height: 32px;
-					transition: all ease-in-out .25s;
-					&:hover {
-						width: 80px;
-						height: 80px;
+			> .mabro-dock-content {
+				height: $dockheight;
+				display: flex;
+				flex-wrap: nowrap;
+				justify-content : center;
+				background-color: #ffffffcc;
+				align-items : flex-end;
+				> div {
+					padding: 0 12px 4px 12px;
+					> svg {
+						width: 32px;
+						height: 32px;
+						transition: all ease-in-out .25s;
+						&:hover {
+							width: 80px;
+							height: 80px;
+						}
 					}
-				}
-				&.running {
-					border-bottom: 2px solid #36c;
+					&.running {
+						border-bottom: 2px solid #36c;
+					}
 				}
 			}
 		}
-	};
+	}
 }
 .modal-dialog label {
 	margin-bottom: 0;
-}
-.mabro-app:not(.mabro-webdesktop) {
-	background-color: white;
-	&.active {
-		z-index: 1;
-	}
-	&.inactive {
-		z-index: 0;
-	}
-	&.mabro-fullscreen {
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-	}
 }

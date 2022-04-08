@@ -1,18 +1,16 @@
 @import url(basic.css);
 @import url(fonts.css);
 @import url(effects.css);
-.mabro-wrapper {
+.mabro-main-container, .mabro-wrapper, .mabro-webdesktop, .mabro-app.mabro-fullscreen {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   margin: 0;
-  overflow: hidden;
 }
 
-.mabro-wrapper.mabro-webdesktop {
-  z-index: -1;
+.mabro-main-container {
   background-size: contain;
   background-image: url(../apps/webdesktop/themes/default/desktopbg.svg);
   background-repeat: no-repeat;
@@ -20,7 +18,7 @@
   background-color: #f0f0f0;
 }
 
-.mabro-wrapper.mabro-menu-wrapper {
+.mabro-main-container > .mabro-wrapper.mabro-menu-wrapper {
   bottom: unset;
   height: 32px;
   overflow: visible;
@@ -28,12 +26,38 @@
   background-color: #fff;
 }
 
-.mabro-wrapper.mabro-main-wrapper {
+.mabro-main-container > .mabro-wrapper.mabro-main-wrapper {
   top: 32px;
   bottom: 40px;
+  z-index: -1;
 }
 
-.mabro-wrapper.mabro-dock-wrapper {
+.mabro-main-container > .mabro-wrapper.mabro-main-wrapper .mabro-webdesktop {
+  z-index: -1;
+}
+
+.mabro-main-container > .mabro-wrapper.mabro-main-wrapper .mabro-app:not(.mabro-webdesktop) {
+  position: relative;
+  background-color: white;
+}
+
+.mabro-main-container > .mabro-wrapper.mabro-main-wrapper .mabro-app:not(.mabro-webdesktop).active {
+  z-index: 1;
+}
+
+.mabro-main-container > .mabro-wrapper.mabro-main-wrapper .mabro-app:not(.mabro-webdesktop).inactive {
+  z-index: 0;
+}
+
+.mabro-main-container > .mabro-wrapper.mabro-main-wrapper .mabro-app:not(.mabro-webdesktop).mabro-fullscreen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.mabro-main-container > .mabro-wrapper.mabro-dock-wrapper {
   top: unset;
   height: 40px;
   overflow: visible;
@@ -47,7 +71,7 @@
           justify-content: center;
 }
 
-.mabro-wrapper.mabro-dock-wrapper > .mabro-dock-content {
+.mabro-main-container > .mabro-wrapper.mabro-dock-wrapper > .mabro-dock-content {
   height: 40px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -63,47 +87,27 @@
           align-items: flex-end;
 }
 
-.mabro-wrapper.mabro-dock-wrapper > .mabro-dock-content > div {
+.mabro-main-container > .mabro-wrapper.mabro-dock-wrapper > .mabro-dock-content > div {
   padding: 0 12px 4px 12px;
 }
 
-.mabro-wrapper.mabro-dock-wrapper > .mabro-dock-content > div > svg {
+.mabro-main-container > .mabro-wrapper.mabro-dock-wrapper > .mabro-dock-content > div > svg {
   width: 32px;
   height: 32px;
   -webkit-transition: all ease-in-out .25s;
   transition: all ease-in-out .25s;
 }
 
-.mabro-wrapper.mabro-dock-wrapper > .mabro-dock-content > div > svg:hover {
+.mabro-main-container > .mabro-wrapper.mabro-dock-wrapper > .mabro-dock-content > div > svg:hover {
   width: 80px;
   height: 80px;
 }
 
-.mabro-wrapper.mabro-dock-wrapper > .mabro-dock-content > div.running {
+.mabro-main-container > .mabro-wrapper.mabro-dock-wrapper > .mabro-dock-content > div.running {
   border-bottom: 2px solid #36c;
 }
 
 .modal-dialog label {
   margin-bottom: 0;
-}
-
-.mabro-app:not(.mabro-webdesktop) {
-  background-color: white;
-}
-
-.mabro-app:not(.mabro-webdesktop).active {
-  z-index: 1;
-}
-
-.mabro-app:not(.mabro-webdesktop).inactive {
-  z-index: 0;
-}
-
-.mabro-app:not(.mabro-webdesktop).mabro-fullscreen {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
 }
 /*# sourceMappingURL=mabro.css.map */

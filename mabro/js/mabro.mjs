@@ -59,7 +59,7 @@ const getClass = async (pars) => {
 		};
 		async init() { return await MB.init(this); };
 		async start() {
-			const wd = await this.app('webdesktop',{ system: this, win:$('body>.mabro-wrapper.mabro-webdesktop') });
+			const wd = await this.app('webdesktop',{ system: this, win:$('body>.mabro-main-container>.mabro-main-wrapper>.mabro-webdesktop') });
 			const apps = this.#fs.apps();
 			apps.forEach( uri => { this.app(uri) });
 			wd.api.event('run');
