@@ -6,15 +6,15 @@
 $dockheight: 24px;
 $menuheight : 24px;
 
-.main-wrapper {
+.mabro-wrapper {
 	position: absolute;
 	top: 0;
 	left: 0;
 	right: 0;
 	bottom: 0;
 	margin: 0;
-	overflow: auto;
-	&.mabro-desktop {
+	overflow: hidden;
+	&.mabro-webdesktop {
 		z-index: -1;
 		background-size: contain;
 		background-image: url(../apps/webdesktop/themes/default/desktopbg.svg);
@@ -36,8 +36,25 @@ $menuheight : 24px;
 	&.mabro-dock-wrapper {
 		top: unset;
 		height: $dockheight;
+		overflow: visible;
 	};
 }
 .modal-dialog label {
 	margin-bottom: 0;
+}
+.mabro-app:not(.mabro-webdesktop) {
+	background-color: white;
+	&.active {
+		z-index: 1;
+	}
+	&.inactive {
+		z-index: 0;
+	}
+	&.mabro-fullscreen {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+	}
 }

@@ -671,7 +671,7 @@ $( ()=> {
 		js_suffix : is_prod ? "min.js" : "js"
 	};
 	opts[is_prod?'is_prod':'is_dev'] = true;
-	import(`${opts.mabro_base}js/app.${opts.mjs_suffix}`).then( mbmodule => {
+	import(`${opts.mabro_base}js/mabro.${opts.mjs_suffix}`).then( mbmodule => {
 		mbmodule.default(opts).then( mbclass => {
 			glob.prop.MBobjStarted = true;
 			(new mbclass(opts.mabro_base)).init();

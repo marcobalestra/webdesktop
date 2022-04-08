@@ -166,6 +166,19 @@ const getClass = async (mb) => {
 				this.commit();
 			}
 		};
+		apps( refresh ) {
+			if ( refresh ) {
+				const apps = [];
+				const appshash = this.#prop.mb.apps();
+				Object.keys( appshash ).forEach( k => {
+					if ( appshash[k].system ) return;
+					apps.push(k);
+				});
+				this.#data.apps = apps;
+				this.commit();
+			}
+			return JSON.parse( JSON.stringify( this.#data.apps ));
+		};
 		commit(force) {
 			if ( this.#prop.commitTimeout ) {
 				window.clearTimeout( this.#prop.commitTimeout );

@@ -1,7 +1,8 @@
 {
-	"script" : "dialog.<mjs_suffix>",
+	"script" : "dock.<mjs_suffix>",
+	"singleton" : true,
 	"version" : "0.1",
 	"copyright" : "altersoftware.it",
 	"copyright_link" : "https://altersoftware.it",
-	"creator" : "dialog.mabro.altersoftware.it"
+	"creator" : "dock.mabro.altersoftware.it"
 }

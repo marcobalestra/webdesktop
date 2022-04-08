@@ -1,4 +1,5 @@
 {
+	"script" : "webdesktop.<mjs_suffix>",
 	"app_name" : "Desktop",
 	"version" : "0.1",
 	"copyright" : "altersoftware.it",

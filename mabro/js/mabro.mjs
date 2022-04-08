@@ -41,24 +41,54 @@ const loadLocales = ( manifest, prefix ) => {
 
 const getClass = async (pars) => {
 	const MB = class {
-		#prop; #fs;
+		#prop; #fs; #dock;
 		constructor() {
 			this.#prop = JSON.parse(JSON.stringify(pars));
 			this.#prop.manifests = {};
 			this.#prop.plugins = {};
 			this.#prop.pluginsingletons = {};
+			this.#prop.apps = {};
 		};
 		static init = async (mb) => {
 			mb.loadCSS(mb.getProp('mabro_base')+'css/mabro.css');
 			if ( typeof glob.localize.main !== 'object') glob.localize.main = {};
 			if ( typeof glob.localize.main.icon !== 'object') glob.localize.main.icon = {};
 			mb.getManifest(mb.getProp('mabro_base')).then( man => { loadLocales(man); });
+			$(document.body).data('mabro',{});
 			(await mb.getFs()).boot();
 		};
 		async init() { return await MB.init(this); };
 		async start() {
-			
+			const wd = await this.app('webdesktop',{ system: this, win:$('body>.mabro-wrapper.mabro-webdesktop') });
+			const apps = this.#fs.apps();
+			apps.forEach( uri => { this.app(uri) });
+			wd.api.event('run');
 		};
+		async launchedApp( uri ) {
+			if ( this.#prop.apps[uri] ) this.#prop.apps[uri].running = true;
+			this.#dock.refresh();
+		};
+		async app(uri,options) {
+			if ( ! uri.includes('/') ) {
+				uri = this.getProp('mabro_base') + 'apps/'+uri+'/';
+			}
+			if ( ! this.#prop.apps[uri] ) {
+				const manifest = await this.getManifest(uri);
+				if ( ! (manifest && typeof manifest === 'object') ) return;
+				loadLocales( manifest, uri );
+				const appapi = await this.plugin('appapi');
+				await appapi.init( uri, manifest, options );
+				const ao = { manifest: manifest, api: appapi };
+				const isSystem = !! (options && options.system);
+				if ( isSystem ) ao.system = true;
+				if ( manifest.name ) ao.name = manifest.name;
+				this.#prop.apps[uri] = ao;
+				(await this.getDock()).render();
+				if ( ! isSystem ) this.#fs.apps(true);
+			}
+			return this.#prop.apps[uri];
+		};
+		apps() { return this.#prop.apps; };
 		async dialog(options) { return await this.plugin('dialog',options); };
 		loadCSS( ...args ) { return loadCSS.call(window,this,args) };
 		getProp(pname) { return this.#prop[pname]; };
@@ -75,8 +105,12 @@ const getClass = async (pars) => {
 			return this.#prop.manifests[uri];
 		};
 		async getFs() {
-			if ( typeof this.#fs === 'undefined' ) this.#fs = this.plugin('fs');
+			if ( typeof this.#fs === 'undefined' ) this.#fs = await this.plugin('fs');
 			return this.#fs;
+		};
+		async getDock() {
+			if ( typeof this.#dock === 'undefined' ) this.#dock = await this.plugin('dock');
+			return this.#dock;
 		};
 		async plugin(pluginName,initData,uri,classInitData) {
 			const pc = await this.pluginClass(pluginName,uri,classInitData);

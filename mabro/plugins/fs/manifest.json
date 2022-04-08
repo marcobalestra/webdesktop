@@ -1,5 +1,5 @@
 {
-	"script" : "plugin.<mjs_suffix>",
+	"script" : "fs.<mjs_suffix>",
 	"singleton" : true,
 	"version" : "0.1",
 	"copyright" : "altersoftware.it",

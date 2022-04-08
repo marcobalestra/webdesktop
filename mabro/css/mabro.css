@@ -1,17 +1,17 @@
 @import url(basic.css);
 @import url(fonts.css);
 @import url(effects.css);
-.main-wrapper {
+.mabro-wrapper {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   margin: 0;
-  overflow: auto;
+  overflow: hidden;
 }
 
-.main-wrapper.mabro-desktop {
+.mabro-wrapper.mabro-webdesktop {
   z-index: -1;
   background-size: contain;
   background-image: url(../apps/webdesktop/themes/default/desktopbg.svg);
@@ -20,7 +20,7 @@
   background-color: #f0f0f0;
 }
 
-.main-wrapper.mabro-menu-wrapper {
+.mabro-wrapper.mabro-menu-wrapper {
   bottom: unset;
   height: 24px;
   overflow: visible;
@@ -28,17 +28,38 @@
   background-color: #fff;
 }
 
-.main-wrapper.mabro-main-wrapper {
+.mabro-wrapper.mabro-main-wrapper {
   top: 24px;
   bottom: 24px;
 }
 
-.main-wrapper.mabro-dock-wrapper {
+.mabro-wrapper.mabro-dock-wrapper {
   top: unset;
   height: 24px;
+  overflow: visible;
 }
 
 .modal-dialog label {
   margin-bottom: 0;
+}
+
+.mabro-app:not(.mabro-webdesktop) {
+  background-color: white;
+}
+
+.mabro-app:not(.mabro-webdesktop).active {
+  z-index: 1;
+}
+
+.mabro-app:not(.mabro-webdesktop).inactive {
+  z-index: 0;
+}
+
+.mabro-app:not(.mabro-webdesktop).mabro-fullscreen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 /*# sourceMappingURL=mabro.css.map */
