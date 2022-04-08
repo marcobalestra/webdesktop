@@ -22,21 +22,65 @@
 
 .mabro-wrapper.mabro-menu-wrapper {
   bottom: unset;
-  height: 24px;
+  height: 32px;
   overflow: visible;
   z-index: 1;
   background-color: #fff;
 }
 
 .mabro-wrapper.mabro-main-wrapper {
-  top: 24px;
-  bottom: 24px;
+  top: 32px;
+  bottom: 40px;
 }
 
 .mabro-wrapper.mabro-dock-wrapper {
   top: unset;
-  height: 24px;
+  height: 40px;
   overflow: visible;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.mabro-wrapper.mabro-dock-wrapper > .mabro-dock-content {
+  height: 40px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  background-color: #ffffffcc;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+}
+
+.mabro-wrapper.mabro-dock-wrapper > .mabro-dock-content > div {
+  padding: 0 12px 4px 12px;
+}
+
+.mabro-wrapper.mabro-dock-wrapper > .mabro-dock-content > div > svg {
+  width: 32px;
+  height: 32px;
+  -webkit-transition: all ease-in-out .25s;
+  transition: all ease-in-out .25s;
+}
+
+.mabro-wrapper.mabro-dock-wrapper > .mabro-dock-content > div > svg:hover {
+  width: 80px;
+  height: 80px;
+}
+
+.mabro-wrapper.mabro-dock-wrapper > .mabro-dock-content > div.running {
+  border-bottom: 2px solid #36c;
 }
 
 .modal-dialog label {

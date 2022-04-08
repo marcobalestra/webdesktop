@@ -1,3 +1,10 @@
+const buildMember = (k,x) => {
+	const $out = $(`<div for="${k}"></div>`);
+	console.log(x);
+	if ( x.running ) $out.addClass('running');
+	$out.append( x.manifest.app_icon || _icon("unknown_app") );
+	return $out;
+};
 
 const getClass = async (mb) => {
 	const DOCK = class {
@@ -10,10 +17,19 @@ const getClass = async (mb) => {
 			this.#prop.target = $('body > .mabro-dock-wrapper > .mabro-dock-content');
 		};
 		async render() {
-			
+			this.#prop.target.empty();
+			const apps = this.#prop.mb.apps();
+			const syskeys = Object.keys(apps).filter( x => x.system );
+			const appkeys = Object.keys(apps).filter( x => ! x.system );
+			syskeys.forEach( k => this.#prop.target.append( buildMember(k,apps[k])) );
+			appkeys.forEach( k => this.#prop.target.append( buildMember(k,apps[k])) );
 		};
 		async refresh() {
-			// to be done
+			const apps = this.#prop.mb.apps();
+			$('div[for]',this.#prop.target).removeClass('running');
+			Object.keys(apps).filter(k => apps[k].running).forEach( k => {
+				$(`div[for="${k}"]`,this.#prop.target).addClass('running');
+			});
 		};
 	}
 	return DOCK;

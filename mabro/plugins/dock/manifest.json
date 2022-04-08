@@ -4,5 +4,8 @@
 	"version" : "0.1",
 	"copyright" : "altersoftware.it",
 	"copyright_link" : "https://altersoftware.it",
-	"creator" : "dock.mabro.altersoftware.it"
+	"creator" : "dock.mabro.altersoftware.it",
+	"locales" : ["icon"],
+	"locales_dir" : "locales/",
+	"locales_suffix" : ".json"
 }

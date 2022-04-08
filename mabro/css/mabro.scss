@@ -3,8 +3,8 @@
 @import url(fonts.css);
 @import url(effects.css);
 
-$dockheight: 24px;
-$menuheight : 24px;
+$dockheight: 40px;
+$menuheight : 32px;
 
 .mabro-wrapper {
 	position: absolute;
@@ -37,6 +37,32 @@ $menuheight : 24px;
 		top: unset;
 		height: $dockheight;
 		overflow: visible;
+		display: flex;
+		flex-wrap: nowrap;
+		justify-content : center;
+		> .mabro-dock-content {
+			height: $dockheight;
+			display: flex;
+			flex-wrap: nowrap;
+			justify-content : center;
+			background-color: #ffffffcc;
+			align-items : flex-end;
+			> div {
+				padding: 0 12px 4px 12px;
+				> svg {
+					width: 32px;
+					height: 32px;
+					transition: all ease-in-out .25s;
+					&:hover {
+						width: 80px;
+						height: 80px;
+					}
+				}
+				&.running {
+					border-bottom: 2px solid #36c;
+				}
+			}
+		}
 	};
 }
 .modal-dialog label {
