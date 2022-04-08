@@ -1,3 +1,15 @@
+const buildMabroMenu = ($m,mbicon) => {
+	if ( ! $('.mabro-menu-title',$m).length ) {
+		const id = glob.uid('menu-');
+		const $mbcont = $('<div class="dropdown"></div>');
+		$mbcont.append(`<button class="btn btn-link mabro-menu-title dropdown-toggle" id="${id}" type="button" data-toggle="dropdown" aria-expanded="false">${mbicon}</button>`);
+		const $mbtent = $(`<div class="dropdown-menu" aria-labelledby="${id}"></div>`);
+		$mbcont.append($mbtent);
+		$m.append($mbcont);
+	}
+	return;
+};
+
 const buildMember = (k,x) => {
 	const $out = $(`<div for="${k}"></div>`);
 	if ( x.running ) $out.addClass('running');
@@ -10,13 +22,17 @@ const buildMember = (k,x) => {
 
 const getClass = async (mb) => {
 	const DOCK = class {
-		#prop;
+		#prop;#menu;
 		constructor(manifest) {
 			this.#prop = {};
 			this.#prop.registered = {system:[],apps:[]};
 			this.#prop.manifest = manifest;
 			this.#prop.mb = mb;
 			this.#prop.target = $('body > .mabro-main-container > .mabro-dock-wrap > .mabro-dock-content');
+			this.#prop.menutarget = $('body > .mabro-main-container > .mabro-menu-wrap');
+			mb.getManifest().then( m => {
+				this.#prop.appsmenu = buildMabroMenu(this.#prop.menutarget,m.app_icon);
+			});
 		};
 		async render() {
 			this.#prop.target.empty();

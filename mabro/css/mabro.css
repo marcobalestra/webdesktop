@@ -26,6 +26,34 @@
   background-color: #fff;
 }
 
+.mabro-main-container > .mabro-wrap.mabro-menu-wrap button.btn, .mabro-main-container > .mabro-wrap.mabro-menu-wrap button.btn.btn-link {
+  padding: 2px 4px;
+  margin: 0 6px;
+  background-color: white;
+  text-decoration: unset;
+  border-radius: 0;
+}
+
+.mabro-main-container > .mabro-wrap.mabro-menu-wrap button.btn:hover, .mabro-main-container > .mabro-wrap.mabro-menu-wrap button.btn:focus, .mabro-main-container > .mabro-wrap.mabro-menu-wrap button.btn:active, .mabro-main-container > .mabro-wrap.mabro-menu-wrap button.btn.btn-link:hover, .mabro-main-container > .mabro-wrap.mabro-menu-wrap button.btn.btn-link:focus, .mabro-main-container > .mabro-wrap.mabro-menu-wrap button.btn.btn-link:active {
+  background-position: unset;
+  outline: unset;
+  text-shadow: unset;
+  text-decoration: unset;
+  -webkit-box-shadow: unset;
+          box-shadow: unset;
+  -webkit-filter: invert(100%);
+          filter: invert(100%);
+}
+
+.mabro-main-container > .mabro-wrap.mabro-menu-wrap button.btn svg, .mabro-main-container > .mabro-wrap.mabro-menu-wrap button.btn.btn-link svg {
+  width: 24px;
+  height: 24px;
+}
+
+.mabro-main-container > .mabro-wrap.mabro-menu-wrap button.btn::after, .mabro-main-container > .mabro-wrap.mabro-menu-wrap button.btn.btn-link::after {
+  display: none;
+}
+
 .mabro-main-container > .mabro-wrap.mabro-main-wrap {
   top: 32px;
   bottom: 44px;
@@ -36,9 +64,14 @@
   z-index: -1;
 }
 
+.mabro-main-container > .mabro-wrap.mabro-main-wrap > .mabro-wrap {
+  overflow: visible;
+}
+
 .mabro-main-container > .mabro-wrap.mabro-main-wrap .mabro-app:not(.mabro-wrap) {
   position: relative;
   background-color: white;
+  overflow: auto;
 }
 
 .mabro-main-container > .mabro-wrap.mabro-main-wrap .mabro-app:not(.mabro-wrap).active {

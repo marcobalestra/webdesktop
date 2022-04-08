@@ -32,6 +32,26 @@ $dockpadding: 12px;
 			overflow: visible;
 			z-index: 1;
 			background-color: #fff;
+			button.btn, button.btn.btn-link {
+				padding: 2px 4px;
+				margin: 0 6px;
+				background-color: white;
+				text-decoration: unset;
+				border-radius: 0;
+				&:hover, &:focus, &:active {
+					background-position: unset;
+					outline: unset;
+					text-shadow: unset;
+					text-decoration: unset;
+					box-shadow: unset;
+					filter: invert(100%);
+				}
+				svg {
+					width: 24px;
+					height: 24px;
+				}
+				&::after { display: none; }
+			}
 		}
 		&.mabro-main-wrap {
 			top : $menuheight;
@@ -40,9 +60,13 @@ $dockpadding: 12px;
 			.mabro-webdesktop {
 				z-index: -1;
 			}
+			> .mabro-wrap {
+				overflow: visible;
+			}
 			.mabro-app:not(.mabro-wrap) {
 				position: relative;
 				background-color: white;
+				overflow: auto;
 				&.active {
 					z-index: 1;
 				}

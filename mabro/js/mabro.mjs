@@ -99,6 +99,7 @@ const getClass = async (pars) => {
 		loadCSS( ...args ) { return loadCSS.call(window,this,args) };
 		getProp(pname) { return this.#prop[pname]; };
 		async getManifest(uri) {
+			if ( typeof uri === 'undefined' ) uri = this.getProp('mabro_base');
 			uri = uri.replace(/\/[^\/]*$/,"/");
 			const muri = uri + 'manifest.json';
 			if ( ! this.#prop.manifests[uri] ) {
