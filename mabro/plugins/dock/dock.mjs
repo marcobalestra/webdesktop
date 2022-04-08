@@ -1,6 +1,5 @@
 const buildMember = (k,x) => {
 	const $out = $(`<div for="${k}"></div>`);
-	console.log(x);
 	if ( x.running ) $out.addClass('running');
 	$out.append( x.manifest.app_icon || _icon("unknown_app") );
 	if ( x.manifest.app_name ) {

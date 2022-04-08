@@ -21,7 +21,7 @@ const initFs = async (mb) => {
 	}
 	const $form = $('<form class="d-block ml-4"></form>');
 	if ( window.location.href.startsWith('https://')) {
-		const $pwd = $(`<div class="mb-3" data-placement="bottom" data-html="true">${_l('PasswordDesc')}<div class="input-group"><input type="password" class="form-control"><div class="input-group-append"><span class="input-group-text">${_l('Password')}</span></div></div></div>`);
+		const $pwd = $(`<div class="mb-3" data-placement="bottom" data-html="true">${_l('PasswordDesc')}<div class="input-group"><input type="password" autocomplete="new-password" class="form-control"><div class="input-group-append"><span class="input-group-text">${_l('Password')}</span></div></div></div>`);
 		$pwd.attr('title',_l('PasswordHelp'));
 		$pwd.tooltip();
 		$('input',$pwd).on('keyup change',()=>{ password = $('input',$pwd).val() });
