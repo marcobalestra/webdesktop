@@ -1,7 +1,7 @@
 @import url(basic.css);
 @import url(fonts.css);
 @import url(effects.css);
-.mabro-main-container, .mabro-wrapper, .mabro-webdesktop, .mabro-app.mabro-fullscreen {
+.mabro-main-container, .mabro-wrap, .mabro-webdesktop, .mabro-app.mabro-fullscreen {
   position: absolute;
   top: 0;
   left: 0;
@@ -18,7 +18,7 @@
   background-color: #f0f0f0;
 }
 
-.mabro-main-container > .mabro-wrapper.mabro-menu-wrapper {
+.mabro-main-container > .mabro-wrap.mabro-menu-wrap {
   bottom: unset;
   height: 32px;
   overflow: visible;
@@ -26,30 +26,30 @@
   background-color: #fff;
 }
 
-.mabro-main-container > .mabro-wrapper.mabro-main-wrapper {
+.mabro-main-container > .mabro-wrap.mabro-main-wrap {
   top: 32px;
   bottom: 40px;
   z-index: -1;
 }
 
-.mabro-main-container > .mabro-wrapper.mabro-main-wrapper .mabro-webdesktop {
+.mabro-main-container > .mabro-wrap.mabro-main-wrap .mabro-webdesktop {
   z-index: -1;
 }
 
-.mabro-main-container > .mabro-wrapper.mabro-main-wrapper .mabro-app:not(.mabro-webdesktop) {
+.mabro-main-container > .mabro-wrap.mabro-main-wrap .mabro-app:not(.mabro-wrap) {
   position: relative;
   background-color: white;
 }
 
-.mabro-main-container > .mabro-wrapper.mabro-main-wrapper .mabro-app:not(.mabro-webdesktop).active {
+.mabro-main-container > .mabro-wrap.mabro-main-wrap .mabro-app:not(.mabro-wrap).active {
   z-index: 1;
 }
 
-.mabro-main-container > .mabro-wrapper.mabro-main-wrapper .mabro-app:not(.mabro-webdesktop).inactive {
+.mabro-main-container > .mabro-wrap.mabro-main-wrap .mabro-app:not(.mabro-wrap).inactive {
   z-index: 0;
 }
 
-.mabro-main-container > .mabro-wrapper.mabro-main-wrapper .mabro-app:not(.mabro-webdesktop).mabro-fullscreen {
+.mabro-main-container > .mabro-wrap.mabro-main-wrap .mabro-app:not(.mabro-wrap).mabro-fullscreen {
   position: absolute;
   top: 0;
   left: 0;
@@ -57,7 +57,7 @@
   bottom: 0;
 }
 
-.mabro-main-container > .mabro-wrapper.mabro-dock-wrapper {
+.mabro-main-container > .mabro-wrap.mabro-dock-wrap {
   top: unset;
   height: 40px;
   overflow: visible;
@@ -71,7 +71,7 @@
           justify-content: center;
 }
 
-.mabro-main-container > .mabro-wrapper.mabro-dock-wrapper > .mabro-dock-content {
+.mabro-main-container > .mabro-wrap.mabro-dock-wrap > .mabro-dock-content {
   height: 40px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -87,28 +87,28 @@
           align-items: flex-end;
 }
 
-.mabro-main-container > .mabro-wrapper.mabro-dock-wrapper > .mabro-dock-content > div {
+.mabro-main-container > .mabro-wrap.mabro-dock-wrap > .mabro-dock-content > div {
   padding: 0 12px 4px 12px;
   position: relative;
 }
 
-.mabro-main-container > .mabro-wrapper.mabro-dock-wrapper > .mabro-dock-content > div > svg {
+.mabro-main-container > .mabro-wrap.mabro-dock-wrap > .mabro-dock-content > div > svg {
   width: 32px;
   height: 32px;
   -webkit-transition: all ease-in-out .25s;
   transition: all ease-in-out .25s;
 }
 
-.mabro-main-container > .mabro-wrapper.mabro-dock-wrapper > .mabro-dock-content > div:hover > svg, .mabro-main-container > .mabro-wrapper.mabro-dock-wrapper > .mabro-dock-content > div > svg:hover {
+.mabro-main-container > .mabro-wrap.mabro-dock-wrap > .mabro-dock-content > div:hover > svg, .mabro-main-container > .mabro-wrap.mabro-dock-wrap > .mabro-dock-content > div > svg:hover {
   width: 80px;
   height: 80px;
 }
 
-.mabro-main-container > .mabro-wrapper.mabro-dock-wrapper > .mabro-dock-content > div.running {
+.mabro-main-container > .mabro-wrap.mabro-dock-wrap > .mabro-dock-content > div.running {
   border-bottom: 2px solid #36c;
 }
 
-.mabro-main-container > .mabro-wrapper.mabro-dock-wrapper > .mabro-dock-content > div label {
+.mabro-main-container > .mabro-wrap.mabro-dock-wrap > .mabro-dock-content > div label {
   opacity: 0;
   position: absolute;
   bottom: calc(80px + 8px);
@@ -124,7 +124,7 @@
   transition: opacity ease-in-out .25s;
 }
 
-.mabro-main-container > .mabro-wrapper.mabro-dock-wrapper > .mabro-dock-content > div:hover > label {
+.mabro-main-container > .mabro-wrap.mabro-dock-wrap > .mabro-dock-content > div:hover > label {
   opacity: 1;
 }
 

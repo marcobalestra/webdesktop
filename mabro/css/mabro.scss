@@ -10,7 +10,7 @@ $dockiconbig : 80px;
 $dockpadding: 12px;
 
 
-.mabro-main-container, .mabro-wrapper, .mabro-webdesktop, .mabro-app.mabro-fullscreen {
+.mabro-main-container, .mabro-wrap, .mabro-webdesktop, .mabro-app.mabro-fullscreen {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -25,22 +25,22 @@ $dockpadding: 12px;
 	background-repeat: no-repeat;
 	background-position: 0 50%;
 	background-color: #f0f0f0;
-	> .mabro-wrapper {
-		&.mabro-menu-wrapper {
+	> .mabro-wrap {
+		&.mabro-menu-wrap {
 			bottom: unset;
 			height: $menuheight;
 			overflow: visible;
 			z-index: 1;
 			background-color: #fff;
 		}
-		&.mabro-main-wrapper {
+		&.mabro-main-wrap {
 			top : $menuheight;
 			bottom: $dockheight;
 			z-index: -1;
 			.mabro-webdesktop {
 				z-index: -1;
 			}
-			.mabro-app:not(.mabro-webdesktop) {
+			.mabro-app:not(.mabro-wrap) {
 				position: relative;
 				background-color: white;
 				&.active {
@@ -58,7 +58,7 @@ $dockpadding: 12px;
 				}
 			}
 		};
-		&.mabro-dock-wrapper {
+		&.mabro-dock-wrap {
 			top: unset;
 			height: $dockheight;
 			overflow: visible;

@@ -1,12 +1,12 @@
 
 const getClass = async (mb) => {
 	const WD = class {
-		#prop; #api; #mb; #win
+		#prop; #api; #mb; #wrap;
 		constructor(api,options) {
 			this.#prop = { options: options };
 			this.#api = api;
 			this.#mb = options.system;
-			this.#win = options.win;
+			this.#wrap = options.wrap;
 		};
 		async event(name,data) {
 			if ( name === 'run'|| name === 'activate' ) {
@@ -15,15 +15,15 @@ const getClass = async (mb) => {
 					await this.render();
 					activate = true;
 				}
-				if ( activate ) this.#win.trigger('click');
-				return this.#win;
+				if ( activate ) this.#wrap.trigger('click');
+				return this.#wrap;
 			}
 		};
 		async render() {
 
 		};
 		async refresh() {
-			
+
 		};
 	}
 	return WD;

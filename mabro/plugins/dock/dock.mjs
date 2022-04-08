@@ -16,7 +16,7 @@ const getClass = async (mb) => {
 			this.#prop.registered = {system:[],apps:[]};
 			this.#prop.manifest = manifest;
 			this.#prop.mb = mb;
-			this.#prop.target = $('body > .mabro-main-container > .mabro-dock-wrapper > .mabro-dock-content');
+			this.#prop.target = $('body > .mabro-main-container > .mabro-dock-wrap > .mabro-dock-content');
 		};
 		async render() {
 			this.#prop.target.empty();
