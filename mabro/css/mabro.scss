@@ -32,6 +32,17 @@ $dockpadding: 12px;
 			overflow: visible;
 			z-index: 1;
 			background-color: #fff;
+			display: flex;
+			flex-wrap: nowrap;
+			justify-content : flex-start;
+			> .mabro-menu-content {
+				width: 100%;
+				> div {
+					display: flex;
+					flex-wrap: nowrap;
+					justify-content : flex-start;
+				}
+			}
 			button.btn, button.btn.btn-link {
 				padding: 2px 4px;
 				margin: 0 6px;
@@ -44,6 +55,8 @@ $dockpadding: 12px;
 					text-shadow: unset;
 					text-decoration: unset;
 					box-shadow: unset;
+				}
+				&:hover, &:active {
 					filter: invert(100%);
 				}
 				svg {

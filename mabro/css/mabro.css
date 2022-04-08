@@ -24,6 +24,29 @@
   overflow: visible;
   z-index: 1;
   background-color: #fff;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+
+.mabro-main-container > .mabro-wrap.mabro-menu-wrap > .mabro-menu-content {
+  width: 100%;
+}
+
+.mabro-main-container > .mabro-wrap.mabro-menu-wrap > .mabro-menu-content > div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
 }
 
 .mabro-main-container > .mabro-wrap.mabro-menu-wrap button.btn, .mabro-main-container > .mabro-wrap.mabro-menu-wrap button.btn.btn-link {
@@ -41,6 +64,9 @@
   text-decoration: unset;
   -webkit-box-shadow: unset;
           box-shadow: unset;
+}
+
+.mabro-main-container > .mabro-wrap.mabro-menu-wrap button.btn:hover, .mabro-main-container > .mabro-wrap.mabro-menu-wrap button.btn:active, .mabro-main-container > .mabro-wrap.mabro-menu-wrap button.btn.btn-link:hover, .mabro-main-container > .mabro-wrap.mabro-menu-wrap button.btn.btn-link:active {
   -webkit-filter: invert(100%);
           filter: invert(100%);
 }

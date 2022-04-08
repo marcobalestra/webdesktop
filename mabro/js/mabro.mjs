@@ -66,13 +66,14 @@ const getClass = async (pars) => {
 		};
 		async start() {
 			const wd = await this.app('webdesktop',{ system: this, wrap:$('body>.mabro-main-container>.mabro-main-wrap>.mabro-webdesktop') });
+			await this.getMenu();
 			const apps = this.#fs.apps();
 			apps.forEach( uri => { this.app(uri) });
 			wd.api.event('run');
 		};
 		async launchedApp( uri ) {
 			if ( this.#prop.apps[uri] ) this.#prop.apps[uri].running = true;
-			this.#dock.refresh();
+			$(document.body).trigger('mabro:changedApp');
 		};
 		async app(uri,options) {
 			if ( ! uri.includes('/') ) {
@@ -118,6 +119,13 @@ const getClass = async (pars) => {
 		async getDock() {
 			if ( typeof this.#dock === 'undefined' ) this.#dock = await this.plugin('dock');
 			return this.#dock;
+		};
+		async getMenu() {
+			if ( typeof this.#prop.menu === 'undefined' ) {
+				this.#prop.menu = await this.plugin('menu');
+				this.#prop.menu.init();
+			}
+			return this.#prop.menu;
 		};
 		async plugin(pluginName,initData,uri,classInitData) {
 			const pc = await this.pluginClass(pluginName,uri,classInitData);
