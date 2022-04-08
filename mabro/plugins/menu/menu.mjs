@@ -27,6 +27,10 @@ const getClass = async (mb) => {
 			$(document.body).on('mabro:changedApp',()=>{this.refresh()});
 		};
 		async init() {
+			if ( ! glob.localize.loaded ) {
+				setTimeout( ()=>{ this.init(mb);}, 100 );
+				return;
+			}
 			this.#prop.menus = buildMabroMenu(this.#prop.target,(await mb.getManifest()).app_icon);
 		};
 		async refresh() {
