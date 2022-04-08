@@ -57,7 +57,13 @@ const getClass = async (pars) => {
 			$(document.body).data('mabro',{});
 			(await mb.getFs()).boot();
 		};
-		async init() { return await MB.init(this); };
+		async init() {
+			if ( this.#prop.skeleton ) return await MB.init(this);
+			$( document.body ).load( this.getProp('mabro_base') + 'skeleton.html', undefined, () =>{
+				this.#prop.skeleton = true;
+				this.init();
+			});
+		};
 		async start() {
 			const wd = await this.app('webdesktop',{ system: this, win:$('body>.mabro-main-container>.mabro-main-wrapper>.mabro-webdesktop') });
 			const apps = this.#fs.apps();
