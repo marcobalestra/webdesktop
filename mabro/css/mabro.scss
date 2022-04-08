@@ -3,8 +3,11 @@
 @import url(fonts.css);
 @import url(effects.css);
 
-$dockheight: 40px;
 $menuheight : 32px;
+$dockheight: 40px;
+$dockiconsmall : 32px;
+$dockiconbig : 80px;
+$dockpadding: 12px;
 
 
 .mabro-main-container, .mabro-wrapper, .mabro-webdesktop, .mabro-app.mabro-fullscreen {
@@ -70,18 +73,34 @@ $menuheight : 32px;
 				background-color: #ffffffcc;
 				align-items : flex-end;
 				> div {
-					padding: 0 12px 4px 12px;
+					padding: 0 $dockpadding 4px $dockpadding;
+					position: relative;
 					> svg {
-						width: 32px;
-						height: 32px;
+						width: $dockiconsmall;
+						height: $dockiconsmall;
 						transition: all ease-in-out .25s;
 						&:hover {
-							width: 80px;
-							height: 80px;
+							width: $dockiconbig;
+							height: $dockiconbig;
 						}
 					}
 					&.running {
 						border-bottom: 2px solid #36c;
+					}
+					label {
+						display: none;
+						position: absolute;
+						bottom: $dockiconbig;
+						left: 0;
+						right: 0;
+						overflow: visible;
+						text-align: center;
+						color: #fff;
+						text-shadow: 1px 1px 3px #000;
+						font-weight: bold;
+					}
+					&:hover label {
+						display: block;
 					}
 				}
 			}

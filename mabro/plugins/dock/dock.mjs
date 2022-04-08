@@ -3,6 +3,9 @@ const buildMember = (k,x) => {
 	console.log(x);
 	if ( x.running ) $out.addClass('running');
 	$out.append( x.manifest.app_icon || _icon("unknown_app") );
+	if ( x.manifest.app_name ) {
+		$out.append($('<label></label>').append(x.manifest.app_name) );
+	}
 	return $out;
 };
 

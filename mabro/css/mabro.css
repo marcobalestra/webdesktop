@@ -89,6 +89,7 @@
 
 .mabro-main-container > .mabro-wrapper.mabro-dock-wrapper > .mabro-dock-content > div {
   padding: 0 12px 4px 12px;
+  position: relative;
 }
 
 .mabro-main-container > .mabro-wrapper.mabro-dock-wrapper > .mabro-dock-content > div > svg {
@@ -105,6 +106,23 @@
 
 .mabro-main-container > .mabro-wrapper.mabro-dock-wrapper > .mabro-dock-content > div.running {
   border-bottom: 2px solid #36c;
+}
+
+.mabro-main-container > .mabro-wrapper.mabro-dock-wrapper > .mabro-dock-content > div label {
+  display: none;
+  position: absolute;
+  bottom: 80px;
+  left: 0;
+  right: 0;
+  overflow: visible;
+  text-align: center;
+  color: #fff;
+  text-shadow: 1px 1px 3px #000;
+  font-weight: bold;
+}
+
+.mabro-main-container > .mabro-wrapper.mabro-dock-wrapper > .mabro-dock-content > div:hover label {
+  display: block;
 }
 
 .modal-dialog label {
