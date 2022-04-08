@@ -28,7 +28,7 @@
 
 .mabro-main-container > .mabro-wrap.mabro-main-wrap {
   top: 32px;
-  bottom: 40px;
+  bottom: 44px;
   z-index: -1;
 }
 
@@ -59,7 +59,7 @@
 
 .mabro-main-container > .mabro-wrap.mabro-dock-wrap {
   top: unset;
-  height: 40px;
+  height: 44px;
   overflow: visible;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -72,7 +72,7 @@
 }
 
 .mabro-main-container > .mabro-wrap.mabro-dock-wrap > .mabro-dock-content {
-  height: 40px;
+  height: 44px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -90,6 +90,7 @@
 .mabro-main-container > .mabro-wrap.mabro-dock-wrap > .mabro-dock-content > div {
   padding: 0 12px 4px 12px;
   position: relative;
+  border-bottom: 4px solid transparent;
 }
 
 .mabro-main-container > .mabro-wrap.mabro-dock-wrap > .mabro-dock-content > div > svg {
@@ -105,7 +106,7 @@
 }
 
 .mabro-main-container > .mabro-wrap.mabro-dock-wrap > .mabro-dock-content > div.running {
-  border-bottom: 2px solid #36c;
+  border-bottom-color: #36c;
 }
 
 .mabro-main-container > .mabro-wrap.mabro-dock-wrap > .mabro-dock-content > div label {

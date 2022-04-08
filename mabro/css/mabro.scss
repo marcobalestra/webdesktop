@@ -4,7 +4,7 @@
 @import url(effects.css);
 
 $menuheight : 32px;
-$dockheight: 40px;
+$dockheight: 44px;
 $dockiconsmall : 32px;
 $dockiconbig : 80px;
 $dockpadding: 12px;
@@ -75,6 +75,7 @@ $dockpadding: 12px;
 				> div {
 					padding: 0 $dockpadding 4px $dockpadding;
 					position: relative;
+					border-bottom: 4px solid transparent;
 					> svg {
 						width: $dockiconsmall;
 						height: $dockiconsmall;
@@ -85,7 +86,7 @@ $dockpadding: 12px;
 						height: $dockiconbig;
 					}
 					&.running {
-						border-bottom: 2px solid #36c;
+						border-bottom-color: #36c;
 					}
 					label {
 						opacity : 0;
