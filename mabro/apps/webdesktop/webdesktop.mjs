@@ -23,7 +23,7 @@ const getClass = async (mb) => {
 
 		};
 		async refresh() {
-
+			
 		};
 	}
 	return WD;
