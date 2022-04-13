@@ -1,6 +1,6 @@
 @import url(basic.css);
-@import url(fonts.css);
 @import url(effects.css);
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&display=swap");
 .mabro-main-container, .mabro-wrap, .mabro-webdesktop, .mabro-app.mabro-fullscreen {
   position: absolute;
   top: 0;
@@ -18,12 +18,17 @@
   background-color: #f0f0f0;
 }
 
-.mabro-main-container > .mabro-wrap.mabro-menu-wrap {
+.mabro-main-container > .mabro-wrap.mabro-menubar-wrap {
   bottom: unset;
   height: 32px;
   overflow: visible;
   z-index: 1;
   background-color: #fff;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAGCAMAAACVUWztAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo5RjRDQUNGNkIzNDUxMUVDQTA5MEIwNjdCQTlEMzEzMSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo5RjRDQUNGN0IzNDUxMUVDQTA5MEIwNjdCQTlEMzEzMSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjlGNENBQ0Y0QjM0NTExRUNBMDkwQjA2N0JBOUQzMTMxIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjlGNENBQ0Y1QjM0NTExRUNBMDkwQjA2N0JBOUQzMTMxIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+eCSqfQAAAA9QTFRF/Pz88vLy6enp5eXl////N90EpgAAAAV0Uk5T/////wD7tg5TAAAAKklEQVR42mJgQQYMjExMjAyoQig8RmYgYMSjgAmkgIkSBQStwOJIgAADAA39ArnMynelAAAAAElFTkSuQmCC");
+  background-position: 10px 50%;
+  background-repeat: repeat-x;
+  -webkit-box-shadow: 0 0 1px 1px #ccc;
+          box-shadow: 0 0 1px 1px #ccc;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -32,13 +37,33 @@
   -webkit-box-pack: start;
       -ms-flex-pack: start;
           justify-content: flex-start;
+  font-family: 'Roboto Condensed', sans-serif;
 }
 
-.mabro-main-container > .mabro-wrap.mabro-menu-wrap > .mabro-menu-content {
+.mabro-main-container > .mabro-wrap.mabro-menubar-wrap .mabro-menu-toggler {
+  padding: 4px 8px;
+  min-width: 32px;
+  height: 32px;
+  margin: 0 8px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background-color: white;
+}
+
+.mabro-main-container > .mabro-wrap.mabro-menubar-wrap .mabro-menu-toggler > svg {
+  fill: #000;
+}
+
+.mabro-main-container > .mabro-wrap.mabro-menubar-wrap .mabro-menu-toggler > label {
+  color: #000;
+}
+
+.mabro-main-container > .mabro-wrap.mabro-menubar-wrap > .mabro-menubar-content {
   width: 100%;
 }
 
-.mabro-main-container > .mabro-wrap.mabro-menu-wrap > .mabro-menu-content > div {
+.mabro-main-container > .mabro-wrap.mabro-menubar-wrap > .mabro-menubar-content > div {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -49,7 +74,7 @@
           justify-content: flex-start;
 }
 
-.mabro-main-container > .mabro-wrap.mabro-menu-wrap button.btn, .mabro-main-container > .mabro-wrap.mabro-menu-wrap button.btn.btn-link {
+.mabro-main-container > .mabro-wrap.mabro-menubar-wrap button.btn, .mabro-main-container > .mabro-wrap.mabro-menubar-wrap button.btn.btn-link {
   padding: 2px 4px;
   margin: 0 6px;
   background-color: white;
@@ -57,7 +82,7 @@
   border-radius: 0;
 }
 
-.mabro-main-container > .mabro-wrap.mabro-menu-wrap button.btn:hover, .mabro-main-container > .mabro-wrap.mabro-menu-wrap button.btn:focus, .mabro-main-container > .mabro-wrap.mabro-menu-wrap button.btn:active, .mabro-main-container > .mabro-wrap.mabro-menu-wrap button.btn.btn-link:hover, .mabro-main-container > .mabro-wrap.mabro-menu-wrap button.btn.btn-link:focus, .mabro-main-container > .mabro-wrap.mabro-menu-wrap button.btn.btn-link:active {
+.mabro-main-container > .mabro-wrap.mabro-menubar-wrap button.btn:hover, .mabro-main-container > .mabro-wrap.mabro-menubar-wrap button.btn:focus, .mabro-main-container > .mabro-wrap.mabro-menubar-wrap button.btn:active, .mabro-main-container > .mabro-wrap.mabro-menubar-wrap button.btn.btn-link:hover, .mabro-main-container > .mabro-wrap.mabro-menubar-wrap button.btn.btn-link:focus, .mabro-main-container > .mabro-wrap.mabro-menubar-wrap button.btn.btn-link:active {
   background-position: unset;
   outline: unset;
   text-shadow: unset;
@@ -66,17 +91,17 @@
           box-shadow: unset;
 }
 
-.mabro-main-container > .mabro-wrap.mabro-menu-wrap button.btn:hover, .mabro-main-container > .mabro-wrap.mabro-menu-wrap button.btn:active, .mabro-main-container > .mabro-wrap.mabro-menu-wrap button.btn.btn-link:hover, .mabro-main-container > .mabro-wrap.mabro-menu-wrap button.btn.btn-link:active {
+.mabro-main-container > .mabro-wrap.mabro-menubar-wrap button.btn:hover, .mabro-main-container > .mabro-wrap.mabro-menubar-wrap button.btn:active, .mabro-main-container > .mabro-wrap.mabro-menubar-wrap button.btn.btn-link:hover, .mabro-main-container > .mabro-wrap.mabro-menubar-wrap button.btn.btn-link:active {
   -webkit-filter: invert(100%);
           filter: invert(100%);
 }
 
-.mabro-main-container > .mabro-wrap.mabro-menu-wrap button.btn svg, .mabro-main-container > .mabro-wrap.mabro-menu-wrap button.btn.btn-link svg {
+.mabro-main-container > .mabro-wrap.mabro-menubar-wrap button.btn svg, .mabro-main-container > .mabro-wrap.mabro-menubar-wrap button.btn.btn-link svg {
   width: 24px;
   height: 24px;
 }
 
-.mabro-main-container > .mabro-wrap.mabro-menu-wrap button.btn::after, .mabro-main-container > .mabro-wrap.mabro-menu-wrap button.btn.btn-link::after {
+.mabro-main-container > .mabro-wrap.mabro-menubar-wrap button.btn::after, .mabro-main-container > .mabro-wrap.mabro-menubar-wrap button.btn.btn-link::after {
   display: none;
 }
 
@@ -190,5 +215,159 @@
 
 .modal-dialog label {
   margin-bottom: 0;
+}
+
+/* menu */
+.dropdown-menu.text-right > li > a {
+  text-align: right;
+}
+
+.dropdown-menu.text-left > li > a {
+  text-align: left;
+}
+
+.mabro-menu-highlight-element {
+  -webkit-filter: invert(100%);
+          filter: invert(100%);
+}
+
+.mabro-menu-highlight-tent {
+  display: block;
+  position: absolute;
+}
+
+.mabro-menu-toggler {
+  min-width: 20px;
+  min-height: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+.mabro-menu-toggler svg.icon {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+}
+
+table.dataTable td .mabro-menu-toggler {
+  display: block;
+  margin: 2px 0 -2px 0;
+}
+
+.dropdown.mabro-menu-wrap {
+  position: absolute;
+  z-index: 10000;
+  display: none;
+}
+
+.dropdown-menu.mabro-menu-content {
+  background-color: #fff;
+  display: block;
+  margin-bottom: 5px;
+  padding: 0;
+  position: static;
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+.dropdown-menu.mabro-menu-content li {
+  display: block;
+  margin: 0;
+  position: relative;
+}
+
+.dropdown-menu.mabro-menu-content li.title {
+  background-image: -webkit-gradient(linear, left top, right top, from(#aaa), to(#ddd));
+  background-image: linear-gradient(to right, #aaa, #ddd);
+  color: #fff;
+  padding: 2px 16px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  text-transform: uppercase;
+}
+
+.dropdown-menu.mabro-menu-content li a {
+  clear: both;
+  color: #333;
+  display: block;
+  outline: 0;
+  overflow: hidden;
+  padding: 8px 16px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.dropdown-menu.mabro-menu-content li a:hover {
+  background-image: -webkit-gradient(linear, left bottom, left top, from(#ddd), color-stop(#f6f6f6), to(#ddd));
+  background-image: linear-gradient(to top, #ddd, #f6f6f6, #ddd);
+  text-decoration: none;
+}
+
+.dropdown-menu.mabro-menu-content li a i {
+  float: left;
+  margin: 0 8px 0 0;
+  top: 2px;
+}
+
+.dropdown-menu.mabro-menu-content li a i.rIcon {
+  color: #ccc;
+  float: right;
+  margin: 0 0 0 8px;
+}
+
+.dropdown-menu.mabro-menu-content li a i.rIcon svg.icon {
+  margin: 0;
+  fill: #ccc;
+}
+
+.dropdown-menu.mabro-menu-content li .icon svg {
+  display: inline;
+  height: 20px;
+  vertical-align: baseline;
+  width: 20px;
+}
+
+.dropdown-menu.mabro-menu-content li ul {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+.dropdown-menu.mabro-menu-content li ul li a {
+  padding: 8px 16px 8px 40px;
+}
+
+.dropdown-menu.mabro-menu-content li.disabled > a {
+  cursor: not-allowed;
+  opacity: .5;
+}
+
+.dropdown-menu.mabro-menu-content li.disabled > a:hover {
+  background-color: #fff;
+  color: #333;
+}
+
+.dropdown-menu.mabro-menu-content li.disabled a i.rIcon {
+  display: none;
+}
+
+.dropdown-menu.mabro-menu-content li.subMenu > a:not(.clickable) {
+  cursor: default;
+  font-style: italic;
+  opacity: .5;
+}
+
+.dropdown-menu.mabro-menu-content li.subMenu > a:hover {
+  background-color: #fff;
+  color: #333;
+}
+
+.dropdown-menu.mabro-menu-content hr {
+  margin: 0;
+  padding: 0;
+}
+
+svg {
+  max-width: 100%;
+  max-height: 100%;
 }
 /*# sourceMappingURL=mabro.css.map */

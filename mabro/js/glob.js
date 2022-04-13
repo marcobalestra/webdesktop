@@ -499,10 +499,10 @@ glob.menu = (ev,menu)=>{
 	ev.preventDefault();
 	ev.stopPropagation();
 	const zapMenus = () => {
-		document.querySelectorAll('.appContextMenu').forEach( el=>{ $(el).fadeOut(10,()=>{ $(el).remove();} ); } );
-		$('.appContextHighlight').removeClass('appContextHighlight');
-		$('.appContextHighlightTent').remove();
-		$('.appContextActive').removeClass('appContextActive');
+		document.querySelectorAll('.mabro-menu-wrap').forEach( el=>{ $(el).fadeOut(10,()=>{ $(el).remove();} ); } );
+		$('.mabro-menu-highlight-element').removeClass('mabro-menu-highlight-element');
+		$('.mabro-menu-highlight-tent').remove();
+		$('.mabro-menu-active').removeClass('mabro-menu-active');
 		$(document.body).off('click contextmenu', zapMenus );
 	};
 	zapMenus();
@@ -510,12 +510,12 @@ glob.menu = (ev,menu)=>{
 	if ( Array.isArray(menu) || testNode(menu) ) menu = { content : menu };
 	if ( typeof menu != 'object' ) return undefined;
 	if ( ! menu.type ) menu.type = 'context';
-	const $cm = $('<div class="dropdown clearfix appContextMenu"></div>');
+	const $cm = $('<div class="dropdown clearfix mabro-menu-wrap"></div>');
 	$cm.appendTo(document.body);
 	if ( testNode( menu.content ) ) {
 		$cm.append( menu.content );
 	} else if ( Array.isArray(menu.content) ) {
-		const $ul = $(`<ul class="dropdown-menu appContextMenuContent" role="menu" aria-labelledby="dropdownMenu" style="max-width:${$(window).width()}px;"></ul>`);
+		const $ul = $(`<ul class="dropdown-menu mabro-menu-content" role="menu" aria-labelledby="dropdownMenu" style="max-width:${$(window).width()}px;"></ul>`);
 		const parseli = v => {
 			const $li = $('<li></li>');
 			if ( typeof v == 'string' ) {
@@ -587,7 +587,7 @@ glob.menu = (ev,menu)=>{
 		top = menu.y || Math.floor( pos.top - 2 );
 		if ( (top - $(window).scrollTop() + cmh) >= $(window).height() ) {
 			top = Math.ceil( pos.top + $parent.outerHeight() - cmh );
-			$('ul.appContextMenuContent',$cm).append( Array.from($('ul.appContextMenuContent>li',$cm)).reverse() );
+			$('ul.mabro-menu-content',$cm).append( Array.from($('ul.mabro-menu-content>li',$cm)).reverse() );
 		}
 		if ( (left - $(window).scrollLeft() + cmw) >= $(window).width() ) {
 			left = Math.ceil( pos.left + $parent.outerWidth() - $cm.width() +1);
@@ -601,18 +601,18 @@ glob.menu = (ev,menu)=>{
 		top = menu.y || Math.floor( pos.top + $parent.outerHeight() - 2 );
 		if ( (top - $(window).scrollTop() + cmh) >= $(window).height() ) {
 			top = Math.ceil( pos.top - cmh +2 );
-			$('ul.appContextMenuContent',$cm).append( Array.from($('ul.appContextMenuContent>li',$cm)).reverse() );
+			$('ul.mabro-menu-content',$cm).append( Array.from($('ul.mabro-menu-content>li',$cm)).reverse() );
 		}
 		if ( (left - $(window).scrollLeft() + cmw) >= $(window).width() ) {
 			left = Math.ceil( pos.left + $parent.outerWidth() - cmw +1);
 		}
-		$parent.addClass('appContextActive');
+		$parent.addClass('mabro-menu-active');
 	} else {  /* menu.type == 'context' */
 		left = menu.x || (ev.pageX -20);
 		top = menu.y || (ev.pageY -20);
 		if ( (top - $(window).scrollTop() + cmh) >= $(window).height() ) {
 			top -= (cmh -40);
-			$('ul.appContextMenuContent',$cm).append( Array.from($('ul.appContextMenuContent>li',$cm)).reverse() );
+			$('ul.mabro-menu-content',$cm).append( Array.from($('ul.mabro-menu-content>li',$cm)).reverse() );
 		}
 		if ( (left - $(window).scrollLeft() + cmw) >= $(window).width() ) {
 			left -= (cmw -40);
@@ -628,8 +628,9 @@ glob.menu = (ev,menu)=>{
 	}
 	if ( hl ) {
 		const os = hl.offset();
-		$(`<div class="appContextHighlightTent" style="top:${os.top}px;left:${os.left}px;width:${hl.width()}px;height:${hl.height()}px;"> </div>`).appendTo(document.body);
-		hl.addClass('appContextHighlight');
+		//$(`<div class="mabro-menu-highlight-tent" style="top:${os.top}px;left:${os.left}px;width:${hl.width()}px;height:${hl.height()}px;"> </div>`).appendTo(document.body);
+		$cm.prepend($(`<div class="mabro-menu-highlight-tent" style="top:${os.top}px;left:${os.left}px;width:${hl.width()}px;height:${hl.height()}px;"> </div>`));
+		hl.addClass('mabro-menu-highlight-element');
 	}
 	$(document.body).on('click contextmenu', zapMenus );
 	$cm.css({

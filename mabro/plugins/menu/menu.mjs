@@ -1,18 +1,21 @@
-const buildMabroMenu = ($m,mbicon) => {
-	if ( ! $('.mabro-menu-title',$m).length ) {
+const mabroMenu = async (me,mb) => {
+	let $p = $(me.target);
+	if ( ! $p.hasClass('mabro-menu-toggler')) $p = $p.closest('.mabro-menu-toggler');
+	const obj = {highlight:$p,parent:$p,type:"menu",content:[]};
+	obj.content.push( {icon: _icon('mabro-app'),label:_l('menu-mabro-About'),action:()=>{ mb.plugin('about',mb.getProp('mabro_base')+'../static/about.html') }} );
+	glob.menu(me.originalEvent,obj);
+};
+
+const buildMabroMenu = async ($m,mb) => {
+	if ( ! $m.hasClass('mabro-menu-inited') ) {
 		const id = glob.uid('menu-');
-		const $mbcont = $('<div class="dropdown"></div>');
-		$mbcont.append(`<button class="btn btn-link mabro-menu-title dropdown-toggle" id="${id}" type="button" data-toggle="dropdown" aria-expanded="false">${mbicon}</button>`);
-		const $mbtent = $(`<div class="dropdown-menu" aria-labelledby="${id}"></div>`);
-		const $about = $(`<a class="dropdown-item" href="#">${_l('menu-mabro-About')}</a>`);
-		$mbtent.append($about);
-		$mbcont.append($mbtent);
-		$m.append($mbcont);
+		const $mbmenu = $(`<div class="dropdown mabro-menu-toggler" id="${id}"></div>`).append(_icon('mabro-app'));
+		$mbmenu.on('click', (e)=>{ mabroMenu(e,mb) } );
+		$m.append($mbmenu);
+		$m.append('<div class="mabro-menu-bars"></div>');
+		$m.addClass('mabro-menu-inited');
 	}
-	if ( ! $('.mabro-menu-content',$m).length ) {
-		$m.append('<div class="mabro-menu-content"></div>');
-	}
-	return $('.mabro-menu-content',$m);
+	return $('.mabro-menu-bars',$m);
 };
 
 const getClass = async (mb) => {
@@ -23,7 +26,7 @@ const getClass = async (mb) => {
 			this.#prop.registered = {system:[],apps:[]};
 			this.#prop.manifest = manifest;
 			this.#prop.mb = mb;
-			this.#prop.target = $('body > .mabro-main-container > .mabro-menu-wrap');
+			this.#prop.target = $('body > .mabro-main-container > .mabro-menubar-wrap');
 			$(document.body).on('mabro:changedApp',()=>{this.refresh()});
 		};
 		async init() {
@@ -31,7 +34,7 @@ const getClass = async (mb) => {
 				setTimeout( ()=>{ this.init(mb);}, 100 );
 				return;
 			}
-			this.#prop.menus = buildMabroMenu(this.#prop.target,(await mb.getManifest()).app_icon);
+			this.#prop.menus = await buildMabroMenu(this.#prop.target,mb);
 		};
 		async refresh() {
 		};
