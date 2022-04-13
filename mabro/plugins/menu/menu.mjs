@@ -2,7 +2,7 @@ const mabroMenu = async (me,mb) => {
 	let $p = $(me.target);
 	if ( ! $p.hasClass('mabro-menu-toggler')) $p = $p.closest('.mabro-menu-toggler');
 	const obj = {highlight:$p,parent:$p,type:"menu",content:[]};
-	obj.content.push( {icon: _icon('mabro-app'),label:_l('menu-mabro-About'),action:()=>{ mb.plugin('about',mb.getProp('mabro_base')+'../static/about.html') }} );
+	obj.content.push( {icon: _icon('mabro-app'),label:_l('menu-mabro-About'),action:()=>{ mb.plugin('about',mb.getProp('mabro_base')+'about.html') }} );
 	glob.menu(me.originalEvent,obj);
 };
 
