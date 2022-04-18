@@ -1,4 +1,5 @@
 const activateWindow = ( $w ) => {
+	if ( ! $w.hasClass('.mabro-window') ) $w = $w.closest('.mabro-window');
 	const id = $w.attr('id');
 	const uri = $w.attr('for');
 	const dd = $(document.body).data('mabro');
@@ -6,14 +7,15 @@ const activateWindow = ( $w ) => {
 	if ( dd.activeApp === uri ) {
 		activateDocument($w,id,uri);
 	} else {
-		$(`.mabro-app.mabro-wrap:not([for="${uri}"])`).removeClass('active').addClass('inactive');
+		$(`.mabro-app.mabro-wrap:not([for="${uri}"])`).removeClass('mabro-active').addClass('mabro-inactive');
 		if ( uri.endsWith('/webdestop/') ) $(`.mabro-app.mabro-wrap:not([for="${uri}"])`).hide();
-		$(`.mabro-app.mabro-wrap[for="${uri}"]`).addClass('active').show();
+		$(`.mabro-app.mabro-wrap[for="${uri}"]`).addClass('mabro-active').show();
 		dd.activeApp = uri;
 		if ( $(`.mabro-app.mabro-window[for="${uri}"]`).length > 1 ) {
 			$(document.body).data('mabro',dd);
 			activateDocument($w,id,uri);
 		} else {
+			$w.addClass('mabro-active');
 			dd.activeWindow = id;
 			$(document.body).data('mabro',dd);
 		}
@@ -22,23 +24,69 @@ const activateWindow = ( $w ) => {
 };
 
 const activateDocument = ($w,id,uri) => {
+	if ( ! $w.hasClass('.mabro-window') ) $w = $w.closest('.mabro-window');
 	if ( typeof id === 'undefined') id = $w.attr('id');
 	if ( typeof uri === 'undefined') uri = $w.attr('for');
 	const dd = $(document.body).data('mabro');
 	if ( dd.activeWindow == id ) return;
 	const $ws = $(`.mabro-app.mabro-window[for="${uri}"]`);
-	if ( $ws.length < 2 ) return;
+	if ( $ws.length < 2 ) {
+		$w.addClass('mabro-active');
+		return;
+	}
+	$ws.removeClass('mabro-active');
 	$w.data('zIndex',10000);
+	$w.addClass('mabro-active');
 	const ws = [];
 	$ws.each( (idx,w) => { ws.push( {win: w, zIndex : $(w).data('zIndex')}) });
-	ws.sort( (a,b)=>{ a.zIndex < b.zIndex ? 1 : -1 } ).map(x=>x.win).forEach((w,idx) => {
+	ws.sort( (a,b)=>(a .zIndex < b.zIndex ? -1 : 1 ) ).map(x=>x.win).forEach((w,idx) => {
 		$(w).css('z-index',idx).data('zIndex',idx);
 	});
 	dd.activeWindow = id;
 	$(document.body).data('mabro',dd);
 };
 
-$(document).on("click", ".mabro-app.mabro-window", (e)=>{ e.stopPropagation(); activateWindow($(e.target)); });
+$(document).on("mouseup", ".mabro-app.mabro-window:not(.mabro-gui-action)", (e)=>{ e.stopPropagation(); activateWindow($(e.target)); });
+
+const makeDraggableWindow = ($w) => {
+	const $tb = $('.mabro-window-titlebar',$w);
+	$tb.on('mouseenter',()=>{ if ( ! $w.hasClass('mabro-fullscreen') ) $w.attr('draggable',true)  });
+	$tb.on('dblclick',()=>{ $w.trigger('mabro:togglefs') });
+	$tb.on('mouseleave',()=>{ $w.attr('draggable',false)  });
+	const w = $w.get(0);
+	w.addEventListener('dragstart',(e)=>{
+		e.stopPropagation();
+		const ddata = {
+			ex0 : e.pageX,
+			ey0 : e.pageY,
+			x0 : parseInt($w.css('left')),
+			y0 : parseInt($w.css('top'))
+		};
+		$w.data('mabro-drag',ddata);
+		$w.addClass('mabro-dragging mabro-gui-action');
+		return false;
+	},true);
+	w.addEventListener('drag',(e)=>{
+		e.preventDefault();
+		e.stopPropagation();
+		if ( e.pageY <= 0 || e.pageX <= 0 ) return;
+		const ddata = $w.data('mabro-drag');
+		$w.css({
+			top: String( ddata.y0 + e.pageY - ddata.ey0 )+'px',
+			left: String( ddata.x0 + e.pageX - ddata.ex0 )+'px'
+		});
+		return false;
+	},true);
+	w.addEventListener('dragend',(e)=>{
+		e.preventDefault();
+		e.stopPropagation();
+		$w.removeData('mabro-drag');
+		$w.removeClass('mabro-dragging mabro-gui-action');
+		return false;
+	},true);
+
+};
+
 
 const MBWstatic = {
 	default : { width: '20%', height : '20%' },
@@ -75,23 +123,27 @@ const MBW = class {
 		}
 		return MBW.parseSize(val);
 	};
-	static render = ( sysapi, prop ) => {
+	static render = ( wobj, sysapi, prop ) => {
 		const $w = $(`<div class="mabro-app mabro-window" for="${sysapi.getUri()}" id="${prop.id}"></div>`);
-		$w.append($('<div class="mabro-window-titlebar"></div>').append($('<label></label>').append( prop.options.title ) ));
+		const $closer = $('<span class="mabro-win-button mabro-close-button"></span>');
+		$w.on('mabro:close',()=>{ $(document.body).trigger('mabro:closeWindow',$w ) });
+		$closer.on('click',()=>{ $w.trigger('mabro:close') } );
+		const $fstoggler = $('<span class="mabro-win-button mabro-zoom-button"></span>');
+		$fstoggler.on('click',()=>{ $w.trigger('mabro:togglefs') } );
+		$w.on('mabro:togglefs',()=>{ wobj.toggleFullscreen() });
+		$w.append($('<div class="mabro-window-titlebar"></div>').append( $('<label></label>').append( prop.options.title ), $closer, $fstoggler ));
 		const $c = $(`<div class="mabro-window-content""></div>`);
-		if ( prop.options.fullscreen ) {
-			$w.addClass('mabro-fullscreen');
-		} else {
-			$w.css({
-				width: MBW.parseSize(prop.options.width||MBWstatic.default.width),
-				height : MBW.parseSize(prop.options.height||MBWstatic.default.height),
-				top: MBW.parseTop(prop.options.height),
-				left: MBW.parseLeft(prop.options.height)
-			})
-		}
+		$w.css({
+			width: MBW.parseSize(prop.options.width||MBWstatic.default.width),
+			height : MBW.parseSize(prop.options.height||MBWstatic.default.height),
+			top: MBW.parseTop(prop.options.height),
+			left: MBW.parseLeft(prop.options.height)
+		});
 		$w.append( $c );
 		$w.hide();
 		sysapi.wrap().append( $w );
+		if ( prop.options.fullscreen ) wobj.toggleFullscreen(true,$w);
+		makeDraggableWindow($w);
 		return $w;
 	};
 	top(x) { this.wrap().css('top',MBW.parseSize(x)) };
@@ -101,6 +153,19 @@ const MBW = class {
 	show() { this.toggle(true); };
 	hide() { this.toggle(false); };
 	toggle(status) { this.wrap().toggle(!!status); };
+	toggleFullscreen(status,$w) {
+		if ( typeof status === 'undefined' ) status = this.#prop.fullscreen = ! this.#prop.fullscreen;
+		else this.#prop.fullscreen = !! status;
+		if ( typeof $w === 'undefined') $w = this.wrap();
+		if ( status ) {
+			$w.data('mabro-winsize',{ top: $w.css('top'), left: $w.css('left'), width: $w.css('width'), height: $w.css('height') });
+			$w.css({top:'',left:'',width:'',height:''}).addClass('mabro-fullscreen');
+		} else {
+			const ps = $w.data('mabro-winsize');
+			$w.css({top:ps.top,left:ps.left,width:ps.width,height:ps.height}).removeClass('mabro-fullscreen');
+			$w.removeData('mabro-winsize');
+		}
+	};
 	title(t) {
 		if ( typeof t !== 'string' ) return this.#prop.options.title;
 		this.#prop.options.title = t;
@@ -108,7 +173,7 @@ const MBW = class {
 		return t;
 	};
 	wrap() {
-		if ( ! this.#prop.w ) this.#prop.w = MBW.render(this.#sysapi, this.#prop );
+		if ( ! this.#prop.w ) this.#prop.w = MBW.render(this, this.#sysapi, this.#prop );
 		return this.#prop.w;
 	};
 	window() { return this.wrap().children('.mabro-app-content'); };
@@ -132,6 +197,7 @@ const API = class {
 	wrap() { return this.#sys.wrap(); };
 	menubar( data ) { this.#sys.makeMenuBar( data ); };
 	newWindow( options ) { return this.#sys.newWindow(options); };
+	closeWindow(w) { return this.#sys.closeWindow(w); };
 	quit() { this.#sys.quit(); };
 };
 
@@ -244,17 +310,45 @@ const getClass = async (mb) => {
 			this.#prop.wins.push(w);
 			const idx = this.#prop.wins.length;
 			w.wrap().css('z-index',idx).data('zIndex',idx);
+			activateWindow(w.wrap());
 			return w;
+		};
+		closeWindow( w ) {
+			if ( typeof w === 'string' ) w = this.winById(w);
+			if ( ! w ) return;
+			const $w = w.wrap();
+			const id = $w.attr('id');
+			$w.remove();
+			this.#prop.wins = this.#prop.wins.filter( w => ( w.wrap().attr('id') !== id ));
+			const fm = this.frontmostWindow();
+			if ( fm ) activateWindow( fm.wrap() );
+			else this.quit();
 		};
 		frontmostWindow() {
 			const wins = this.windows();
 			if ( ! wins.length ) return undefined;
-			let w, z = 0;
+			if ( wins.length == 1 ) return wins[0];
+			let dw,w,z=-1;
 			wins.forEach( wi => {
-				const zi = wi.wrap().data('zIndex');
-				if ( zi < z ) return;
-				z = zi;
-				w = wi;
+				if ( dw ) return;
+				const $w = wi.wrap();
+				if ( $w.hasClass('mabro-active')) dw = w = wi;
+				const zi = $w.data('zIndex');
+				if ( zi > z ) {
+					z = zi;
+					w = wi;
+				}
+			});
+			if ( w && ! dw ) dw = w;
+			return dw;
+		};
+		winById(id) {
+			const wins = this.windows();
+			if ( ! wins.length ) return undefined;
+			let w;
+			wins.forEach( wi => {
+				if ( w ) return;
+				if ( wi.wrap().attr('id') == id ) w = wi;
 			});
 			return w;
 		};
@@ -264,8 +358,8 @@ const getClass = async (mb) => {
 			const w = this.frontmostWindow();
 			if ( w ) dd.activeWindow = w.wrap().attr('id');
 			else dd.activeWindow = '-';
-			$(`.mabro-app.mabro-wrap:not([for="${this.#prop.uri}"])`).removeClass('active').addClass('inactive');
-			$(`.mabro-app.mabro-wrap[for="${this.#prop.uri}"]`).removeClass('inactive').addClass('active');
+			$(`.mabro-app.mabro-wrap:not([for="${this.#prop.uri}"])`).removeClass('mabro-active').addClass('mabro-inactive');
+			$(`.mabro-app.mabro-wrap[for="${this.#prop.uri}"]`).removeClass('mabro-inactive').addClass('mabro-active');
 			$(document.body).data('mabro',dd);
 		};
 		quit() {
@@ -274,6 +368,7 @@ const getClass = async (mb) => {
 			if ( this.#prop.wrap ) this.#prop.wrap.remove();
 			this.#prop.mb.quitapp( this.#prop.uri );
 			this.#app = false;
+			this.#api = false;
 		};
 		wrap(){
 			if ( ! this.#prop.wrap ) {

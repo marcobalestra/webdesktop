@@ -83,11 +83,11 @@ const getClass = async (mb) => {
 			const apps = this.#prop.mb.apps();
 			const keys = Object.keys(apps).filter(k => apps[k].running);
 			const aa = ($(document.body).data('mabro')||{}).activeApp;
-			$('.mabro-menu-bar[for]',this.#prop.menus).removeClass('active');
+			$('.mabro-menu-bar[for]',this.#prop.menus).removeClass('mabro-active');
 			$('.mabro-menu-bar[for]',this.#prop.menus).each( (idx,mb) => {
 				if ( ! keys.includes($(mb).attr('for'))) $(mb).remove();
 			});
-			if ( aa ) $(`.mabro-menu-bar[for="${aa}"]`,this.#prop.menus).addClass('active');
+			if ( aa ) $(`.mabro-menu-bar[for="${aa}"]`,this.#prop.menus).addClass('mabro-active');
 		};
 	}
 	return MENU;

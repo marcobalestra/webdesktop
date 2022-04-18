@@ -56,6 +56,7 @@ const getClass = async (pars) => {
 			mb.getManifest(mb.getProp('mabro_base')).then( man => { loadLocales(man); });
 			$(document.body).data('mabro',{});
 			(await mb.getFs()).boot();
+			$(document.body).on('mabro:closeWindow',(ev,args)=>{ mb.closeWindow(args) });
 		};
 		async init() {
 			if ( this.#prop.skeleton ) return await MB.init(this);
@@ -109,6 +110,13 @@ const getClass = async (pars) => {
 				a.api.event('run');
 				this.launchedApp(uri);
 			})
+		};
+		closeWindow( w ) {
+			const uri = $(w).attr('for');
+			if ( ! uri ) return;
+			const app = this.#prop.apps[uri];
+			if ( ! app ) return;
+			app.api.closeWindow($(w).attr('id'));
 		};
 		quitapp(uri) {
 			const app = this.#prop.apps[uri];
