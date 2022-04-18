@@ -8,6 +8,9 @@ const getClass = async (mb) => {
 			this.#mb = options.system;
 			this.#wrap = options.wrap;
 		};
+		init() {
+			
+		};
 		async event(name,data) {
 			if ( name === 'run'|| name === 'activate' ) {
 				let activate = (name === 'activate');

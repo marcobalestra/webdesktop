@@ -73,6 +73,9 @@ const getClass = async (pars) => {
 		};
 		async launchedApp( uri ) {
 			if ( this.#prop.apps[uri] ) this.#prop.apps[uri].running = true;
+			const dd = $(document.body).data('mabro')||{};
+			dd.activeApp = uri;
+			$(document.body).data('mabro',dd);
 			$(document.body).trigger('mabro:changedApp');
 		};
 		async app(uri,options) {
@@ -83,19 +86,42 @@ const getClass = async (pars) => {
 				const manifest = await this.getManifest(uri);
 				if ( ! (manifest && typeof manifest === 'object') ) return;
 				loadLocales( manifest, uri );
-				const appapi = await this.plugin('appapi');
-				await appapi.init( uri, manifest, options );
-				const ao = { manifest: manifest, api: appapi };
+				const ao = { manifest: manifest };
 				const isSystem = !! (options && options.system);
 				if ( isSystem ) ao.system = true;
 				if ( manifest.name ) ao.name = manifest.name;
 				this.#prop.apps[uri] = ao;
+			}
+			if ( this.#prop.apps[uri] && ! this.#prop.apps[uri].api ) {
+				const appapi = await this.plugin('appapi');
+				await appapi.init( uri, this.#prop.apps[uri].manifest, options );
+				this.#prop.apps[uri].api = appapi;
 				(await this.getDock()).render();
-				if ( ! isSystem ) this.#fs.apps(true);
+				if ( ! this.#prop.apps[uri].system ) this.#fs.apps(true);
 			}
 			return this.#prop.apps[uri];
 		};
 		apps() { return this.#prop.apps; };
+		runapp(uri) {
+			const app = this.#prop.apps[uri];
+			if ( ! app ) return;
+			this.app(uri).then( a => {
+				a.api.event('run');
+				this.launchedApp(uri);
+			})
+		};
+		quitapp(uri) {
+			const app = this.#prop.apps[uri];
+			if ( ! app || app.system ) return;
+			delete app.running;
+			app.api.event('quit').then( e => {
+				delete app.api;
+				this.app('webdesktop').then( wd => {
+					wd.api.event('run');
+					$(document.body).trigger('mabro:changedApp');
+				});
+			});
+		};
 		async dialog(options) { return await this.plugin('dialog',options); };
 		loadCSS( ...args ) { return loadCSS.call(window,this,args) };
 		getProp(pname) { return this.#prop[pname]; };
@@ -147,6 +173,14 @@ const getClass = async (pars) => {
 				if ( manifest && typeof manifest === 'object' ) {
 					loadLocales( manifest );
 					this.#prop.plugins[pluginName] = { manifest: manifest }
+					if ( manifest.css ) {
+						if ( typeof manifest.css === 'string' ) manifest.css = [manifest.css];
+						if ( Array.isArray(manifest.css) && manifest.css.length && ! manifest.cssParsed ) {
+							manifest.css = manifest.css.map( u => (u.match(/^([^:]+:\/\/|\/)/) ? u : `${manifest.base_uri}${u}`));
+							manifest.cssParsed = true;
+							loadCSS( this, manifest.css );
+						}
+					};
 					if ( typeof manifest.script === "string" ) {
 						if (manifest.script.includes('<mjs_suffix>')) manifest.script = manifest.script.replace(/\<mjs_suffix\>/,this.getProp('mjs_suffix'));
 						let mod,cl;

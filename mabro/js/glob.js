@@ -596,9 +596,11 @@ glob.menu = (ev,menu)=>{
 		menu.sticky = true;
 		if ( ! menu.parent ) menu.parent = menu.highlight||'a';
 		const $parent = $(ev.target).closest(menu.parent);
+		$parent.addClass('mabro-menu-highlight-element')
 		const pos = $parent.offset();
 		left = menu.x || Math.floor( pos.left );
 		top = menu.y || Math.floor( pos.top + $parent.outerHeight() - 2 );
+		$cm.addClass('mabro-menu-menu');
 		if ( (top - $(window).scrollTop() + cmh) >= $(window).height() ) {
 			top = Math.ceil( pos.top - cmh +2 );
 			$('ul.mabro-menu-content',$cm).append( Array.from($('ul.mabro-menu-content>li',$cm)).reverse() );
@@ -620,17 +622,19 @@ glob.menu = (ev,menu)=>{
 	}
 	if ( left < 0 ) left = 0;
 	if ( top < 0 ) top = 0;
-	let hl = false;
-	if ( menu.highlight ) {
-		hl = $(ev.target).closest(menu.highlight);
-	} else if ( typeof menu.highlight == 'undefined' ) {
-		hl = $(ev.target);
-	}
-	if ( hl ) {
-		const os = hl.offset();
-		//$(`<div class="mabro-menu-highlight-tent" style="top:${os.top}px;left:${os.left}px;width:${hl.width()}px;height:${hl.height()}px;"> </div>`).appendTo(document.body);
-		$cm.prepend($(`<div class="mabro-menu-highlight-tent" style="top:${os.top}px;left:${os.left}px;width:${hl.width()}px;height:${hl.height()}px;"> </div>`));
-		hl.addClass('mabro-menu-highlight-element');
+	if ( ! menu.parent ) {
+		let hl = false;
+		if ( menu.highlight ) {
+			hl = $(ev.target).closest(menu.highlight);
+		} else if ( typeof menu.highlight == 'undefined' ) {
+			hl = $(ev.target);
+		}
+		if ( hl ) {
+			const os = hl.offset();
+			$(`<div class="mabro-menu-highlight-tent" style="top:${os.top}px;left:${os.left}px;width:${hl.width()}px;height:${hl.height()}px;"> </div>`).appendTo(document.body);
+			//$cm.prepend($(`<div class="mabro-menu-highlight-tent" style="top:${os.top}px;left:${os.left}px;width:${hl.width()}px;height:${hl.height()}px;"> </div>`));
+			hl.addClass('mabro-menu-highlight-element');
+		}
 	}
 	$(document.body).on('click contextmenu', zapMenus );
 	$cm.css({
