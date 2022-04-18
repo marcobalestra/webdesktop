@@ -131,7 +131,10 @@ const getClass = async (pars) => {
 			});
 		};
 		async dialog(options) { return await this.plugin('dialog',options); };
-		loadCSS( ...args ) { return loadCSS.call(window,this,args) };
+		loadCSS( ...args ) {
+			if ( args.length === 1 && Array.isArray(args[0]) ) args = args[0];
+			return loadCSS.call(window,this,args);
+		};
 		getProp(pname) { return this.#prop[pname]; };
 		async getManifest(uri) {
 			if ( typeof uri === 'undefined' ) uri = this.getProp('mabro_base');

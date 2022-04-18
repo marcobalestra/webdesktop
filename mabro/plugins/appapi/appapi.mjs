@@ -53,7 +53,7 @@ $(document).on("mouseup", ".mabro-app.mabro-window:not(.mabro-gui-action)", (e)=
 const makeDraggableWindow = ($w) => {
 	const $tb = $('.mabro-window-titlebar',$w);
 	$tb.on('mouseenter',()=>{ if ( ! $w.hasClass('mabro-fullscreen') ) $w.attr('draggable',true)  });
-	$tb.on('dblclick',()=>{ $w.trigger('mabro:togglefs') });
+	$tb.on('dblclick',(e)=>{ e.preventDefault(); e.stopPropagation(); $w.trigger('mabro:togglefs') });
 	$tb.on('mouseleave',()=>{ $w.attr('draggable',false)  });
 	const w = $w.get(0);
 	w.addEventListener('dragstart',(e)=>{
@@ -96,7 +96,6 @@ const makeDraggableWindow = ($w) => {
 	},true);
 };
 
-
 const makeResizeableWindow = ($w) => {
 	const $rb = $('.mabro-resize-button',$w);
 	$rb.on('mouseenter',()=>{ if ( ! $w.hasClass('mabro-fullscreen') ) $rb.attr('draggable',true)  });
@@ -106,15 +105,16 @@ const makeResizeableWindow = ($w) => {
 	rb.addEventListener('dragstart',(e)=>{
 		if( $rb.attr('draggable') !== 'true' ) return;
 		e.stopPropagation();
+		const opts = $w.data('mabro-options');
 		const ddata = {
 			ex0 : e.pageX,
 			ey0 : e.pageY,
 			x0 : $w.width(),
 			y0 : $w.height(),
-			minx : 197,
-			miny: 55,
-			maxx : $w.closest('.mabro-wrap').width() - parseInt($w.css('left')),
-			maxy : $w.closest('.mabro-wrap').height()  - parseInt($w.css('top'))
+			minx : opts.minWidth ? parseInt(opts.minWidth) : 197,
+			miny: opts.minHeight ? parseInt(opts.minHeight) : 55,
+			maxx : opts.maxWidth ? parseInt(opts.maxWidth) : ($w.closest('.mabro-wrap').width() - parseInt($w.css('left'))),
+			maxy : opts.maxHeight ? parseInt(opts.maxHeight) : ($w.closest('.mabro-wrap').height()  - parseInt($w.css('top')))
 		};
 		$w.data('mabro-resize',ddata);
 		$w.addClass('mabro-resizing mabro-gui-action');
@@ -179,27 +179,38 @@ const MBW = class {
 	};
 	static render = ( wobj, sysapi, prop ) => {
 		const $w = $(`<div class="mabro-app mabro-window" for="${sysapi.getUri()}" id="${prop.id}"></div>`);
-		const $closer = $('<span class="mabro-win-button mabro-close-button"></span>');
-		$w.on('mabro:close',()=>{ sysapi.closeWindow(wobj) });
-		$closer.on('click',()=>{ $w.trigger('mabro:close') } );
-		const $fstoggler = $('<span class="mabro-win-button mabro-zoom-button"></span>');
-		$fstoggler.on('click',()=>{ $w.trigger('mabro:togglefs') } );
-		$w.on('mabro:togglefs',()=>{ wobj.toggleFullscreen() });
-		$w.append($('<div class="mabro-window-titlebar"></div>').append( $('<label></label>').append( prop.options.title ), $closer, $fstoggler ));
-		const $c = $(`<div class="mabro-window-content""></div>`);
+		const $titlebar = $('<div class="mabro-window-titlebar"></div>').append( $('<label></label>').append( prop.options.title ) );
+		if ( ! prop.options.cantClose ) {
+			const $closer = $('<span class="mabro-win-button mabro-close-button"></span>');
+			$w.on('mabro:close',()=>{ sysapi.closeWindow(wobj) });
+			$closer.on('click',()=>{ $w.trigger('mabro:close') } );
+			$titlebar.append( $closer );
+		}
+		if ( ! prop.options.fixedSize ) {
+			const $fstoggler = $('<span class="mabro-win-button mabro-zoom-button"></span>');
+			$fstoggler.on('click',()=>{ $w.trigger('mabro:togglefs') } );
+			$w.on('mabro:togglefs',()=>{ wobj.toggleFullscreen() });
+			$titlebar.append( $fstoggler );
+		}
+		$w.append( $titlebar );
+		const $c = $(`<div class="mabro-window-content"></div>`);
+		if ( prop.options.cssBase ) $c.addClass( prop.options.cssBase );
 		$w.css({
 			width: MBW.parseSize(prop.options.width||MBWstatic.default.width),
 			height : MBW.parseSize(prop.options.height||MBWstatic.default.height),
-			top: MBW.parseTop(prop.options.height),
-			left: MBW.parseLeft(prop.options.height)
+			top: MBW.parseTop(prop.options.top),
+			left: MBW.parseLeft(prop.options.left)
 		});
 		$w.append( $c );
-		const $resizer = $('<span class="mabro-win-button mabro-resize-button"></span>');
-		$w.append($resizer);
 		$w.hide();
+		$w.data('mabro-options',prop.options);
 		sysapi.wrap().append( $w );
 		if ( prop.options.fullscreen ) wobj.toggleFullscreen(true,$w);
-		makeResizeableWindow($w);
+		if ( ! prop.options.fixedSize ) {
+			const $resizer = $('<span class="mabro-win-button mabro-resize-button"></span>');
+			$w.append($resizer);
+			makeResizeableWindow($w);
+		}
 		makeDraggableWindow($w);
 		return $w;
 	};
@@ -233,7 +244,7 @@ const MBW = class {
 		if ( ! this.#prop.w ) this.#prop.w = MBW.render(this, this.#sysapi, this.#prop );
 		return this.#prop.w;
 	};
-	window() { return this.wrap().children('.mabro-app-content'); };
+	window() { return this.wrap().children('.mabro-window-content'); };
 };
 
 const API = class {
@@ -310,6 +321,13 @@ const getClass = async (mb) => {
 			}
 			if ( ! this.#prop.classfunc ) {
 				const m = this.#prop.manifest;
+				if ( m.css ) {
+					if ( typeof m.css === 'string' ) m.css = [ m.css ];
+					await m.css.forEachAwait( async (u) => {
+						if ( ! u.match(/^([^:]+:\/\/|\/)/) ) u = `${m.base_uri}${u}`;
+						await this.#prop.mb.loadCSS( u );
+					});
+				}
 				if (m.script.includes('<mjs_suffix>')) m.script = m.script.replace(/\<mjs_suffix\>/,this.#prop.mb.getProp('mjs_suffix'));
 				let mod,cl;
 				try {
@@ -363,6 +381,8 @@ const getClass = async (mb) => {
 		};
 		windows() { return this.#prop.wins; };
 		newWindow(options) {
+			if ( typeof options === 'undefined' ) options = {};
+			if ( typeof options.cssBase === 'undefined' && this.#prop.manifest.cssBase ) options.cssBase = this.#prop.manifest.cssBase;
 			const w = new MBW(this,options);
 			this.#prop.wins.push(w);
 			const idx = this.#prop.wins.length;
