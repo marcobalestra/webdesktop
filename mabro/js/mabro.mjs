@@ -13,10 +13,7 @@ const loadCSS = ( mb, cssfiles ) => {
 			console.debug('[MB.loadCSS] Error loading CSS: need string, node or jquery objects',c);
 			return;
 		}
-		if ( $(`link[href="${c.attr('href')}"]`,h).length ) {
-			console.debug('[MB.loadCSS] Duplicated CSS',c);
-			return;
-		}
+		if ( $(`link[href="${c.attr('href')}"]`,h).length ) return;
 		c.on('error',(e)=>{ console.debug('[MB.loadCSS] Error loading CSS',c,e) });
 		try { $(h).append( c ); count++; }
 		catch(e) { console.debug('[MB.loadCSS] Error trying to load CSS',c,e); }
