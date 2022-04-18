@@ -1,3 +1,5 @@
+document.addEventListener('dragover', (e)=>{ e.preventDefault() });
+
 const activateWindow = ( $w ) => {
 	if ( ! $w.hasClass('.mabro-window') ) $w = $w.closest('.mabro-window');
 	const id = $w.attr('id');
@@ -55,38 +57,90 @@ const makeDraggableWindow = ($w) => {
 	$tb.on('mouseleave',()=>{ $w.attr('draggable',false)  });
 	const w = $w.get(0);
 	w.addEventListener('dragstart',(e)=>{
+		if( $w.attr('draggable') !== 'true' ) return;
 		e.stopPropagation();
+		activateWindow($w);
 		const ddata = {
 			ex0 : e.pageX,
 			ey0 : e.pageY,
 			x0 : parseInt($w.css('left')),
-			y0 : parseInt($w.css('top'))
+			y0 : parseInt($w.css('top')),
+			minx : 0,
+			miny: 0,
+			maxx : $w.closest('.mabro-wrap').width(),
+			maxy : $w.closest('.mabro-wrap').height()
 		};
 		$w.data('mabro-drag',ddata);
 		$w.addClass('mabro-dragging mabro-gui-action');
 		return false;
 	},true);
 	w.addEventListener('drag',(e)=>{
+		if ( ! $w.hasClass('mabro-dragging') ) return;
 		e.preventDefault();
 		e.stopPropagation();
 		if ( e.pageY <= 0 || e.pageX <= 0 ) return;
 		const ddata = $w.data('mabro-drag');
 		$w.css({
-			top: String( ddata.y0 + e.pageY - ddata.ey0 )+'px',
-			left: String( ddata.x0 + e.pageX - ddata.ex0 )+'px'
+			top: String( Math.min(Math.max((ddata.y0 + e.pageY - ddata.ey0),ddata.miny),ddata.maxy) )+'px',
+			left: String( Math.min(Math.max((ddata.x0 + e.pageX - ddata.ex0),ddata.minx),ddata.maxx) )+'px'
 		});
 		return false;
 	},true);
 	w.addEventListener('dragend',(e)=>{
+		if ( ! $w.hasClass('mabro-dragging') ) return;
 		e.preventDefault();
 		e.stopPropagation();
 		$w.removeData('mabro-drag');
 		$w.removeClass('mabro-dragging mabro-gui-action');
 		return false;
 	},true);
-
 };
 
+
+const makeResizeableWindow = ($w) => {
+	const $rb = $('.mabro-resize-button',$w);
+	$rb.on('mouseenter',()=>{ if ( ! $w.hasClass('mabro-fullscreen') ) $rb.attr('draggable',true)  });
+	$rb.on('mouseleave',()=>{ $rb.attr('draggable',false)  });
+	const w = $w.get(0);
+	const rb = $rb.get(0);
+	rb.addEventListener('dragstart',(e)=>{
+		if( $rb.attr('draggable') !== 'true' ) return;
+		e.stopPropagation();
+		const ddata = {
+			ex0 : e.pageX,
+			ey0 : e.pageY,
+			x0 : $w.width(),
+			y0 : $w.height(),
+			minx : 197,
+			miny: 55,
+			maxx : $w.closest('.mabro-wrap').width() - parseInt($w.css('left')),
+			maxy : $w.closest('.mabro-wrap').height()  - parseInt($w.css('top'))
+		};
+		$w.data('mabro-resize',ddata);
+		$w.addClass('mabro-resizing mabro-gui-action');
+		return false;
+	},true);
+	rb.addEventListener('drag',(e)=>{
+		if( ! $w.hasClass('mabro-resizing') ) return;
+		e.preventDefault();
+		e.stopPropagation();
+		if ( e.pageY <= 0 || e.pageX <= 0 ) return;
+		const ddata = $w.data('mabro-resize');
+		$w.css({
+			width: String( Math.min(Math.max((ddata.x0 + e.pageX - ddata.ex0),ddata.minx),ddata.maxx) )+'px',
+			height: String( Math.min(Math.max((ddata.y0 + e.pageY - ddata.ey0),ddata.miny),ddata.maxy) )+'px'
+		});
+		return false;
+	},true);
+	rb.addEventListener('dragend',(e)=>{
+		if( ! $w.hasClass('mabro-resizing') ) return;
+		e.preventDefault();
+		e.stopPropagation();
+		$w.removeData('mabro-resize');
+		$w.removeClass('mabro-resizing mabro-gui-action');
+		return false;
+	},true);
+};
 
 const MBWstatic = {
 	default : { width: '20%', height : '20%' },
@@ -126,7 +180,7 @@ const MBW = class {
 	static render = ( wobj, sysapi, prop ) => {
 		const $w = $(`<div class="mabro-app mabro-window" for="${sysapi.getUri()}" id="${prop.id}"></div>`);
 		const $closer = $('<span class="mabro-win-button mabro-close-button"></span>');
-		$w.on('mabro:close',()=>{ $(document.body).trigger('mabro:closeWindow',$w ) });
+		$w.on('mabro:close',()=>{ sysapi.closeWindow(wobj) });
 		$closer.on('click',()=>{ $w.trigger('mabro:close') } );
 		const $fstoggler = $('<span class="mabro-win-button mabro-zoom-button"></span>');
 		$fstoggler.on('click',()=>{ $w.trigger('mabro:togglefs') } );
@@ -140,9 +194,12 @@ const MBW = class {
 			left: MBW.parseLeft(prop.options.height)
 		});
 		$w.append( $c );
+		const $resizer = $('<span class="mabro-win-button mabro-resize-button"></span>');
+		$w.append($resizer);
 		$w.hide();
 		sysapi.wrap().append( $w );
 		if ( prop.options.fullscreen ) wobj.toggleFullscreen(true,$w);
+		makeResizeableWindow($w);
 		makeDraggableWindow($w);
 		return $w;
 	};
