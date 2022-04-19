@@ -33,7 +33,7 @@ const getClass = async ( manifest ) => {
 		*/
 		#prop; #api;
 		constructor(api,options) {
-			this.#prop = { options: options||{} };
+			this.#prop = { options: options||{}, manifest: manifest };
 			this.#api = api;
 		};
 		/*
