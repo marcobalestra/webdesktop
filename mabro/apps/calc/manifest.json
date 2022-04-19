@@ -1,7 +1,7 @@
 {
 	"script" : "calc.<mjs_suffix>",
 	"app_name" : "Calculator",
-	"version" : "0.1",
+	"version" : "1.0",
 	"copyright" : "altersoftware.it",
 	"copyright_link" : "https://altersoftware.it",
 	"developer" : "Marco Balestra",
