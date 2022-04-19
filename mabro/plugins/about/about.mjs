@@ -2,7 +2,7 @@ const buildByManifest = (m) => {
 	const $out = $('<div></div>');
 	if ( m.app_icon || m.app_name ) {
 		const $h = $('<h3 style="height:44px;"></h3>');
-		if ( m.app_icon ) $h.append( m.app_icon, ' ' );
+		if ( m.app_icon ) $h.append( $('<span style="height:44px;width:44px;margin-right:1rem;"></span>').append(m.app_icon) );
 		if ( m.app_name ) $h.append( $(`<b style="font-family: 'Roboto Condensed', sans-serif;"></b>`).append(m.app_name) );
 		$out.append( $h );
 	}
