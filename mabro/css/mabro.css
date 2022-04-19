@@ -361,6 +361,11 @@ table.dataTable td .mabro-menu-toggler {
   font-family: 'Roboto Condensed', sans-serif;
 }
 
+.dropdown.mabro-menu-wrap.mabro-menu-menu .mabro-menu-content {
+  -webkit-box-shadow: 2px 2px 1px #00000033;
+          box-shadow: 2px 2px 1px #00000033;
+}
+
 .dropdown-menu.mabro-menu-content {
   background-color: #fff;
   display: block;

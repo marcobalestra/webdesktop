@@ -296,6 +296,9 @@ table.dataTable td .mabro-menu-toggler {
 	position: absolute; z-index: 10000; display: none;
 	&.mabro-menu-menu {
 		font-family: 'Roboto Condensed', sans-serif;
+		.mabro-menu-content {
+			box-shadow: 2px 2px 1px #00000033;
+		}
 	}
 }
 .dropdown-menu.mabro-menu-content {
