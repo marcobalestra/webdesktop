@@ -56,9 +56,11 @@ const getClass = async () => {
 		};
 		/*
 			Our local method to build a new Calculator.
-			This method uses the API to request a new window, then passes it to local utilities to manage it.
+			This method uses the API to request a new window,
+			then passes its area to a local utility to manage it.
 		*/
 		newCalc() {
+			/* see below for newCalcOptions local object and makeCalc local function */
 			const w = this.#api.newWindow(newCalcOptions);
 			makeCalc(this, w.window());
 			w.show();
@@ -70,7 +72,7 @@ const getClass = async () => {
 /*
 	In this case we have some local constants (default value and functions).
 
-	The MJS (Javascript module) of the application can host a lot of "local functions and variables.
+	The MJS (Javascript module) of the application can host a lot of "local" functions and variables.
 	The only global objects in MaBro.app are:
 	- "glob" object with many helper functions, plus 3 aliases:
 	- "_lang" variable sith the lowercase two-characters current language
