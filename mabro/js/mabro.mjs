@@ -53,7 +53,6 @@ const getClass = async (pars) => {
 			mb.getManifest(mb.getProp('mabro_base')).then( man => { loadLocales(man); });
 			$(document.body).data('mabro',{});
 			(await mb.getFs()).boot();
-			$(document.body).on('mabro:closeWindow',(ev,args)=>{ mb.closeWindow(args) });
 		};
 		async init() {
 			if ( this.#prop.skeleton ) return await MB.init(this);
@@ -68,6 +67,10 @@ const getClass = async (pars) => {
 			const apps = this.#fs.apps();
 			apps.forEach( uri => { this.app(uri) });
 			wd.api.event('run');
+			$(document.body)
+				.on('mabro:closeWindow',(ev,args)=>{ this.closeWindow(args) })
+				.on('mabro:changedApp',()=>{this.#dock.refresh()})
+				.on('mabro:changedWindow',(ev,args)=>{ this.changedWindow(args) });
 		};
 		async launchedApp( uri ) {
 			if ( this.#prop.apps[uri] ) this.#prop.apps[uri].running = true;
@@ -114,6 +117,14 @@ const getClass = async (pars) => {
 			const app = this.#prop.apps[uri];
 			if ( ! app ) return;
 			app.api.closeWindow($(w).attr('id'));
+		};
+		changedWindow( data ) {
+			if ( ! (typeof data === 'object' && data && data.uri && data.id )) return;
+			const app = this.#prop.apps[data.uri];
+			if ( ! app ) return;
+			const win = app.api.winById( data.id );
+			if ( ! win ) return;
+			app.api.dispatch('changedWindow',win);
 		};
 		quitapp(uri) {
 			const app = this.#prop.apps[uri];

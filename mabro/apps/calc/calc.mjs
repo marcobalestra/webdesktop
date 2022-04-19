@@ -1,3 +1,85 @@
+/*
+The Calculator is an app designed to be an example.
+
+The files of this app (all in the same folder) are:
+- this file, calc.mjs (and its minified version .min.mjs, for production environment)
+- manifest.json
+- calc.css (and its .scss)
+
+At the very end of the module we have the "default" export declaration.
+
+Please note:
+	1) Every app module must export only one default function
+	2) The default function returns the CLASS of the app.
+	3) The app itself is an instance of the class (an object).
+
+Here starts the code of the app itself.
+First of all we declare a function the will be the default export.
+This function returns a class, and is expected to be async.
+*/
+
+const getClass = async () => {
+	const C = class {
+		/*
+			The constructor of the app object.
+			When the app is launched an instance of the object is created.
+			The creator receives a reference to its own API with Mabro.app,
+			and optionally a launch argument (object).
+
+			The API is the only channel the app can use to communicate with MaBro.app
+		*/
+		#prop; #api;
+		constructor(api,options) {
+			this.#prop = { options: options||{} };
+			this.#api = api;
+		};
+		/*
+			Once the object has been created, the app is launched.
+			Then a "init" handler of the object (if any) is invoked.
+
+			In this case we use the API to register a menubar, then trigger a local method.
+		*/
+		init() {
+			this.#api.menubar([{ label: "File", items: [{label:'New',action: ()=>{ this.newCalc() } }] }]);
+			this.newCalc();
+		};
+		/*
+			If the app provides an "event" interface function it can receive events,
+			e.g.:
+			- "changedWindow" event when a window changes (changed focus, size or position), the window is the argument.
+			- "run" when the app becomes the frontmost app (no argument)
+		*/
+		event( eventName, eventData ) {
+			if ( eventName === 'changedWindow' ) {
+				if ( eventData ) $('input.calc-input',eventData.window()).focus();
+			}
+		};
+		/*
+			Our local method to build a new Calculator.
+			This method uses the API to request a new window, then passes it to local utilities to manage it.
+		*/
+		newCalc() {
+			const w = this.#api.newWindow(newCalcOptions);
+			makeCalc(this, w.window());
+			w.show();
+		};
+	}
+	return C;
+};
+
+/*
+	In this case we have some local constants (default value and functions).
+
+	The MJS (Javascript module) of the application can host a lot of "local functions and variables.
+	The only global objects in MaBro.app are:
+	- "glob" object with many helper functions, plus 3 aliases:
+	- "_lang" variable sith the lowercase two-characters current language
+	- "_l" function to localize labels
+	- "_icon" function to localize in "icon" language.
+
+	All the "local" functions and code the app uses:
+*/
+
 const newCalcOptions = {
 	minWidth: '260px',
 	minHeight: '180px',
@@ -104,26 +186,6 @@ const clearCalc = ($c) => {
 	$('div.calc-error',$c).html('');
 	$('input.calc-input',$c).val('').focus();
 	return undefined;
-};
-
-const getClass = async (mb) => {
-	const C = class {
-		#prop; #api;
-		constructor(api,options) {
-			this.#prop = { options: options||{} };
-			this.#api = api;
-		};
-		init() {
-			this.#api.menubar([{ label: "File", items: [{label:'New',action: ()=>{ this.newCalc() } }] }]);
-			this.newCalc();
-		};
-		newCalc() {
-			const w = this.#api.newWindow(newCalcOptions);
-			makeCalc(this, w.window());
-			w.show();
-		};
-	}
-	return C;
 };
 
 export default getClass;
