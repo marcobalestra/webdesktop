@@ -1,12 +1,13 @@
 const buildByManifest = (m) => {
 	const $out = $('<div></div>');
 	if ( m.app_icon || m.app_name ) {
-		const $h = $('<h3 style="height:44px;"></h3>');
-		if ( m.app_icon ) $h.append( $('<span style="height:44px;width:44px;margin-right:1rem;display:inline-block;"></span>').append(m.app_icon) );
-		if ( m.app_name ) $h.append( $(`<b style="font-family: 'Roboto Condensed', sans-serif;"></b>`).append(m.app_name) );
+		const $h = $('<h3></h3>');
+		if ( m.app_icon ) $h.append( m.app_icon );
+		if ( m.app_name ) $h.append( $(`<b></b>`).append(m.app_name) );
 		$out.append( $h );
 	}
 	if ( m.base_uri ) $out.append( $(`<p><small>${m.base_uri}</small></p>`) );
+	if ( m.description ) $out.append( $('<div></div>').append( m.description ));
 	const lis = [];
 	if ( m.version ) lis.push(`${_l('Version')}: <b>${m.version}</b>`);
 	if ( m.copyright_link ) {
@@ -52,6 +53,7 @@ const getClass = async (mb) => {
 				$('.modal-header',$c).remove();
 				$('.modal-footer',$c).remove();
 				const $b = $('.modal-body',$c);
+				$b.addClass('mabro-about-content');
 				$b.load(uri,()=>{
 					$b.html( glob.localize.labelize( $b.html() ) );
 					d.show();
@@ -69,6 +71,7 @@ const getClass = async (mb) => {
 			$('.modal-header',$c).remove();
 			$('.modal-footer',$c).remove();
 			const $b = $('.modal-body',$c);
+			$b.addClass('mabro-about-content');
 			$b.empty().append( $content );
 			$b.html( glob.localize.labelize( $b.html() ) );
 			d.show();

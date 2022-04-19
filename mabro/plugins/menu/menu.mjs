@@ -113,6 +113,22 @@ const getClass = async (mb) => {
 			});
 			this.refresh();
 		};
+		async appContextMenu(event,ele,app) {
+			event.preventDefault();
+			event.stopPropagation();
+			const obj = {highlight:ele,parent:ele};
+			let items = [];
+			if ( app.running ) {
+				items = await appMenuItems(this.#prop.mb,app.api);
+			} else {
+				const mc = { label: _l('menu-launch-app'), action: ()=>{ this.#prop.mb.runapp( app.manifest.base_uri ) }};
+				if ( app.manifest && app.manifest.app_icon ) mc.icon = app.manifest.app_icon;
+				items.push(mc);
+			}
+			if ( app.manifest.app_name ) items.unshift( app.manifest.app_name );
+			obj.content = items;
+			glob.menu(event.originalEvent||event,obj);
+		};
 		async refresh() {
 			if ( ! this.#prop.menus ) return;
 			const apps = this.#prop.mb.apps();

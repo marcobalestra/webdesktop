@@ -24,16 +24,14 @@ const getClass = async (mb) => {
 			const apps = this.#prop.mb.apps();
 			const syskeys = Object.keys(apps).filter( x => x.system );
 			const appkeys = Object.keys(apps).filter( x => ! x.system );
-			syskeys.forEach( k => {
+			const process = (k) => {
 				const de = buildMember(k,apps[k]);
 				de.on('click',()=>{ this.clicked(k) });
+				de.on('contextmenu',(e)=>{ this.context(e,de,apps[k]) });
 				this.#prop.target.append(de);
-			});
-			appkeys.forEach( k => {
-				const de = buildMember(k,apps[k]);
-				de.on('click',()=>{ this.clicked(k) });
-				this.#prop.target.append(de);
-			});
+			}
+			syskeys.forEach( process );
+			appkeys.forEach( process );
 		};
 		async refresh() {
 			const apps = this.#prop.mb.apps();
@@ -43,6 +41,9 @@ const getClass = async (mb) => {
 			});
 		};
 		clicked(uri) { this.#prop.mb.runapp(uri); };
+		context(e,ele,app) {
+			this.#prop.mb.getMenu().then( m => { m.appContextMenu( e, ele, app ) });
+		};
 	}
 	return DOCK;
 };
