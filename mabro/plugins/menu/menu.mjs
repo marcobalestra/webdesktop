@@ -93,25 +93,6 @@ const getClass = async (mb) => {
 			this.#prop.menus = await buildMabroMenu(this.#prop.target,mb);
 			this.refresh();
 		};
-		/*
-		registerMenuBar(uri,aa) {
-			if ( ! this.#prop.menus ) {
-				setTimeout( ()=>{ this.registerMenuBar(uri,aa); }, 100 );
-				return;
-			}
-			let $mb = $(`.mabro-menu-bar[for="${uri}"]`,this.#prop.menus);
-			if ( ! $mb.length ) {
-				$mb = $(`<div for="${uri}" class="mabro-menu-bar"></div>`);
-				this.#prop.menus.append($mb);
-			}
-			$mb.empty();
-			if ( Array.isArray(aa) ) aa.filter(a => a.label).forEach( a => {
-				const $t = makeMenu( a.label, a.items );
-				$mb.append( $t );
-			});
-			this.refresh();
-		};
-		*/
 		registerMenuBar(app,aa) {
 			if ( ! this.#prop.menus ) {
 				setTimeout( ()=>{ this.registerMenuBar(app,aa); }, 100 );

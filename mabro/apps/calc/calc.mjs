@@ -44,7 +44,7 @@ const getClass = async ( manifest ) => {
 			In this case we use the API to register a menubar, then trigger a local method.
 		*/
 		init() {
-			this.#api.menubar([{ label: "File", items: [{label:'New',action: ()=>{ this.newCalc() } }] }]);
+			this.#api.menubar([{ label: this.#prop.manifest.app_name, items: [{label:'New',action: ()=>{ this.newCalc() } }] }]);
 			this.newCalc();
 		};
 		/*
