@@ -186,7 +186,7 @@ const doCalc = ($c) => {
 			.replace(/(a?sin|a?cos|a?tan|abs|round)/g,"Math.$1")
 			.replace(/(ln|log2)/,'Math.log2')
 			.replace(/(LOG|log10)/,'Math.log10')
-			.replace(/[pPπ∏]/g,'Math.PI')
+			.replace(/(pi?|Pi?|π|∏)/g,'Math.PI')
 			.replace(/e/g,'Math.E');
 		$input.val( eval( txt ) );
 		$err.html('');
