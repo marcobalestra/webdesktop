@@ -60,9 +60,11 @@ const appMenuItems = async (mb,app) => {
 	if ( ws && Array.isArray(ws) && ws.length ) {
 		if ( items.length ) items.push('-');
 		ws.forEach( w => {
-			const act = w.active();
-			const n = ( act ? '√ ' : '') + w.title();
-			items.push({ label: n, action: ()=>{  app.activateWindow(w) } });
+			if ( w.active() ) {
+				items.push({ label: '❖ ' + w.title() });
+			} else {
+				items.push({ label: w.title(), action: ()=>{  app.activateWindow(w) } });
+			}
 		});
 	}
 	if ( ! app.isSystem() ) {
