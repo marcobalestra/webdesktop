@@ -32,7 +32,6 @@ const getClass = async (mb) => {
 	const ABOUT = class {
 		#prop;
 		constructor( manifest, options ) {
-			console.log(options);
 			if ( typeof options === 'string') options = { uri: options };
 			if ( typeof options !== 'object' ) options = {};
 			options.dlogOptions = {

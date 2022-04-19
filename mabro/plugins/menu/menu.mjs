@@ -121,9 +121,10 @@ const getClass = async (mb) => {
 			if ( app.running ) {
 				items = await appMenuItems(this.#prop.mb,app.api);
 			} else {
+				const ab = { label:_l('menu-mabro-About-app',{app:(app.manifest.app_name||app.manifest.base_uri)}),action:()=>{ this.#prop.mb.plugin('about',{ manifest: app.manifest }) }};
 				const mc = { label: _l('menu-launch-app'), action: ()=>{ this.#prop.mb.runapp( app.manifest.base_uri ) }};
-				if ( app.manifest && app.manifest.app_icon ) mc.icon = app.manifest.app_icon;
-				items.push(mc);
+				if ( app.manifest && app.manifest.app_icon ) ab.icon = app.manifest.app_icon;
+				items.push(ab,'-',mc);
 			}
 			if ( app.manifest.app_name ) items.unshift( app.manifest.app_name );
 			obj.content = items;

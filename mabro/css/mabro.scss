@@ -234,7 +234,7 @@ $windowitleheight: 24px;
 					> svg {
 						width: $dockiconsmall;
 						height: $dockiconsmall;
-						transition: all ease-in-out .25s;
+						transition: width ease-in-out .25s, height ease-in-out .25s, filter ease-in-out .5s;
 					}
 					&:hover > svg, > svg:hover {
 						width: $dockiconbig;
@@ -242,6 +242,11 @@ $windowitleheight: 24px;
 					}
 					&.running {
 						border-bottom-color: #36c;
+					}
+					&:not(.running) {
+						svg {
+							filter: grayscale(1) opacity(.5);
+						}
 					}
 					label {
 						opacity : 0;
@@ -259,8 +264,13 @@ $windowitleheight: 24px;
 						font-family: 'Roboto Condensed', sans-serif;
 						font-size: 110%;
 					}
-					&:hover > label {
-						opacity: 1;
+					&:hover {
+						> svg {
+							filter: grayscale(0) opacity(1);
+						}
+						> label {
+							opacity: 1;
+						}
 					}
 				}
 			}
