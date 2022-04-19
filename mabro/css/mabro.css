@@ -57,6 +57,8 @@
 
 .mabro-main-container > .mabro-wrap.mabro-menubar-wrap .mabro-menu-toggler > label {
   color: #000;
+  margin: 0 0 .5rem 0;
+  padding: 0 .5rem 0 0;
 }
 
 .mabro-main-container > .mabro-wrap.mabro-menubar-wrap > .mabro-menubar-content {
