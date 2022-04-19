@@ -1,25 +1,25 @@
 /*
-The Calculator is an app designed to be an example.
+	The Calculator is an app designed to be an example.
 
-The files of this app (all in the same folder) are:
-- this file, calc.mjs (and its minified version .min.mjs, for production environment)
-- manifest.json
-- calc.css (and its .scss)
+	The files of this app (all in the same folder) are:
+	- this file, calc.mjs (and its minified version .min.mjs, for production environment)
+	- manifest.json
+	- calc.css (and its .scss)
 
-At the very end of the module we have the "default" export declaration.
+	At the very end of the module we have the "default" export declaration.
 
-Please note:
-	1) Every app module must export only one default function
-	2) The default function returns the CLASS of the app.
-	3) The app itself is an instance of the class (an object).
-	4) jQuery and Bootstrap are available yet.
+	Please note:
+		1) Every app module must export only one default function
+		2) The default function returns the CLASS of the app.
+		3) The app itself is an instance of the class (an object).
+		4) jQuery and Bootstrap are available yet.
 
-Here starts the code of the app itself.
-First of all we declare a function the will be the default export.
-This function returns a class, and is expected to be async.
+	Here starts the code of the app itself.
+	First of all we declare a function the will be the default export.
+	This function returns a class, and is expected to be async.
 
-The default export function receives as input parameter the manifest object,
-enriched with the "base_uri" element.
+	The default export function receives as input parameter the manifest object,
+	enriched with the "base_uri" element.
 */
 
 const getClass = async ( manifest ) => {
