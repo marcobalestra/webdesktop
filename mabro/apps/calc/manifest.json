@@ -4,6 +4,8 @@
 	"version" : "0.1",
 	"copyright" : "altersoftware.it",
 	"copyright_link" : "https://altersoftware.it",
+	"developer" : "Marco Balestra",
+	"developer_link" : "https://altersoftware.it/site/azienda/contatti",
 	"creator" : "calculator.mabro.altersoftware.it",
 	"css" : "calc.css",
 	"cssBase" : "mabroapp-calculator",

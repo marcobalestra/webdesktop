@@ -374,9 +374,21 @@ const getClass = async (mb) => {
 				if ( ! data[0] ) data[0] = {};
 				if ( data[0] ) {
 					data[0].label = _l('menu-File');
-					if ( data[0].items ) data[0].items.push('-');
-					else data[0].items = [];
-					data[0].items.push({ label: _l('menu-Quit'), action: ()=>{ this.quit() }});
+					if ( ! data[0].items ) data[0].items = [];
+					if ( typeof data[0].items === 'function' ) {
+						const f = data[0].items;
+						data[0].items = ()=>{
+							const out = f.call();
+							if ( ! out ) out = [];
+							if (! Array.isArray(out) ) out = [out];
+							if ( out.length ) out.push('-');
+							out.push({ label: _l('menu-Quit'), action: ()=>{ this.quit() }});
+							return out;
+						}
+					} else if ( Array.isArray(data[0].items) ) {
+						if ( data[0].items.length ) data[0].items.push('-');
+						data[0].items.push({ label: _l('menu-Quit'), action: ()=>{ this.quit() }});
+					}
 				}
 			}
 			this.#prop.mb.getMenu().then( m => { m.registerMenuBar( this.#prop.uri, data ); });

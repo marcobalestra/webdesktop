@@ -1,5 +1,5 @@
 {
 	"menu-File" : "File",
 	"menu-Quit" : "Quit",
-	"menu-mabro-About" : "About MaBro.app…"
+	"menu-mabro-About-app" : "About {{app|this app}}…"
 }

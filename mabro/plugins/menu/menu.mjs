@@ -28,7 +28,14 @@ const handleMenu = (me,funcarray) => {
 
 const mabroMenuItems = async (mb) => {
 	const items = [];
-	items.push( {icon: _icon('mabro-app'),label:_l('menu-mabro-About'),action:()=>{ mb.plugin('about',mb.getProp('mabro_base')+'about.html') }} );
+	items.push( {icon: _icon('mabro-app'),label:_l('menu-mabro-About-app',{app:'MaBro.app'}),action:()=>{ mb.plugin('about',mb.getProp('mabro_base')+'about.html') }} );
+	const currentstatus = $(document.body).data('mabro');
+	if ( currentstatus && typeof currentstatus === 'object' && currentstatus.activeApp ) {
+		const m = await mb.getManifest( currentstatus.activeApp );
+		const mi = { label:_l('menu-mabro-About-app',{app:(m.app_name||m.base_uri)}),action:()=>{ mb.plugin('about',{ manifest: m }) }};
+		if ( m.app_icon ) mi.icon = m.app_icon;
+		items.push(mi);
+	}
 	return items;
 };
 
