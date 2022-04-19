@@ -165,6 +165,7 @@
   left: 6px;
   right: 6px;
   bottom: 6px;
+  overflow: auto;
 }
 
 .mabro-main-container > .mabro-wrap.mabro-main-wrap > .mabro-wrap {

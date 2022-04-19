@@ -146,6 +146,7 @@ $windowitleheight: 24px;
 					left: $windowbordersize;
 					right: $windowbordersize;
 					bottom: $windowbordersize;
+					overflow: auto;
 				}
 			}
 			> .mabro-wrap {

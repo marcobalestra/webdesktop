@@ -93,7 +93,7 @@ const newCalcOptions = {
 	minWidth: '260px',
 	minHeight: '180px',
 	width: '320px',
-	height : '200px',
+	height : '220px',
 };
 
 const makeCalc = (co,$c) => {
@@ -179,12 +179,19 @@ const doCalc = ($c) => {
 	const $input = $('input.calc-input',$c);
 	if ( $input.val() === '' ) return clearCalc($c);
 	const $err = $('div.calc-error',$c);
+	let txt = $input.val();
 	try {
-		let txt = $input.val().replace(/\^/g,'**').replace(/(a?sin|a?cos|a?tan|abs)/g,"Math.$1").replace(/[pPπ∏]/g,'Math.PI').replace(/e/g,'Math.E');
+		txt = txt
+			.replace(/\^/g,'**')
+			.replace(/(a?sin|a?cos|a?tan|abs|round)/g,"Math.$1")
+			.replace(/(ln|log2)/,'Math.log2')
+			.replace(/(LOG|log10)/,'Math.log10')
+			.replace(/[pPπ∏]/g,'Math.PI')
+			.replace(/e/g,'Math.E');
 		$input.val( eval( txt ) );
 		$err.html('');
 	} catch(e) {
-		$err.html( e.message );
+		$err.html(`${e.message}<br />“${txt}”`);
 		$input.focus();
 		return undefined;
 	}
