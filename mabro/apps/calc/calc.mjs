@@ -180,7 +180,8 @@ const doCalc = ($c) => {
 	if ( $input.val() === '' ) return clearCalc($c);
 	const $err = $('div.calc-error',$c);
 	try {
-		$input.val( eval( $input.val() ) );
+		let txt = $input.val().replace(/\^/g,'**').replace(/(a?sin|a?cos|a?tan|abs)/g,"Math.$1").replace(/[pPπ∏]/g,'Math.PI').replace(/e/g,'Math.E');
+		$input.val( eval( txt ) );
 		$err.html('');
 	} catch(e) {
 		$err.html( e.message );
