@@ -16,9 +16,12 @@ Please note:
 Here starts the code of the app itself.
 First of all we declare a function the will be the default export.
 This function returns a class, and is expected to be async.
+
+The default export function receives as input parameter the manifest object,
+enriched with the "base_uri" element.
 */
 
-const getClass = async () => {
+const getClass = async ( manifest ) => {
 	const C = class {
 		/*
 			The constructor of the app object.
