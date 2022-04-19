@@ -5,7 +5,7 @@
 	"copyright" : "altersoftware.it",
 	"copyright_link" : "https://altersoftware.it",
 	"creator" : "menu.mabro.altersoftware.it",
-	"locales" : ["en","it"],
+	"locales" : ["en","it","icon"],
 	"locales_dir" : "locales/",
 	"locales_suffix" : ".json"
 }

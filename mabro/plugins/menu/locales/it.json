@@ -1,6 +1,6 @@
 {
 	"menu-File" : "Archivio",
 	"menu-Quit" : "Esci",
-	"menu-launch-app" : "Avvia la app",
+	"menu-launch-app" : "Avvia",
 	"menu-mabro-About-app" : "Info su {{app|questa app}}…"
 }

@@ -69,7 +69,7 @@ const appMenuItems = async (mb,app) => {
 	}
 	if ( ! app.isSystem() ) {
 		if ( items.length ) items.push('-');
-		items.push({ label: _l('menu-Quit'), action: ()=>{ app.quit() }});
+		items.push({ icon: _icon("menu-exit"), label: _l('menu-Quit'), action: ()=>{ app.quit() }});
 	}
 	return items;
 };
@@ -122,7 +122,7 @@ const getClass = async (mb) => {
 				items = await appMenuItems(this.#prop.mb,app.api);
 			} else {
 				const ab = { label:_l('menu-mabro-About-app',{app:(app.manifest.app_name||app.manifest.base_uri)}),action:()=>{ this.#prop.mb.plugin('about',{ manifest: app.manifest }) }};
-				const mc = { label: _l('menu-launch-app'), action: ()=>{ this.#prop.mb.runapp( app.manifest.base_uri ) }};
+				const mc = { icon: _icon('menu-launch'), label: _l('menu-launch-app'), action: ()=>{ this.#prop.mb.runapp( app.manifest.base_uri ) }};
 				if ( app.manifest && app.manifest.app_icon ) ab.icon = app.manifest.app_icon;
 				items.push(ab,'-',mc);
 			}
