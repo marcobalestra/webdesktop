@@ -148,7 +148,8 @@ $windowitleheight: 24px;
 					left: $windowbordersize;
 					right: $windowbordersize;
 					bottom: $windowbordersize;
-					overflow: auto;
+					overflow: hidden;
+					filter: grayscale(80%) opacity(80%);
 				}
 			}
 			> .mabro-wrap {
@@ -206,6 +207,10 @@ $windowitleheight: 24px;
 										opacity: 1;
 									}
 								}
+							}
+							> .mabro-window-content {
+								overflow: auto;
+								filter: unset;
 							}
 						}
 					}

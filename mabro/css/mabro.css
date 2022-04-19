@@ -167,7 +167,9 @@
   left: 6px;
   right: 6px;
   bottom: 6px;
-  overflow: auto;
+  overflow: hidden;
+  -webkit-filter: grayscale(80%) opacity(80%);
+          filter: grayscale(80%) opacity(80%);
 }
 
 .mabro-main-container > .mabro-wrap.mabro-main-wrap > .mabro-wrap {
@@ -233,6 +235,12 @@
 
 .mabro-main-container > .mabro-wrap.mabro-main-wrap > .mabro-wrap.mabro-active .mabro-app.mabro-window.mabro-active:not(.mabro-fullscreen) > .mabro-resize-button:hover {
   opacity: 1;
+}
+
+.mabro-main-container > .mabro-wrap.mabro-main-wrap > .mabro-wrap.mabro-active .mabro-app.mabro-window.mabro-active > .mabro-window-content {
+  overflow: auto;
+  -webkit-filter: unset;
+          filter: unset;
 }
 
 .mabro-main-container > .mabro-wrap.mabro-dock-wrap {
