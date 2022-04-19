@@ -216,6 +216,7 @@ const MBW = class {
 		makeDraggableWindow($w);
 		return $w;
 	};
+	active(){ return this.wrap().hasClass('mabro-active') };
 	top(x) { this.wrap().css('top',MBW.parseSize(x)) };
 	left(x) { this.wrap().css('left',MBW.parseSize(x)) };
 	width(x) { this.wrap().css('width',MBW.parseSize(x)) };
@@ -314,9 +315,11 @@ const getClass = async (mb) => {
 			return this.dispatch(name,data);
 		};
 		getApp() { return this.#app; };
+		getManifest() { return this.#prop.manifest }; 
 		getAppName() { return this.#prop.manifest.app_name };
 		getAppApi() { return this.#api; };
 		getUri() { return this.#prop.uri };
+		isSystem() { return !! this.#prop.system };
 		async load() {
 			if ( this.#app ) {
 				this.activate();
@@ -371,28 +374,7 @@ const getClass = async (mb) => {
 			} else {
 				data = [];
 			}
-			if ( ! this.#prop.system ) {
-				if ( ! data[0] ) data[0] = {};
-				if ( data[0] ) {
-					data[0].label = _l('menu-File');
-					if ( ! data[0].items ) data[0].items = [];
-					if ( typeof data[0].items === 'function' ) {
-						const f = data[0].items;
-						data[0].items = ()=>{
-							const out = f.call();
-							if ( ! out ) out = [];
-							if (! Array.isArray(out) ) out = [out];
-							if ( out.length ) out.push('-');
-							out.push({ label: _l('menu-Quit'), action: ()=>{ this.quit() }});
-							return out;
-						}
-					} else if ( Array.isArray(data[0].items) ) {
-						if ( data[0].items.length ) data[0].items.push('-');
-						data[0].items.push({ label: _l('menu-Quit'), action: ()=>{ this.quit() }});
-					}
-				}
-			}
-			this.#prop.mb.getMenu().then( m => { m.registerMenuBar( this.#prop.uri, data ); });
+			this.#prop.mb.getMenu().then( m => { m.registerMenuBar( this, data ); });
 		};
 		windows() { return this.#prop.wins; };
 		newWindow(options) {
@@ -453,6 +435,9 @@ const getClass = async (mb) => {
 			$(`.mabro-app.mabro-wrap:not([for="${this.#prop.uri}"])`).removeClass('mabro-active').addClass('mabro-inactive');
 			$(`.mabro-app.mabro-wrap[for="${this.#prop.uri}"]`).removeClass('mabro-inactive').addClass('mabro-active');
 			$(document.body).data('mabro',dd);
+		};
+		activateWindow(w) {
+			activateWindow( w.wrap() );
 		};
 		quit() {
 			if ( this.#prop.quitting ) return;

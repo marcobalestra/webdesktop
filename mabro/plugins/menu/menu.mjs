@@ -29,13 +29,6 @@ const handleMenu = (me,funcarray) => {
 const mabroMenuItems = async (mb) => {
 	const items = [];
 	items.push( {icon: _icon('mabro-app'),label:_l('menu-mabro-About-app',{app:'MaBro.app'}),action:()=>{ mb.plugin('about',mb.getProp('mabro_base')+'about.html') }} );
-	const currentstatus = $(document.body).data('mabro');
-	if ( currentstatus && typeof currentstatus === 'object' && currentstatus.activeApp ) {
-		const m = await mb.getManifest( currentstatus.activeApp );
-		const mi = { label:_l('menu-mabro-About-app',{app:(m.app_name||m.base_uri)}),action:()=>{ mb.plugin('about',{ manifest: m }) }};
-		if ( m.app_icon ) mi.icon = m.app_icon;
-		items.push(mi);
-	}
 	return items;
 };
 
@@ -47,6 +40,36 @@ const buildMabroMenu = async ($m,mb) => {
 		$m.addClass('mabro-menu-inited');
 	}
 	return $('.mabro-menu-bars',$m);
+};
+
+const makeAppMenu = (mb,app) => {
+	const m = app.getManifest();
+	const $appmenu = makeMenu((m.app_icon ? $(m.app_icon) : (m.app_name||'App')),()=>{ return appMenuItems(mb,app) } );
+	return $appmenu;
+};
+
+const appMenuItems = async (mb,app) => {
+	const items = [];
+	const m = app.getManifest();
+	if ( m ) {
+		const about = { label:_l('menu-mabro-About-app',{app:(m.app_name||m.base_uri)}),action:()=>{ mb.plugin('about',{ manifest: m }) }};
+		if ( m.app_icon ) about.icon = m.app_icon;
+		items.push(about);
+	}
+	const ws = app.windows();
+	if ( ws && Array.isArray(ws) && ws.length ) {
+		if ( items.length ) items.push('-');
+		ws.forEach( w => {
+			const act = w.active();
+			const n = ( act ? '√ ' : '') + w.title();
+			items.push({ label: n, action: ()=>{  app.activateWindow(w) } });
+		});
+	}
+	if ( ! app.isSystem() ) {
+		if ( items.length ) items.push('-');
+		items.push({ label: _l('menu-Quit'), action: ()=>{ app.quit() }});
+	}
+	return items;
 };
 
 const getClass = async (mb) => {
@@ -68,6 +91,7 @@ const getClass = async (mb) => {
 			this.#prop.menus = await buildMabroMenu(this.#prop.target,mb);
 			this.refresh();
 		};
+		/*
 		registerMenuBar(uri,aa) {
 			if ( ! this.#prop.menus ) {
 				setTimeout( ()=>{ this.registerMenuBar(uri,aa); }, 100 );
@@ -79,6 +103,27 @@ const getClass = async (mb) => {
 				this.#prop.menus.append($mb);
 			}
 			$mb.empty();
+			if ( Array.isArray(aa) ) aa.filter(a => a.label).forEach( a => {
+				const $t = makeMenu( a.label, a.items );
+				$mb.append( $t );
+			});
+			this.refresh();
+		};
+		*/
+		registerMenuBar(app,aa) {
+			if ( ! this.#prop.menus ) {
+				setTimeout( ()=>{ this.registerMenuBar(app,aa); }, 100 );
+				return;
+			}
+			const uri = app.getUri();
+			let $mb = $(`.mabro-menu-bar[for="${uri}"]`,this.#prop.menus);
+			if ( ! $mb.length ) {
+				$mb = $(`<div for="${uri}" class="mabro-menu-bar"></div>`);
+				this.#prop.menus.append($mb);
+			}
+			$mb.empty();
+			const $appmenu = makeAppMenu(this.#prop.mb, app);
+			if ( $appmenu ) $mb.append( $appmenu );
 			if ( Array.isArray(aa) ) aa.filter(a => a.label).forEach( a => {
 				const $t = makeMenu( a.label, a.items );
 				$mb.append( $t );
