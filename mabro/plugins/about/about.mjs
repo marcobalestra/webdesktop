@@ -8,7 +8,7 @@ const buildByManifest = (m) => {
 	}
 	if ( m.base_uri ) $out.append( $(`<p><small>${m.base_uri}</small></p>`) );
 	const lis = [];
-	if ( m.version ) lis.push( _l('Version')+': '+m.version);
+	if ( m.version ) lis.push(`${_l('Version')}: <b>${m.version}</b>`);
 	if ( m.copyright_link ) {
 		lis.push(`© <a href="${m.copyright_link}" target="_blank"><b>${m.copyright||m.copyright_link}</b></a>`);
 	} else if ( m.copyright ) {
