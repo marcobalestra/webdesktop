@@ -12,6 +12,7 @@ Please note:
 	1) Every app module must export only one default function
 	2) The default function returns the CLASS of the app.
 	3) The app itself is an instance of the class (an object).
+	4) jQuery and Bootstrap are available yet.
 
 Here starts the code of the app itself.
 First of all we declare a function the will be the default export.
@@ -79,6 +80,7 @@ const getClass = async ( manifest ) => {
 
 	The MJS (Javascript module) of the application can host a lot of "local" functions and variables.
 	The only global objects in MaBro.app are:
+	- "$" and "jQuery"
 	- "glob" object with many helper functions, plus 3 aliases:
 	- "_lang" variable sith the lowercase two-characters current language
 	- "_l" function to localize labels
