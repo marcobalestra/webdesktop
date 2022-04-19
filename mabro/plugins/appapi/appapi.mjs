@@ -235,6 +235,7 @@ const MBW = class {
 			$w.css({top:ps.top,left:ps.left,width:ps.width,height:ps.height}).removeClass('mabro-fullscreen');
 			$w.removeData('mabro-winsize');
 		}
+		$(document.body).trigger('mabro:changedWindow',{ uri: $w.attr('for'), id: $w.attr('id') });
 	};
 	title(t) {
 		if ( typeof t !== 'string' ) return this.#prop.options.title;
