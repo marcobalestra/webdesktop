@@ -66,8 +66,7 @@ const getClass = async (pars) => {
 			await this.getMenu();
 			const apps = this.#fs.apps();
 			apps.forEach( uri => { this.app(uri) });
-			this.runapp( wd.uri );
-			//wdapi.event('run');
+			this.runapp( wd );
 			$(document.body)
 				.on('mabro:closeWindow',(ev,args)=>{ this.closeWindow(args) })
 				.on('mabro:changedApp',()=>{this.#dock.refresh()})
