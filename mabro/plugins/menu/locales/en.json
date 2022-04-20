@@ -1,6 +1,6 @@
 {
 	"menu-File" : "File",
-	"menu-Quit" : "Quit",
-	"menu-launch-app" : "Run",
+	"menu-Quit" : "Quit {{app|this app}}",
+	"menu-launch-app" : "Run {{app|this app}}",
 	"menu-mabro-About-app" : "About {{app|this app}}…"
 }

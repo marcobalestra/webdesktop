@@ -1,8 +1,34 @@
-body {
-  background-color: #f0f0f0;
-  background-image: url(desktopbg.svg);
-  background-size: contain;
-  border: 0;
+.mabro-webdesktop .wd-icon-big {
+  width: 48px;
+  height: calc(48px + 24px);
+  overflow: visible;
+}
+
+.mabro-webdesktop .wd-icon-big svg {
+  height: 48px;
+  width: 48px;
+}
+
+.mabro-webdesktop .wd-icon-big > div {
+  width: calc(48px * 2);
+  height: 24px;
+  margin: 2px calc(48px * -0.5) 0 calc(48px * -0.5);
+  padding: 0;
+  text-align: center;
+}
+
+.mabro-webdesktop .wd-icon-big > div > label {
+  display: inline-block;
   margin: 0;
+  padding: 0 4px;
+  background-color: #ffffff66;
+  font-size: 90%;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  max-width: calc(48px * 2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 /*# sourceMappingURL=style.css.map */

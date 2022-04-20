@@ -130,7 +130,7 @@ const makeCalc = (co,$c) => {
 		}
 	});
 	$('.calc-clear',$out).on('click',()=>{ clearCalc($c); });
-	$('.calc-mclear',$out).on('click',()=>{ $('.calc-mcontent',$out).html(''); $input.focus(); });
+	$('.calc-mclear',$out).on('click',()=>{ $('.calc-mcontent',$out).html(''); });
 	$('.calc-allclear',$out).on('click',()=>{ $('.calc-mcontent',$out).html(''); clearCalc($c) });
 	$('.calc-mplus',$out).on('click',()=>{ mPlus($c) });
 	$('.calc-mminus',$out).on('click',()=>{ mMinus($c) });
@@ -138,7 +138,7 @@ const makeCalc = (co,$c) => {
 	$out.append($input);
 	$out.append('<div class="calc-error"></div>');
 	$c.append($out);
-	$c.on('click',()=>{ $input.focus() });
+	$c.on('click mouseover',()=>{ $input.focus() });
 };
 
 const mPlus = ($c) => {
@@ -172,7 +172,6 @@ const mRecall = ($c) => {
 	if ( v.length ) {
 		$input.val( $input.val() + v );
 	}
-	$input.focus();
 };
 
 const doCalc = ($c) => {
@@ -195,13 +194,12 @@ const doCalc = ($c) => {
 		$input.focus();
 		return undefined;
 	}
-	$input.focus();
 	return $input.val();
 };
 
 const clearCalc = ($c) => {
 	$('div.calc-error',$c).html('');
-	$('input.calc-input',$c).val('').focus();
+	$('input.calc-input',$c).val('');
 	return undefined;
 };
 

@@ -1,9 +1,33 @@
 $colorbg: #f0f0f0;
+$iconsize: 48px;
 
-body {
-	background-color: $colorbg;
-	background-image: url(desktopbg.svg);
-	background-size: contain;
-	border: 0;
-	margin: 0;
+.mabro-webdesktop {
+	.wd-icon-big {
+		width: $iconsize;
+		height: calc(#{$iconsize} + 24px);
+		overflow: visible;
+		svg {
+			height: $iconsize;
+			width: $iconsize;
+		}
+		> div {
+			width: calc(#{$iconsize} * 2);
+			height: 24px;
+			margin: 2px calc(#{$iconsize} * -0.5) 0 calc(#{$iconsize} * -0.5);
+			padding: 0;
+			text-align: center;
+			> label {
+				display: inline-block;
+				margin: 0;
+				padding: 0 4px;
+				background-color: #ffffff66;
+				font-size: 90%;
+				width: fit-content;
+				max-width: calc(#{$iconsize} * 2);
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+		}
+	}
 }

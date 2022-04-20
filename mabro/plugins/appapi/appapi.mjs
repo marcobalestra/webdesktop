@@ -265,10 +265,6 @@ const API = class {
 		if ( typeof this.#app.init === 'function' ) setTimeout( ()=>{ this.#app.init() }, 100 );
 		return this.#sys.wrap();
 	};
-	// event(name,data) {
-	// 	if ( ! this.#app ) return;
-	// 	if ( typeof this.#app.event === 'function' ) this.#app.event(name,data);
-	// };
 	windows() { return this.#sys.windows(); };
 	frontmostWindow() { return this.#sys.frontmostWindow() };
 	wrap() { return this.#sys.wrap(); };
@@ -290,7 +286,11 @@ const getClass = async (mb) => {
 			this.#prop.uri = uri;
 			this.#prop.manifest = manifest;
 			if ( options ) {
-				if ( options.system ) this.#prop.system = true;
+				if ( options.system ) {
+					this.#prop.system = true;
+					options.sysapi = this;
+					options.windowClass = MBW;
+				}
 				if ( options.wrap ) {
 					const $w = $(options.wrap);
 					if ( ! $w.attr('id') ) $w.attr('id',glob.uid('win-'));
