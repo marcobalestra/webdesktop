@@ -66,7 +66,8 @@ const getClass = async (pars) => {
 			await this.getMenu();
 			const apps = this.#fs.apps();
 			apps.forEach( uri => { this.app(uri) });
-			wd.api.event('run');
+			this.runapp( wd.uri );
+			//wdapi.event('run');
 			$(document.body)
 				.on('mabro:closeWindow',(ev,args)=>{ this.closeWindow(args) })
 				.on('mabro:changedApp',()=>{this.#dock.refresh()})
@@ -85,29 +86,36 @@ const getClass = async (pars) => {
 			}
 			if ( ! this.#prop.apps[uri] ) {
 				const manifest = await this.getManifest(uri);
-				if ( ! (manifest && typeof manifest === 'object') ) return;
-				loadLocales( manifest, uri );
-				const ao = { manifest: manifest };
+				if ( ! (manifest && typeof manifest === 'object') ) return undefined;
+				const ao = { manifest: manifest, options: options, uri: uri };
 				const isSystem = !! (options && options.system);
 				if ( isSystem ) ao.system = true;
 				if ( manifest.name ) ao.name = manifest.name;
 				this.#prop.apps[uri] = ao;
 			}
-			if ( this.#prop.apps[uri] && ! this.#prop.apps[uri].api ) {
-				const appapi = await this.plugin('appapi');
-				await appapi.init( uri, this.#prop.apps[uri].manifest, options );
-				this.#prop.apps[uri].api = appapi;
-				(await this.getDock()).render();
-				if ( ! this.#prop.apps[uri].system ) this.#fs.apps(true);
-			}
+			if ( ! this.#prop.apps[uri].system ) this.#fs.apps(true);
+			(await this.getDock()).render();
 			return this.#prop.apps[uri];
 		};
+		async appapi(uri,options) {
+			if ( ! this.#prop.apps[uri] ) await this.app(uri,options);
+			if ( ! this.#prop.apps[uri] ) return undefined;
+			if ( this.#prop.apps[uri] && ! this.#prop.apps[uri].api ) {
+				loadLocales( this.#prop.apps[uri].manifest, uri );
+				const appapi = await this.plugin('appapi');
+				await appapi.init( uri, this.#prop.apps[uri].manifest, this.#prop.apps[uri].options );
+				this.#prop.apps[uri].api = appapi;
+			}
+			return this.#prop.apps[uri].api;
+		};
 		apps() { return this.#prop.apps; };
-		runapp(uri) {
+		runapp(uri,options) {
+			if ( typeof uri === 'object' && uri.uri ) uri = uri.uri;
 			const app = this.#prop.apps[uri];
 			if ( ! app ) return;
-			this.app(uri).then( a => {
-				a.api.event('run');
+			this.appapi(uri,options).then( api => {
+				if ( ! api ) return;
+				api.event('run');
 				this.launchedApp(uri);
 			})
 		};

@@ -261,10 +261,10 @@ const API = class {
 		if ( typeof this.#app.init === 'function' ) setTimeout( ()=>{ this.#app.init() }, 100 );
 		return this.#sys.wrap();
 	};
-	event(name,data) {
-		if ( ! this.#app ) return;
-		if ( typeof this.#app.event === 'function' ) this.#app.event(name,data);
-	};
+	// event(name,data) {
+	// 	if ( ! this.#app ) return;
+	// 	if ( typeof this.#app.event === 'function' ) this.#app.event(name,data);
+	// };
 	windows() { return this.#sys.windows(); };
 	frontmostWindow() { return this.#sys.frontmostWindow() };
 	wrap() { return this.#sys.wrap(); };
