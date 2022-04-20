@@ -223,7 +223,11 @@ const MBW = class {
 	height(x) { this.wrap().css('height',MBW.parseSize(x)) };
 	show() { this.toggle(true); };
 	hide() { this.toggle(false); };
-	toggle(status) { this.wrap().toggle(!!status); };
+	toggle(status) {
+		const $w = this.wrap();
+		$w.toggle(!!status);
+		$(document.body).trigger('mabro:changedWindow',{ uri: $w.attr('for'), id: $w.attr('id') });
+	};
 	toggleFullscreen(status,$w) {
 		if ( typeof status === 'undefined' ) status = this.#prop.fullscreen = ! this.#prop.fullscreen;
 		else this.#prop.fullscreen = !! status;

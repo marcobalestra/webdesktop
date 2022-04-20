@@ -138,7 +138,7 @@ const makeCalc = (co,$c) => {
 	$out.append($input);
 	$out.append('<div class="calc-error"></div>');
 	$c.append($out);
-	setTimeout( ()=>{ $input.focus() }, 100);
+	$c.on('click',()=>{ $input.focus() });
 };
 
 const mPlus = ($c) => {
