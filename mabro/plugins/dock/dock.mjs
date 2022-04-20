@@ -35,10 +35,12 @@ const getClass = async (mb) => {
 		};
 		async refresh() {
 			const apps = this.#prop.mb.apps();
-			$('div[for]',this.#prop.target).removeClass('running');
+			$('div[for]',this.#prop.target).removeClass('running active');
 			Object.keys(apps).filter(k => apps[k].running).forEach( k => {
 				$(`div[for="${k}"]`,this.#prop.target).addClass('running');
 			});
+			const aapp = $(document.body).data('mabro').activeApp;
+			if ( aapp ) $(`div[for="${aapp}"]`,this.#prop.target).addClass('active');
 		};
 		clicked(uri) { this.#prop.mb.runapp(uri); };
 		context(e,ele,app) {

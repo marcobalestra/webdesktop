@@ -154,7 +154,14 @@ $windowitleheight: 24px;
 			}
 			> .mabro-wrap {
 				overflow: visible;
+				background: none;
+				z-index: 0;
+				pointer-events: none;
+				> * {
+					pointer-events: auto;
+				}
 				&.mabro-active {
+					z-index: 1;
 					.mabro-app.mabro-window {
 						> .mabro-window-titlebar {
 							> .mabro-win-button {
@@ -246,7 +253,10 @@ $windowitleheight: 24px;
 						height: $dockiconbig;
 					}
 					&.running {
-						border-bottom-color: #36c;
+						border-bottom-color: #bbb;
+						&.active {
+							border-bottom-color: #36c;
+						}
 					}
 					&:not(.running) {
 						svg {

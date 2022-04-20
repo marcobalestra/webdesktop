@@ -138,7 +138,10 @@ const makeCalc = (co,$c) => {
 	$out.append($input);
 	$out.append('<div class="calc-error"></div>');
 	$c.append($out);
-	$c.on('click mouseover',()=>{ $input.focus() });
+	$c.on('click',()=>{ $input.focus() });
+	const $w = $c.closest('.mabro-window');
+	const $t = $c.closest('.mabro-wrap');
+	$c.on('mouseover',()=>{ if ( $t.hasClass('mabro-active') && $w.hasClass('mabro-active') ) $input.focus() });
 };
 
 const mPlus = ($c) => {

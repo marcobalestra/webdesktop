@@ -200,6 +200,14 @@ const getClass = async (mb) => {
 			}
 		};
 		existingStorages() { return existingStorages(); };
+		getDir(id) {
+			let d = this.#data.dirs[id];
+			if ( ! d ) return undefined;
+			d = JSON.parse(JSON.stringify(d));
+			d.id = id;
+			return d;
+		};
+		getRoot(){ return this.getDir( this.#data.root ) };
 	}
 	return FS;
 };

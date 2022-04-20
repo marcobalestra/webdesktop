@@ -174,6 +174,17 @@
 
 .mabro-main-container > .mabro-wrap.mabro-main-wrap > .mabro-wrap {
   overflow: visible;
+  background: none;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.mabro-main-container > .mabro-wrap.mabro-main-wrap > .mabro-wrap > * {
+  pointer-events: auto;
+}
+
+.mabro-main-container > .mabro-wrap.mabro-main-wrap > .mabro-wrap.mabro-active {
+  z-index: 1;
 }
 
 .mabro-main-container > .mabro-wrap.mabro-main-wrap > .mabro-wrap.mabro-active .mabro-app.mabro-window > .mabro-window-titlebar > .mabro-win-button {
@@ -295,6 +306,10 @@
 }
 
 .mabro-main-container > .mabro-wrap.mabro-dock-wrap > .mabro-dock-content > div.running {
+  border-bottom-color: #bbb;
+}
+
+.mabro-main-container > .mabro-wrap.mabro-dock-wrap > .mabro-dock-content > div.running.active {
   border-bottom-color: #36c;
 }
 

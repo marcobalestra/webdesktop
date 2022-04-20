@@ -400,7 +400,7 @@ const getClass = async (mb) => {
 			this.#prop.wins = this.#prop.wins.filter( w => ( w.wrap().attr('id') !== id ));
 			const fm = this.frontmostWindow();
 			if ( fm ) activateWindow( fm.wrap() );
-			else this.quit();
+			else if (! (this.#prop.system || this.#prop.manifest.windowless ) ) this.quit();
 		};
 		frontmostWindow() {
 			const wins = this.windows();
