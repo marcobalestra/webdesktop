@@ -179,7 +179,7 @@
   pointer-events: none;
 }
 
-.mabro-main-container > .mabro-wrap.mabro-main-wrap > .mabro-wrap > * {
+.mabro-main-container > .mabro-wrap.mabro-main-wrap > .mabro-wrap * {
   pointer-events: auto;
 }
 

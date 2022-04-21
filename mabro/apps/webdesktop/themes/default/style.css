@@ -1,15 +1,15 @@
-.mabro-webdesktop .wd-icon-big {
+.mabro-webdesktop .wd-icon {
   width: 48px;
   height: calc(48px + 24px);
   overflow: visible;
 }
 
-.mabro-webdesktop .wd-icon-big svg {
+.mabro-webdesktop .wd-icon svg {
   height: 48px;
   width: 48px;
 }
 
-.mabro-webdesktop .wd-icon-big > div {
+.mabro-webdesktop .wd-icon > div {
   width: calc(48px * 2);
   height: 24px;
   margin: 2px calc(48px * -0.5) 0 calc(48px * -0.5);
@@ -17,7 +17,7 @@
   text-align: center;
 }
 
-.mabro-webdesktop .wd-icon-big > div > label {
+.mabro-webdesktop .wd-icon > div > label {
   display: inline-block;
   margin: 0;
   padding: 0 4px;
@@ -30,5 +30,15 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.mabro-webdesktop .wd-icon.wd-selected {
+  background-color: white;
+}
+
+.mabro-webdesktop .wd-icon.wd-selected svg, .mabro-webdesktop .wd-icon.wd-selected > div > label {
+  background-color: white;
+  -webkit-filter: invert(1);
+          filter: invert(1);
 }
 /*# sourceMappingURL=style.css.map */

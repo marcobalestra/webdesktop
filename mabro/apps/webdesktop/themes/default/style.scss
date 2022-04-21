@@ -2,7 +2,7 @@ $colorbg: #f0f0f0;
 $iconsize: 48px;
 
 .mabro-webdesktop {
-	.wd-icon-big {
+	.wd-icon {
 		width: $iconsize;
 		height: calc(#{$iconsize} + 24px);
 		overflow: visible;
@@ -27,6 +27,13 @@ $iconsize: 48px;
 				white-space: nowrap;
 				overflow: hidden;
 				text-overflow: ellipsis;
+			}
+		}
+		&.wd-selected {
+			background-color: white;
+			svg, > div > label {
+				background-color: white;
+				filter: invert(1);
 			}
 		}
 	}

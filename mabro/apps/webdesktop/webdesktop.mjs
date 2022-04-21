@@ -8,20 +8,47 @@ const WDICON = class {
 	#prop;
 	constructor( options ) {
 		this.#prop = { options: options };
-		this.#prop.size = options.size||'big';
 		this.#prop.svg = options.svg||'-';
 		this.#prop.label = options.label||'No name';
 	};
 	get() {
-		if ( ! this.#prop.render ) this.#prop.render = WDICON.render(this.#prop);
+		if ( ! this.#prop.render ) this.#prop.render = WDICON.render(this,this.#prop);
 		return this.#prop.render;
 	};
-	static render(p) {
-		const $d = $(`<div class="wd-icon wd-icon-${p.size}"></div>`);
+	click(e) {
+		if ( e && typeof e === 'object' && e.target) {
+			e.preventDefault();
+			e.stopPropagation();
+		}
+		this.get().toggleClass('wd-selected');
+		if ( this.#prop.options.onclick ) this.#prop.options.onclick(e);
+	};
+	contextmenu(e) {
+		if ( e ) {
+			e.preventDefault();
+			e.stopPropagation();
+		};
+		if ( this.#prop.options.oncontextmenu ) this.#prop.options.oncontextmenu(e);
+	};
+	dblclick(e){
+		if ( e ) {
+			e.preventDefault();
+			e.stopPropagation();
+		};
+		this.get().removeClass('wd-selected');
+		if ( this.#prop.options.ondblclick ) this.#prop.options.ondblclick(e);
+	};
+	static render(obj,p) {
+		const $d = $(`<div class="wd-icon"></div>`);
 		$d.append( p.svg );
 		$d.append( $('<div></div>').append($('<label></label>').append(p.label )) );
 		$d.attr('title',p.label);
-		if ( p.options.id ) $d.attr('fsid',p.options.id);
+		if ( p.options.node ) $d.attr('fsid',p.options.node.id );
+		if ( p.options.css ) $d.css(p.options.css);
+		$d.on('click',(e)=>{ obj.click(e) });
+		$d.on('contextmenu',(e)=>{ obj.contextmenu(e) });
+		$d.on('dblclick',(e)=>{ obj.dblclick(e) });
+		if ( ! p.options.nodrag ) $d.attr('draggable',true);
 		return $d;
 	};
 };
@@ -41,11 +68,18 @@ const getClass = async (manifest) => {
 		async init() {
 			this.#fs = await this.#mb.getFs();
 			const root = this.#fs.getRoot();
-			this.#prop.mainicon = new WDICON({ label:root.name, svg: this.#prop.manifest.app_icon, size: 'big', id: root.id });
+			this.#prop.mainicon = new WDICON({
+				node : root,
+				label:root.name,
+				svg: this.#prop.manifest.app_icon,
+				id: root.id,
+				css : { position: 'absolute', top: '40px', right: '40px' },
+				ondblclick: ()=>{ this.openFolder( root.id) },
+				nodrag: true
+			});
 			const i = this.#prop.mainicon.get();
-			i.css({ position: 'absolute', top: '40px', right: '40px' });
-			i.on('dblclick',()=>{ this.openFolder( root.id) });
 			this.#wrap.append( i );
+			$('.mabro-main-wrap').on('click',()=>{ this.#wrap.children('.wd-icon').removeClass('wd-selected') });
 		};
 		async event(name,data) {
 			if ( name === 'run'|| name === 'activate' ) {

@@ -157,9 +157,7 @@ $windowitleheight: 24px;
 				background: none;
 				z-index: 0;
 				pointer-events: none;
-				> * {
-					pointer-events: auto;
-				}
+				* { pointer-events: auto; }
 				&.mabro-active {
 					z-index: 1;
 					.mabro-app.mabro-window {
