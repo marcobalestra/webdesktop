@@ -292,7 +292,7 @@ const getClass = async (manifest) => {
 				}
 				dlog.close();
 			};
-			$('input.wd-item-name',$c).val(data.name).on('change',()=>{ renameFunc() });
+			$('input.wd-item-name',$c).val(data.name);
 			$('button.btn-rename',$c).on('click',()=>{ renameFunc() });
 			dlog.body($c);
 			dlog.footer().remove();
@@ -320,7 +320,6 @@ const getClass = async (manifest) => {
 				dlog.close();
 			};
 			$('button.btn-create',$c).on('click',()=>{ createFunc() });
-			$('input.wd-item-name',$c).on('change',()=>{ createFunc() });
 			dlog.body($c);
 			dlog.footer().remove();
 			dlog.show( ()=>{ $('input.wd-item-name',$c).focus() } );
