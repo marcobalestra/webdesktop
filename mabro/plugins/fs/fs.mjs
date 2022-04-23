@@ -5,7 +5,7 @@ const initFs = async (mb) => {
 	}
 	const fs = await mb.getFs();
 	const es = fs.existingStorages();
-	if ( es.length == 1 ) {
+	if ( es.length === 1 ) {
 		fs.init(es[0]);
 		mb.start();
 		return;
@@ -14,7 +14,7 @@ const initFs = async (mb) => {
 	const $body = $dlog.body();
 	let secured = false;
 	let password = '';
-	if ( es.length == 0 ) {
+	if ( es.length === 0 ) {
 		$dlog.title(_l('StoragesNotFound'));
 	} else {
 		$dlog.title(_l('StoragesMultiFound'));
@@ -221,7 +221,7 @@ const getClass = async (mb) => {
 			if ( typeof data !== 'object' ) return;
 			if ( Array.isArray( data.dirs ) ) data.dirs.forEach( sd => { this.rmDir(sd) });
 			if ( Array.isArray( data.files ) ) data.files.forEach( f => { this.rmFile(f) });
-			if ( data.parent ) this.#data.dirs[data.parent].dirs = this.#data.dirs[data.parent].dirs.filter( x => ( x != id ));
+			if ( data.parent ) this.#data.dirs[data.parent].dirs = this.#data.dirs[data.parent].dirs.filter( x => ( x !== id ));
 			delete this.#data.dirs[id];
 			this.commit();
 		};
@@ -229,7 +229,7 @@ const getClass = async (mb) => {
 			if ( typeof id == 'object' && id.id ) id = id.id;
 			let data = this.#data.files[id];
 			if ( typeof data !== 'object' ) return;
-			if ( data.parent ) this.#data.dirs[data.parent].files = this.#data.dirs[data.parent].files.filter( x => ( x != id ));
+			if ( data.parent ) this.#data.dirs[data.parent].files = this.#data.dirs[data.parent].files.filter( x => ( x !== id ));
 			delete this.#data.files[id];
 			this.commit();
 		};

@@ -451,12 +451,24 @@ const getClass = async (manifest) => {
 			const o = type === 'folder' ? this.#fs.getDir(oid) : this.#fs.getFile(oid);
 			delete o.deleted;
 			const t = this.#fs.getTrash();
+			if ( ! this.#fs.getDir(o.parent) ) {
+				const root = this.#fs.getRoot();
+				o.parent = root.id;
+				if ( type === 'folder') {
+					if ( ! root.dirs ) root.dirs = [];
+					root.dirs.push(o.id);
+				} else {
+					if ( ! root.files ) root.files = [];
+					root.files.push(o.id);
+				}
+				this.#fs.setDir(root);
+			}
 			if ( type === 'folder' ){
 				this.#fs.setDir(o);
-				t.dirs = t.dirs.filter( id => ( id != oid ));
+				t.dirs = t.dirs.filter( id => ( id !== oid ));
 			} else {
 				this.#fs.setFile(o);
-				t.files = t.files.filter( id => ( id != oid ));
+				t.files = t.files.filter( id => ( id !== oid ));
 			}
 			this.#fs.setDir(t);
 			this.refreshWindowByFsid(o.parent);
