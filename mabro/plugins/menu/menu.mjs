@@ -14,7 +14,7 @@ const handleMenu = (me,funcarray) => {
 	me.stopPropagation();
 	let $p = $(me.target);
 	if ( ! $p.hasClass('mabro-menu-toggler')) $p = $p.closest('.mabro-menu-toggler');
-	const obj = {highlight:$p,parent:$p,type:"menu"};
+	const obj = {highlight:$p,parent:$p,type:"menu",sticky:false};
 	if ( typeof funcarray === 'function' ) {
 		funcarray().then( items => {
 			obj.content = items;

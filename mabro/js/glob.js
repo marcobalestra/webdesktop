@@ -598,7 +598,7 @@ glob.menu = (ev,menu)=>{
 			left = Math.ceil( pos.left + $parent.outerWidth() - $cm.width() +1);
 		}
 	} else if ( menu.type == 'menu' ) {
-		menu.sticky = true;
+		if ( typeof menu.sticky === 'undefined' ) menu.sticky = true;
 		if ( ! menu.parent ) menu.parent = menu.highlight||'a';
 		const $parent = $(ev.target).closest(menu.parent);
 		$parent.addClass('mabro-menu-highlight-element')

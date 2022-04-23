@@ -235,6 +235,14 @@ const getClass = async (mb) => {
 		};
 		getRoot(){ return this.getDir( this.#data.root ) };
 		getTrash(){ return this.getDir( this.#data.trash ) };
+		listAncestors( id, list ) {
+			if ( typeof list === 'undefined' ) list = [];
+			else list.push(id);
+			const o = this.#data.dirs[id];
+			if ( o.parent ) return this.listAncestors( o.parent, list )
+			return list;
+		};
+		dump() { console.log( this.#data ); }
 	}
 	return FS;
 };

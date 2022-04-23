@@ -193,4 +193,21 @@
   -webkit-filter: invert(1);
           filter: invert(1);
 }
+
+.mabro-webdesktop .wd-ok-dragover.wd-folder-window {
+  -webkit-box-shadow: 0 0 2px 2px #fff, 4px 4px 16px 4px #00000066 !important;
+          box-shadow: 0 0 2px 2px #fff, 4px 4px 16px 4px #00000066 !important;
+}
+
+.mabro-webdesktop .wd-ok-dragover.wd-folder-window .mabro-window-content {
+  -webkit-filter: unset !important;
+          filter: unset !important;
+  outline: solid 3px #0ff;
+}
+
+.mabro-webdesktop .wd-ok-dragover.wd-icon > div.icon, .mabro-webdesktop .wd-ok-dragover.wd-icon > div > label {
+  background-color: white;
+  -webkit-filter: invert(1);
+          filter: invert(1);
+}
 /*# sourceMappingURL=style.css.map */
