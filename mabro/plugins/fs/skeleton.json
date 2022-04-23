@@ -1,8 +1,11 @@
 {
 	"dirs": {
-		"dir49927121-d3f4-4a5d-a62a-fe0a1cf2f983":{"name":"Archive"}
+		"dir-wd-root":{"name":"Archive","role":"root"},
+		"dir-wd-trash":{"name":"Trash","role":"trash"}
 	},
 	"files":{},
 	"apps":["calc"],
-	"root":"dir49927121-d3f4-4a5d-a62a-fe0a1cf2f983","prefs":{}
+	"root":"dir-wd-root",
+	"trash":"dir-wd-trash",
+	"prefs":{}
 }

@@ -36,6 +36,11 @@ if ( ! Array.prototype.forEachAwait ) Array.prototype.forEachAwait = async funct
 	return this;
 };
 
+Array.prototype.cisort = function( name ) {
+	if ( name ) return this.sort( (a,b)=>(a[name].toLowerCase() > b[name].toLowerCase() ? 1 : -1) );
+	return this.sort( (a,b)=>(a.toLowerCase() > b.toLowerCase() ? 1 : -1) );
+};
+
 glob.clone = (so) => {
 	if ( so ) {
 		if ( Array.isArray(so) ) {

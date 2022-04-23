@@ -3,16 +3,29 @@ $iconsize: 48px;
 
 .mabro-webdesktop {
 	.wd-icon {
-		width: $iconsize;
-		height: calc(#{$iconsize} + 24px);
+		width: fit-content;
+		height: fit-content;
 		overflow: visible;
+		padding: 2px 2px 0 2px;
 		svg {
+			height: 100%;
+			width: 100%;
+		}
+		> div.icon {
 			height: $iconsize;
 			width: $iconsize;
+			position: relative;
+			> .sub-icon {
+				position: absolute;
+				right: 0;
+				bottom: 0;
+				width: calc(#{$iconsize} / 2);
+				height: calc(#{$iconsize} / 2);
+			}
 		}
-		> div {
+		> div.label {
 			width: calc(#{$iconsize} * 2);
-			height: 24px;
+			height: 8px;
 			margin: 2px calc(#{$iconsize} * -0.5) 0 calc(#{$iconsize} * -0.5);
 			padding: 0;
 			text-align: center;
@@ -30,11 +43,112 @@ $iconsize: 48px;
 			}
 		}
 		&.wd-selected {
-			background-color: white;
-			svg, > div > label {
+			background-color: #000;
+			>div.icon, > div > label {
 				background-color: white;
 				filter: invert(1);
 			}
+		}
+	}
+	.wd-folder-window {
+		.wd-nav-bar {
+			background-color: #f0f0f0;
+			margin: 0 0 8px 0;
+			height: 20px;
+			border-bottom: solid 1px #ccc;
+			padding: 0;
+			.btn-group {
+				padding: 0 4px;
+				border: none;
+				margin: 1px;
+				height: 18px;
+				.btn {
+					border: none;
+					position: relative;
+					padding: 0;
+					margin: 0;
+					width: 24px;
+					height: 18px;
+					fill: #999;
+					box-shadow: none !important;
+					svg {
+						position: absolute;
+						top: 1px;
+						left: 4px;
+						height: 16px;
+						width: 16px;
+					}
+					&:disabled {
+						fill: #ccc;
+					}
+					&.active {
+						background-color: #666;
+						fill: #fff;
+						cursor: default;
+					}
+				}
+			}
+		}
+		.wd-content-thumbnails {
+			margin: 4px 18px;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: flex-start;
+			align-items: baseline;
+			align-content: flex-start;
+			row-gap: 12px;
+  			column-gap: 24px;
+		}
+		.wd-content-list {
+			margin: 4px;
+			.wd-icon {
+				width: 100%;
+				display: flex;
+				flex-wrap: nowrap;
+				align-items: center;
+				align-content: flex-start;
+				column-gap: 8px;
+				padding: 2px;
+				svg {
+					height: 100%;
+					width: 100%;
+				}
+				> div.icon {
+					height: calc(#{$iconsize} / 2);
+					width: calc(#{$iconsize} / 2);
+					position: relative;
+					> .sub-icon {
+						position: absolute;
+						right: 0;
+						bottom: 0;
+						width: calc(#{$iconsize} / 4);
+						height: calc(#{$iconsize} / 4);
+					}
+				}
+				> div.label {
+					width: 100%;
+					height: unset;
+					margin: unset;
+					padding: 2px 0 0 0;
+					text-align: left;
+					> label {
+						display: block;
+						margin: 0;
+						padding: 0;
+						font-size: 90%;
+						white-space: nowrap;
+						overflow: hidden;
+						text-overflow: ellipsis;
+					}
+				}
+				&.wd-selected {
+					background-color: #000;
+					>div.icon, > div > label {
+						background-color: white;
+						filter: invert(1);
+					}
+				}
+			}	
 		}
 	}
 }

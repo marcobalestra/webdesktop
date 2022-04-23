@@ -207,7 +207,34 @@ const getClass = async (mb) => {
 			d.id = id;
 			return d;
 		};
+		setDir( data ) {
+			if ( ! ( data.id && data.name ) ) return;
+			let d = JSON.parse(JSON.stringify(data));
+			let id = d.id;
+			delete d.id;
+			this.#data.dirs[id] = d;
+			this.commit();
+		};
+		rmDir( id ) {
+			if ( typeof id == 'object' && id.id ) id = id.id;
+			let data = this.#data.dirs[id];
+			if ( typeof data !== 'object' ) return;
+			if ( Array.isArray( data.dirs ) ) data.dirs.forEach( sd => { this.rmDir(sd) });
+			if ( Array.isArray( data.files ) ) data.files.forEach( f => { this.rmFile(f) });
+			if ( data.parent ) this.#data.dirs[data.parent].dirs = this.#data.dirs[data.parent].dirs.filter( x => ( x != id ));
+			delete this.#data.dirs[id];
+			this.commit();
+		};
+		rmFile( id ) {
+			if ( typeof id == 'object' && id.id ) id = id.id;
+			let data = this.#data.files[id];
+			if ( typeof data !== 'object' ) return;
+			if ( data.parent ) this.#data.dirs[data.parent].files = this.#data.dirs[data.parent].files.filter( x => ( x != id ));
+			delete this.#data.files[id];
+			this.commit();
+		};
 		getRoot(){ return this.getDir( this.#data.root ) };
+		getTrash(){ return this.getDir( this.#data.trash ) };
 	}
 	return FS;
 };

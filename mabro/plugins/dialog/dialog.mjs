@@ -39,10 +39,11 @@ const getClass = async (mb) => {
 		title(data) { const $b = $('.modal-title',this.getter()); return ( typeof data === 'undefined' ? $b : $b.empty().append(this.#prop.title = data) ) };
 		footer(data) { const $b = $('.modal-footer',this.getter()); return ( typeof data === 'undefined' ? $b : $b.empty().append(this.#prop.footer = data) ) };
 		tooltip(data) { const $b = $(this.getter()); return ( typeof data === 'undefined' ? $b.attr('aria-labelledby') : $b.attr('aria-labelledby',this.#prop.tooltip = data) ) };
-		show() {
+		show( func ) {
 			$(`.mabro-global-system-modal`,document.body).remove();
 			const $d = this.getter();
 			$(document.body).append($d);
+			if ( typeof func === 'function') $d.on('shown.bs.modal',()=>{ func() });
 			$d.modal('show');
 		};
 		open() { this.show() };

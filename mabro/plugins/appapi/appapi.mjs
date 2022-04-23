@@ -161,7 +161,7 @@ const MBW = class {
 	static parseLeft = (val) => {
 		if ( typeof val === 'undefined' ) {
 			val = MBWstatic.next.left + MBWstatic.next.step;
-			if ( val >= (parseInt(window.innerWidth) / 2) ) val = MBWstatic.next.step;
+			if ( val >= (parseInt(window.innerWidth) / 2) ) val = MBWstatic.next.top = MBWstatic.next.step;
 			MBWstatic.next.left = val;
 		}
 		return MBW.parseSize(val);
@@ -174,7 +174,7 @@ const MBW = class {
 	static parseTop = (val) => {
 		if ( typeof val === 'undefined' ) {
 			val = MBWstatic.next.top + MBWstatic.next.step;
-			if ( val >= (parseInt(window.innerHeight) / 2) ) val = MBWstatic.next.step;
+			if ( val >= (parseInt(window.innerHeight) / 2) ) val = MBWstatic.next.left = MBWstatic.next.step;
 			MBWstatic.next.top = val;
 		}
 		return MBW.parseSize(val);
@@ -265,6 +265,7 @@ const API = class {
 		if ( typeof this.#app.init === 'function' ) setTimeout( ()=>{ this.#app.init() }, 100 );
 		return this.#sys.wrap();
 	};
+	async dialog( options ) { return await this.#sys.dialog(options); };
 	windows() { return this.#sys.windows(); };
 	frontmostWindow() { return this.#sys.frontmostWindow() };
 	wrap() { return this.#sys.wrap(); };
@@ -460,6 +461,7 @@ const getClass = async (mb) => {
 			}
 			return this.#prop.wrap;
 		};
+		async dialog( options ) { return await this.#prop.mb.dialog(options); };
 	};
 	return SYSAPI;
 };

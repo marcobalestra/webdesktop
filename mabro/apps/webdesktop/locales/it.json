@@ -1,2 +1,14 @@
 {
+	"wd-empty-trash" :"Vuota il cestino",
+	"wd-folder-create" : "Nuova cartella",
+	"wd-item-create" : "Crea",
+	"wd-item-rename" : "Rinomina",
+	"wd-move-to-trash": "Cestina",
+	"wd-open-info" : "Informazioni…",
+	"wd-open-trash" :"Apri il cestino",
+	"wd-open-folder" : "Apri la cartella",
+	"wd-parent-folder" : "Cartella superiore",
+	"wd-trash-putback" : "Rimetti a posto",
+	"wd-view-thumbnails" : "Vista a icone",
+	"wd-view-list" : "Vista a elenco"
 }

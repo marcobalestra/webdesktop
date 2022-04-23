@@ -1,2 +1,14 @@
 {
+	"wd-empty-trash" :"Empty trash",
+	"wd-folder-create" : "New folder",
+	"wd-item-create" : "Create",
+	"wd-item-rename" : "Rename",
+	"wd-move-to-trash": "Move to trash",
+	"wd-open-info" : "Get info…",
+	"wd-open-trash" :"Open trash",
+	"wd-open-folder" : "Open folder",
+	"wd-parent-folder" : "Open parent folder",
+	"wd-trash-putback" : "Put back",
+	"wd-view-thumbnails" : "View as icons",
+	"wd-view-list" : "View as list"
 }

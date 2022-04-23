@@ -87,7 +87,7 @@ const getClass = async (mb) => {
 		};
 		async init() {
 			if ( ! glob.localize.loaded ) {
-				setTimeout( ()=>{ this.init(mb);}, 100 );
+				setTimeout( ()=>{ this.init();}, 100 );
 				return;
 			}
 			this.#prop.menus = await buildMabroMenu(this.#prop.target,mb);
