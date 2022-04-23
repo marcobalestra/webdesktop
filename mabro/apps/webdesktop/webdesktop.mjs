@@ -83,8 +83,7 @@ const makeFolderWindow = ( wobj,folder ) => {
 	$c.on('click',( e )=>{
 		e.preventDefault();
 		e.stopPropagation();
-		$(`.wd-icon:not([fsid="${folder.id}"])`,$w.closest('.mabro-wrap')).removeClass('wd-selected');
-		$(`.wd-icon[fsid="${folder.id}"]`,$w.closest('.mabro-wrap')).addClass('wd-selected');
+		cache.wd.selectIconByFsId(folder.id);
 	});
 	if ( folder.role === 'trash' ) $w.on('contextmenu',(e)=>{ trashCM(e) });
 	else $w.on('contextmenu',(e)=>{ folderCM(e) });
@@ -165,8 +164,7 @@ const WDICON = class {
 			e.preventDefault();
 			e.stopPropagation();
 		};
-		const $w = this.get();
-		$(`.wd-icon`,$w.closest('.mabro-wrap')).removeClass('wd-selected');
+		cache.wd.selectIconByFsId();
 		if ( this.#prop.options.oncontextmenu ) this.#prop.options.oncontextmenu(e);
 		else if  ( this.#prop.type === 'folder' ) folderCM(e);
 	};
@@ -175,8 +173,7 @@ const WDICON = class {
 			e.preventDefault();
 			e.stopPropagation();
 		};
-		const $w = this.get();
-		$(`.wd-icon`,$w.closest('.mabro-wrap')).removeClass('wd-selected');
+		cache.wd.selectIconByFsId();
 		if ( this.#prop.options.ondblclick ) this.#prop.options.ondblclick(e);
 		else if ( this.#prop.type === 'folder' && this.#prop.options.node ) cache.wd.openFolder( this.#prop.options.node.id );
 	};
@@ -242,7 +239,7 @@ const getClass = async (manifest) => {
 				nodrag: true
 			});
 			this.#wrap.append( this.#prop.trashicon.get() );
-			$('.mabro-main-wrap').on('click',()=>{ this.#wrap.children('.wd-icon').removeClass('wd-selected') });
+			$('.mabro-main-wrap').on('click',()=>{ this.selectIconByFsId() });
 		};
 		async event(name,data) {
 			if ( name === 'run'|| name === 'activate' ) {
@@ -357,8 +354,7 @@ const getClass = async (manifest) => {
 			this.#fs.setDir(t);
 			this.refreshWindowByFsid(o.parent);
 			this.refreshWindowByFsid(t.id);
-			$(`.wd-icon`,this.#wrap).removeClass('wd-selected');
-			$(`.wd-icon[fsid="${o.id}"]`,this.#wrap).addClass('wd-selected');
+			this.selectIconByFsId(o.id);
 		};
 		emptyTrash() {
 			const t = this.#fs.getTrash();
@@ -368,7 +364,15 @@ const getClass = async (manifest) => {
 			delete t.files;
 			this.#fs.setDir(t);
 			this.closeWindowByFsid(t.id);
-			$(`.wd-icon`,this.#wrap).removeClass('wd-selected');
+			this.selectIconByFsId();
+		};
+		selectIconByFsId( fsid ) {
+			if ( fsid ) {
+				$(`.wd-icon:not([fsid="${fsid}"])`,this.#wrap).removeClass('wd-selected');
+				$(`.wd-icon[fsid="${fsid}"]`,this.#wrap).addClass('wd-selected');
+			} else {
+				$(`.wd-icon`,this.#wrap).removeClass('wd-selected');
+			}
 		};
 		closeWindowByFsid( fsid ) {
 			$(`.wd-folder-window[fsid="${fsid}"]`,this.#wrap).each( (idx,w)=>{ this.#api.closeWindow( $(w).attr('id') ); });
