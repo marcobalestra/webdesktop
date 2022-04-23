@@ -49,7 +49,6 @@ const iconDrag = {
 		iconDrag.data = {};
 	},
 	start : (e,$i,obj) => {
-		const tgt = e.target;
 		iconDrag.data.j = $i;
 		iconDrag.data.element = $i.get(0);
 		iconDrag.data.data = obj;
@@ -91,12 +90,12 @@ const iconDrag = {
 		delete ele.deleted;
 		ele.parent = tgt.id;
 		if ( type === 'file' ) {
-			parent.files = parent.files.filter( x => (x != ele.id));
+			parent.files = parent.files.filter( x => (x !== ele.id));
 			if ( ! Array.isArray( tgt.files )) tgt.files = [];
 			tgt.files.push(ele.id);
 			cache.fs.setFile(ele);
 		} else {
-			parent.dirs = parent.dirs.filter( x => (x != ele.id));
+			parent.dirs = parent.dirs.filter( x => (x !== ele.id));
 			if ( ! Array.isArray( tgt.dirs )) tgt.dirs = [];
 			tgt.dirs.push(ele.id);
 			cache.fs.setDir(ele);
@@ -150,7 +149,7 @@ const getFolderToolbar = (w,f) => {
 };
 
 const makeFolderWindow = ( wobj,folder ) => {
-	if ( wobj instanceof jQuery ) wobj = cache.wd.winById( (wobj.hasClass('mabro-window') ? wobj : wobj.closest('.mabro-window')).attr('id') );
+	if ( wobj instanceof jQuery ) wobj = cache.wd.winById( wobj.closest('.mabro-window').attr('id') );
 	const $w = wobj.wrap();
 	if ( typeof folder === 'undefined' ) {
 		folder = cache.fs.getDir( $w.attr('fsid') );
@@ -163,7 +162,7 @@ const makeFolderWindow = ( wobj,folder ) => {
 	$c.append( $('<div class="wd-nav-bar"></div>').append( getFolderToolbar(wobj,folder) ) );
 	const $list = $(`<div class="wd-content wd-content-${wdata.view||'thumbnails'}"></div>`);
 	if ( Array.isArray(folder.dirs) ) folder.dirs.map( d => cache.fs.getDir(d) ).cisort('name').forEach( d => {
-		if ( d.deleted && folder.role !== 'trash'  ) return;
+		if ( !d || (d.deleted && folder.role !== 'trash')  ) return;
 		const i = new WDICON({
 			node : d,
 			type: 'folder',
@@ -267,7 +266,7 @@ const WDICON = class {
 		if ( e ) {
 			e.preventDefault();
 			e.stopPropagation();
-		};
+		}
 		cache.wd.selectIconByFsId();
 		if ( this.#prop.options.oncontextmenu ) this.#prop.options.oncontextmenu(e);
 		else if  ( this.#prop.type === 'folder' ) folderCM(e);

@@ -10,8 +10,8 @@ const activateWindow = ( $w ) => {
 		activateDocument($w,id,uri);
 	} else {
 		$(`.mabro-app.mabro-wrap:not([for="${uri}"])`).removeClass('mabro-active').addClass('mabro-inactive');
-		if ( uri.endsWith('/webdestop/') ) $(`.mabro-app.mabro-wrap:not([for="${uri}"])`).hide();
-		$(`.mabro-app.mabro-wrap[for="${uri}"]`).addClass('mabro-active').show();
+		//if ( uri.endsWith('/webdesktop/') ) $(`.mabro-app.mabro-wrap:not([for="${uri}"])`).hide();
+		$(`.mabro-app.mabro-wrap[for="${uri}"]`).addClass('mabro-active');
 		dd.activeApp = uri;
 		if ( $(`.mabro-app.mabro-window[for="${uri}"]`).length > 1 ) {
 			$(document.body).data('mabro',dd);
@@ -30,7 +30,7 @@ const activateDocument = ($w,id,uri) => {
 	if ( typeof id === 'undefined') id = $w.attr('id');
 	if ( typeof uri === 'undefined') uri = $w.attr('for');
 	const dd = $(document.body).data('mabro');
-	if ( dd.activeWindow == id ) return;
+	if ( dd.activeWindow === id ) return;
 	const $ws = $(`.mabro-app.mabro-window[for="${uri}"]`);
 	if ( $ws.length < 2 ) {
 		$w.addClass('mabro-active');
@@ -340,7 +340,7 @@ const getClass = async (mb) => {
 						await this.#prop.mb.loadCSS( u );
 					});
 				}
-				if (m.script.includes('<mjs_suffix>')) m.script = m.script.replace(/\<mjs_suffix\>/,this.#prop.mb.getProp('mjs_suffix'));
+				if (m.script.includes('<mjs_suffix>')) m.script = m.script.replace(/<mjs_suffix>/,this.#prop.mb.getProp('mjs_suffix'));
 				let mod,cl;
 				try {
 					mod = await import(`${m.base_uri}${m.script}`);
@@ -355,7 +355,7 @@ const getClass = async (mb) => {
 						console.log("Error loading app class",m,e);
 					}
 				}
-			};
+			}
 			if ( this.#prop.classfunc ) {
 				if ( ! this.#api ) this.#api = new API(this);
 				try {
@@ -363,7 +363,7 @@ const getClass = async (mb) => {
 				} catch(e) {
 					console.log("Error loading app",e);
 				}
-			};
+			}
 			if ( this.#app ) {
 				if ( typeof this.#app.event === 'function' ) this.#prop.events = true;
 				this.makeMenuBar();
@@ -407,7 +407,7 @@ const getClass = async (mb) => {
 		frontmostWindow() {
 			const wins = this.windows();
 			if ( ! wins.length ) return undefined;
-			if ( wins.length == 1 ) return wins[0];
+			if ( wins.length === 1 ) return wins[0];
 			let dw,w,z=-1;
 			wins.forEach( wi => {
 				if ( dw ) return;
@@ -428,7 +428,7 @@ const getClass = async (mb) => {
 			let w;
 			wins.forEach( wi => {
 				if ( w ) return;
-				if ( wi.wrap().attr('id') == id ) w = wi;
+				if ( wi.wrap().attr('id') === id ) w = wi;
 			});
 			return w;
 		};

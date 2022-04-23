@@ -17,7 +17,6 @@
   background-position: 0 50%;
   background-color: #f0f0f0;
 }
-
 .mabro-main-container > .mabro-wrap.mabro-menubar-wrap {
   bottom: unset;
   height: 32px;
@@ -27,92 +26,63 @@
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAGCAMAAACVUWztAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo5RjRDQUNGNkIzNDUxMUVDQTA5MEIwNjdCQTlEMzEzMSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo5RjRDQUNGN0IzNDUxMUVDQTA5MEIwNjdCQTlEMzEzMSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjlGNENBQ0Y0QjM0NTExRUNBMDkwQjA2N0JBOUQzMTMxIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjlGNENBQ0Y1QjM0NTExRUNBMDkwQjA2N0JBOUQzMTMxIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+eCSqfQAAAA9QTFRF/Pz88vLy6enp5eXl////N90EpgAAAAV0Uk5T/////wD7tg5TAAAAKklEQVR42mJgQQYMjExMjAyoQig8RmYgYMSjgAmkgIkSBQStwOJIgAADAA39ArnMynelAAAAAElFTkSuQmCC");
   background-position: 10px 50%;
   background-repeat: repeat-x;
-  -webkit-box-shadow: 0 0 1px 1px #ccc;
-          box-shadow: 0 0 1px 1px #ccc;
-  display: -webkit-box;
-  display: -ms-flexbox;
+  box-shadow: 0 0 1px 1px #ccc;
   display: flex;
-  -ms-flex-wrap: nowrap;
-      flex-wrap: nowrap;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
-  font-family: 'Roboto Condensed', sans-serif;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  font-family: "Roboto Condensed", sans-serif;
 }
-
 .mabro-main-container > .mabro-wrap.mabro-menubar-wrap .mabro-menu-toggler {
   padding: 4px 8px;
   min-width: 32px;
   height: 32px;
   margin: 0 4px;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   background-color: white;
 }
-
 .mabro-main-container > .mabro-wrap.mabro-menubar-wrap .mabro-menu-toggler > svg {
   fill: #000;
 }
-
 .mabro-main-container > .mabro-wrap.mabro-menubar-wrap .mabro-menu-toggler > label {
   color: #000;
-  margin: 0 0 .5rem 0;
-  padding: 0 .5rem 0 0;
+  margin: 0 0 0.5rem 0;
+  padding: 0 0.5rem 0 0;
 }
-
 .mabro-main-container > .mabro-wrap.mabro-menubar-wrap > .mabro-menubar-content {
   width: 100%;
 }
-
 .mabro-main-container > .mabro-wrap.mabro-menubar-wrap > .mabro-menubar-content > div {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: nowrap;
-      flex-wrap: nowrap;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
 }
-
 .mabro-main-container > .mabro-wrap.mabro-menubar-wrap .mabro-menu-bars > .mabro-menu-bar[for] {
   display: none;
 }
-
 .mabro-main-container > .mabro-wrap.mabro-menubar-wrap .mabro-menu-bars > .mabro-menu-bar[for].mabro-active {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
 }
-
 .mabro-main-container > .mabro-wrap.mabro-menubar-wrap .mabro-menu-bars > .mabro-menu-bar[for] .mabro-menu-toggler {
   margin: 0;
 }
-
 .mabro-main-container > .mabro-wrap.mabro-main-wrap {
   top: 32px;
   bottom: 44px;
   z-index: 1;
 }
-
 .mabro-main-container > .mabro-wrap.mabro-main-wrap .mabro-app.mabro-window {
   position: absolute;
-  background-color: white;
   overflow: hidden;
   border-radius: 4px;
   border: solid 1px #999;
   background-color: #ddd;
 }
-
 .mabro-main-container > .mabro-wrap.mabro-main-wrap .mabro-app.mabro-window.mabro-active {
   z-index: 1;
 }
-
 .mabro-main-container > .mabro-wrap.mabro-main-wrap .mabro-app.mabro-window.mabro-inactive {
   z-index: 0;
 }
-
 .mabro-main-container > .mabro-wrap.mabro-main-wrap .mabro-app.mabro-window.mabro-fullscreen {
   position: absolute;
   top: 0;
@@ -121,7 +91,6 @@
   bottom: 0;
   border-radius: 0;
 }
-
 .mabro-main-container > .mabro-wrap.mabro-main-wrap .mabro-app.mabro-window > .mabro-window-titlebar {
   position: absolute;
   left: 0;
@@ -131,11 +100,10 @@
   text-align: center;
   padding: 0 24px;
 }
-
 .mabro-main-container > .mabro-wrap.mabro-main-wrap .mabro-app.mabro-window > .mabro-window-titlebar > label {
   display: inline-block;
   height: 24px;
-  font-family: 'Roboto Condensed', sans-serif;
+  font-family: "Roboto Condensed", sans-serif;
   margin: 0 6px;
   padding: 0 calc( 2 * 6px);
   background-color: #ddd;
@@ -145,7 +113,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
 .mabro-main-container > .mabro-wrap.mabro-main-wrap .mabro-app.mabro-window .mabro-win-button {
   position: absolute;
   width: 24px;
@@ -155,169 +122,123 @@
   background-repeat: no-repeat;
   display: none;
 }
-
 .mabro-main-container > .mabro-wrap.mabro-main-wrap .mabro-app.mabro-window > .mabro-window-content {
   margin: 0;
   padding: 0;
   background-color: #fff;
-  -webkit-box-shadow: 0 0 0 1px #aaa;
-          box-shadow: 0 0 0 1px #aaa;
+  box-shadow: 0 0 0 1px #aaa;
   position: absolute;
   top: 24px;
   left: 6px;
   right: 6px;
   bottom: 6px;
   overflow: hidden;
-  -webkit-filter: grayscale(80%) opacity(80%);
-          filter: grayscale(80%) opacity(80%);
+  filter: grayscale(80%) opacity(80%);
 }
-
 .mabro-main-container > .mabro-wrap.mabro-main-wrap > .mabro-wrap {
   overflow: visible;
   background: none;
   z-index: 0;
   pointer-events: none;
 }
-
 .mabro-main-container > .mabro-wrap.mabro-main-wrap > .mabro-wrap * {
   pointer-events: auto;
 }
-
 .mabro-main-container > .mabro-wrap.mabro-main-wrap > .mabro-wrap.mabro-active {
   z-index: 1;
 }
-
 .mabro-main-container > .mabro-wrap.mabro-main-wrap > .mabro-wrap.mabro-active .mabro-app.mabro-window > .mabro-window-titlebar > .mabro-win-button {
   top: 0;
 }
-
 .mabro-main-container > .mabro-wrap.mabro-main-wrap > .mabro-wrap.mabro-active .mabro-app.mabro-window > .mabro-window-titlebar > .mabro-win-button.mabro-close-button {
   left: 0;
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2hpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDowMzgwMTE3NDA3MjA2ODExODIyQUUwQUFDRUQ0RjM0MSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpBRjI0RTQ3NkI3NEMxMUVDQTEwOEJFMUJERTg2QUY1NSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpBRjI0RTQ3NUI3NEMxMUVDQTEwOEJFMUJERTg2QUY1NSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M2IChNYWNpbnRvc2gpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MDk4MDExNzQwNzIwNjgxMTgyMkFFMEFBQ0VENEYzNDEiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MDM4MDExNzQwNzIwNjgxMTgyMkFFMEFBQ0VENEYzNDEiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz76yKKrAAAAOklEQVR42mL8//8/AyWABUQwMjI6kKMZaPkBFmQOKZphljIxUAhGDRg1YHAYwIKetkkFjJRmZ4AAAwCiDQ5iEMwU3gAAAABJRU5ErkJggg==");
 }
-
 .mabro-main-container > .mabro-wrap.mabro-main-wrap > .mabro-wrap.mabro-active .mabro-app.mabro-window > .mabro-window-titlebar > .mabro-win-button.mabro-close-button:hover {
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2hpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDowMzgwMTE3NDA3MjA2ODExODIyQUUwQUFDRUQ0RjM0MSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDowNDU5NzJGQkI3NEQxMUVDQTEwOEJFMUJERTg2QUY1NSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDowNDU5NzJGQUI3NEQxMUVDQTEwOEJFMUJERTg2QUY1NSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M2IChNYWNpbnRvc2gpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MEE4MDExNzQwNzIwNjgxMTgyMkFFMEFBQ0VENEYzNDEiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MDM4MDExNzQwNzIwNjgxMTgyMkFFMEFBQ0VENEYzNDEiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5OmX+aAAABO0lEQVR42qRTzaqCYBQcxQcIIrdufajKLCQRWhjlQiRaqiuXQuoyBXuoNu19gH5u54Bcvem9dJuFBz+YOfOdM5/weDzwCST6CIKw/w/52XwvNX7eIj+bchWbh8PhEFEU9ZKOxyNGoxGu12v7CjXCMIRhGLjf71iv1y1ynufQdR1pmkKSpG6BxWLB5OVyyXWz2fB5URSYzWZMHo/Hr0NsghzcbjdYlsUiiqJA0zQcDocXcqcAwTRNFlmtVhBFEVmWYTqdds5F7BuYLMtMJheXy+X3HPxEWZZsN0kSVFUF27Z5za7r/i1A5MlkgjiOeXB1Rmgr5MbzvH6B0+nEnYlMK6tBDmgm2+2WRXa73XegSJ2iTFVVVTiOg/l83nnfIAjg+z7O5zMGgwFHuSXwbpRbb6HO9rsQPn3OXwIMAFXslHWdHXbIAAAAAElFTkSuQmCC");
 }
-
 .mabro-main-container > .mabro-wrap.mabro-main-wrap > .mabro-wrap.mabro-active .mabro-app.mabro-window > .mabro-window-titlebar > .mabro-win-button.mabro-zoom-button {
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2hpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDowMzgwMTE3NDA3MjA2ODExODIyQUUwQUFDRUQ0RjM0MSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpBRjI0RTQ2RUI3NEMxMUVDQTEwOEJFMUJERTg2QUY1NSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo0QkQzODRCNkI3MjgxMUVDQTEwOEJFMUJERTg2QUY1NSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M2IChNYWNpbnRvc2gpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MDg4MDExNzQwNzIwNjgxMTgyMkFFMEFBQ0VENEYzNDEiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MDM4MDExNzQwNzIwNjgxMTgyMkFFMEFBQ0VENEYzNDEiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz426/4GAAAASUlEQVR42mL6//8/AyWYhQEIGBkZHRjIAEADDrAg8Q+QqB9sKRMDhWAYGMCCHig4wAFiDDiAL7SHcSAOnWjEKccIypKUAIAAAwCFhzp3E+tViQAAAABJRU5ErkJggg==");
   right: 0;
 }
-
 .mabro-main-container > .mabro-wrap.mabro-main-wrap > .mabro-wrap.mabro-active .mabro-app.mabro-window > .mabro-window-titlebar > .mabro-win-button.mabro-zoom-button:hover {
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2hpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDowMzgwMTE3NDA3MjA2ODExODIyQUUwQUFDRUQ0RjM0MSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpBRjI0RTQ3MkI3NEMxMUVDQTEwOEJFMUJERTg2QUY1NSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpBRjI0RTQ3MUI3NEMxMUVDQTEwOEJFMUJERTg2QUY1NSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M2IChNYWNpbnRvc2gpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MDg4MDExNzQwNzIwNjgxMTgyMkFFMEFBQ0VENEYzNDEiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MDM4MDExNzQwNzIwNjgxMTgyMkFFMEFBQ0VENEYzNDEiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5hWT1FAAAARklEQVR42mL8//8/AyWABUQwMjI2kKMZaHkDCxKfVEPA6pkYKATDwABiA7GBoAG40gMwiod7IA6iaCQQ2jijkZHS7AwQYABZWQ+m");
 }
-
 .mabro-main-container > .mabro-wrap.mabro-main-wrap > .mabro-wrap.mabro-active .mabro-app.mabro-window.mabro-active {
-  -webkit-box-shadow: 4px 4px 16px 4px #00000066;
-          box-shadow: 4px 4px 16px 4px #00000066;
+  box-shadow: 4px 4px 16px 4px #00000066;
   background-color: #ccc;
 }
-
 .mabro-main-container > .mabro-wrap.mabro-main-wrap > .mabro-wrap.mabro-active .mabro-app.mabro-window.mabro-active > .mabro-window-titlebar {
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2hpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDpGNzdGMTE3NDA3MjA2ODExODIyQUEzNjg5ODQwNUJEMSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDowQUVCOEI4MkI3NEUxMUVDQTEwOEJFMUJERTg2QUY1NSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDowQUVCOEI4MUI3NEUxMUVDQTEwOEJFMUJERTg2QUY1NSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M2IChNYWNpbnRvc2gpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6RkQ5MTZBQjA0NTIwNjgxMTgyMkFFMEFBQ0VENEYzNDEiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6Rjc3RjExNzQwNzIwNjgxMTgyMkFBMzY4OTg0MDVCRDEiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz7KamM0AAAALklEQVR42mL6//8/AyWYiYFCwALEDZQYwAjEWhQZAPIHJWA0DEbDYJiEAUCAAQDvSzuRY50YoAAAAABJRU5ErkJggg==");
 }
-
 .mabro-main-container > .mabro-wrap.mabro-main-wrap > .mabro-wrap.mabro-active .mabro-app.mabro-window.mabro-active > .mabro-window-titlebar > label {
   color: #333;
   text-shadow: 0 0 2px #fff;
   background-color: #ccc;
 }
-
 .mabro-main-container > .mabro-wrap.mabro-main-wrap > .mabro-wrap.mabro-active .mabro-app.mabro-window.mabro-active > .mabro-window-titlebar > .mabro-win-button {
   display: block;
   cursor: pointer;
   background-color: #ccc;
 }
-
 .mabro-main-container > .mabro-wrap.mabro-main-wrap > .mabro-wrap.mabro-active .mabro-app.mabro-window.mabro-active:not(.mabro-fullscreen) > .mabro-resize-button {
   bottom: 0;
   right: 0;
   display: block;
   width: calc(24px - 4px);
   height: calc(24px - 4px);
-  cursor: pointer;
   background-color: #ccc;
   opacity: 0;
   cursor: move;
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2hpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDowMzgwMTE3NDA3MjA2ODExODIyQUUwQUFDRUQ0RjM0MSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDowQUVCOEI4NkI3NEUxMUVDQTEwOEJFMUJERTg2QUY1NSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDowQUVCOEI4NUI3NEUxMUVDQTEwOEJFMUJERTg2QUY1NSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M2IChNYWNpbnRvc2gpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6RkM5MTZBQjA0NTIwNjgxMTgyMkFFMEFBQ0VENEYzNDEiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MDM4MDExNzQwNzIwNjgxMTgyMkFFMEFBQ0VENEYzNDEiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz663HuRAAAAaUlEQVR42qSTgQrAIAhEp/jh/bkrmNActTsTKiJe51mKu18nYWMSkVaBu3izecPAIaoF6CWkDPzUi79ghnO9lIXzq2kBxjJYwZCFHfxrAYDXGSDw1gICf3onDsfKjGAs/2025LSdbwEGAGaSjf8u7PARAAAAAElFTkSuQmCC");
 }
-
 .mabro-main-container > .mabro-wrap.mabro-main-wrap > .mabro-wrap.mabro-active .mabro-app.mabro-window.mabro-active:not(.mabro-fullscreen) > .mabro-resize-button:hover {
   opacity: 1;
 }
-
 .mabro-main-container > .mabro-wrap.mabro-main-wrap > .mabro-wrap.mabro-active .mabro-app.mabro-window.mabro-active > .mabro-window-content {
   overflow: auto;
-  -webkit-filter: unset;
-          filter: unset;
+  filter: unset;
 }
-
 .mabro-main-container > .mabro-wrap.mabro-dock-wrap {
   top: unset;
   height: 44px;
   overflow: visible;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: nowrap;
-      flex-wrap: nowrap;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  flex-wrap: nowrap;
+  justify-content: center;
   z-index: 100;
 }
-
 .mabro-main-container > .mabro-wrap.mabro-dock-wrap > .mabro-dock-content {
   height: 44px;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: nowrap;
-      flex-wrap: nowrap;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  flex-wrap: nowrap;
+  justify-content: center;
   background-color: #ffffffcc;
-  -webkit-box-align: end;
-      -ms-flex-align: end;
-          align-items: flex-end;
+  align-items: flex-end;
 }
-
 .mabro-main-container > .mabro-wrap.mabro-dock-wrap > .mabro-dock-content > div {
   padding: 0 12px 4px 12px;
   position: relative;
   border-bottom: 4px solid transparent;
 }
-
 .mabro-main-container > .mabro-wrap.mabro-dock-wrap > .mabro-dock-content > div > svg {
   width: 32px;
   height: 32px;
-  -webkit-transition: width ease-in-out .25s, height ease-in-out .25s, -webkit-filter ease-in-out .5s;
-  transition: width ease-in-out .25s, height ease-in-out .25s, -webkit-filter ease-in-out .5s;
-  transition: width ease-in-out .25s, height ease-in-out .25s, filter ease-in-out .5s;
-  transition: width ease-in-out .25s, height ease-in-out .25s, filter ease-in-out .5s, -webkit-filter ease-in-out .5s;
+  transition: width ease-in-out 0.25s, height ease-in-out 0.25s, filter ease-in-out 0.5s;
 }
-
 .mabro-main-container > .mabro-wrap.mabro-dock-wrap > .mabro-dock-content > div:hover > svg, .mabro-main-container > .mabro-wrap.mabro-dock-wrap > .mabro-dock-content > div > svg:hover {
   width: 80px;
   height: 80px;
 }
-
 .mabro-main-container > .mabro-wrap.mabro-dock-wrap > .mabro-dock-content > div.running {
   border-bottom-color: #bbb;
 }
-
 .mabro-main-container > .mabro-wrap.mabro-dock-wrap > .mabro-dock-content > div.running.active {
   border-bottom-color: #36c;
 }
-
 .mabro-main-container > .mabro-wrap.mabro-dock-wrap > .mabro-dock-content > div:not(.running) svg {
-  -webkit-filter: grayscale(1) opacity(0.5);
-          filter: grayscale(1) opacity(0.5);
+  filter: grayscale(1) opacity(0.5);
 }
-
 .mabro-main-container > .mabro-wrap.mabro-dock-wrap > .mabro-dock-content > div label {
   opacity: 0;
   position: absolute;
@@ -330,17 +251,13 @@
   color: #fff;
   text-shadow: 1px 1px 3px #000;
   font-weight: bold;
-  -webkit-transition: opacity ease-in-out .25s;
-  transition: opacity ease-in-out .25s;
-  font-family: 'Roboto Condensed', sans-serif;
+  transition: opacity ease-in-out 0.25s;
+  font-family: "Roboto Condensed", sans-serif;
   font-size: 110%;
 }
-
 .mabro-main-container > .mabro-wrap.mabro-dock-wrap > .mabro-dock-content > div:hover > svg {
-  -webkit-filter: grayscale(0) opacity(1);
-          filter: grayscale(0) opacity(1);
+  filter: grayscale(0) opacity(1);
 }
-
 .mabro-main-container > .mabro-wrap.mabro-dock-wrap > .mabro-dock-content > div:hover > label {
   opacity: 1;
 }
@@ -359,8 +276,7 @@
 }
 
 .mabro-menu-highlight-element {
-  -webkit-filter: invert(100%);
-          filter: invert(100%);
+  filter: invert(100%);
 }
 
 .mabro-menu-highlight-tent {
@@ -374,7 +290,6 @@
   margin: 0;
   padding: 0;
 }
-
 .mabro-menu-toggler svg.icon {
   width: 20px;
   height: 20px;
@@ -391,14 +306,11 @@ table.dataTable td .mabro-menu-toggler {
   z-index: 10000;
   display: none;
 }
-
 .dropdown.mabro-menu-wrap.mabro-menu-menu {
-  font-family: 'Roboto Condensed', sans-serif;
+  font-family: "Roboto Condensed", sans-serif;
 }
-
 .dropdown.mabro-menu-wrap.mabro-menu-menu .mabro-menu-content {
-  -webkit-box-shadow: 2px 2px 1px #00000033;
-          box-shadow: 2px 2px 1px #00000033;
+  box-shadow: 2px 2px 1px #00000033;
 }
 
 .dropdown-menu.mabro-menu-content {
@@ -408,22 +320,18 @@ table.dataTable td .mabro-menu-toggler {
   padding: 0;
   position: static;
 }
-
 .dropdown-menu.mabro-menu-content li {
   display: block;
   margin: 0;
   position: relative;
 }
-
 .dropdown-menu.mabro-menu-content li.title {
-  background-image: -webkit-gradient(linear, left top, right top, from(#aaa), to(#ddd));
   background-image: linear-gradient(to right, #aaa, #ddd);
   color: #fff;
   padding: 2px 16px;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
   text-transform: uppercase;
 }
-
 .dropdown-menu.mabro-menu-content li a {
   clear: both;
   color: #333;
@@ -435,72 +343,58 @@ table.dataTable td .mabro-menu-toggler {
   white-space: nowrap;
   cursor: pointer;
 }
-
 .dropdown-menu.mabro-menu-content li a:hover {
-  background-image: -webkit-gradient(linear, left bottom, left top, from(#ddd), color-stop(#f6f6f6), to(#ddd));
   background-image: linear-gradient(to top, #ddd, #f6f6f6, #ddd);
   text-decoration: none;
 }
-
 .dropdown-menu.mabro-menu-content li a i {
   float: left;
   margin: 0 8px 0 0;
   top: 2px;
 }
-
 .dropdown-menu.mabro-menu-content li a i.rIcon {
   color: #ccc;
   float: right;
   margin: 0 0 0 8px;
 }
-
 .dropdown-menu.mabro-menu-content li a i.rIcon svg.icon {
   margin: 0;
   fill: #ccc;
 }
-
 .dropdown-menu.mabro-menu-content li .icon svg {
   display: inline;
   height: 20px;
   vertical-align: baseline;
   width: 20px;
 }
-
 .dropdown-menu.mabro-menu-content li ul {
   display: block;
   margin: 0;
   padding: 0;
 }
-
 .dropdown-menu.mabro-menu-content li ul li a {
   padding: 8px 16px 8px 40px;
 }
-
 .dropdown-menu.mabro-menu-content li.disabled > a {
   cursor: not-allowed;
-  opacity: .5;
+  opacity: 0.5;
 }
-
 .dropdown-menu.mabro-menu-content li.disabled > a:hover {
   background-color: #fff;
   color: #333;
 }
-
 .dropdown-menu.mabro-menu-content li.disabled a i.rIcon {
   display: none;
 }
-
 .dropdown-menu.mabro-menu-content li.subMenu > a:not(.clickable) {
   cursor: default;
   font-style: italic;
-  opacity: .5;
+  opacity: 0.5;
 }
-
 .dropdown-menu.mabro-menu-content li.subMenu > a:hover {
   background-color: #fff;
   color: #333;
 }
-
 .dropdown-menu.mabro-menu-content hr {
   margin: 0;
   padding: 0;
@@ -512,23 +406,21 @@ svg {
 }
 
 .mabro-about-content h3 b {
-  font-family: 'Roboto Condensed', sans-serif;
+  font-family: "Roboto Condensed", sans-serif;
 }
-
 .mabro-about-content h3 svg {
   height: 44px;
   width: 44px;
   margin-right: 1rem;
   display: inline-block;
 }
-
 .mabro-about-content p {
   padding: 0;
-  margin: .5rem 0;
+  margin: 0.5rem 0;
+}
+.mabro-about-content ul {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
-.mabro-about-content ul {
-  margin-top: .5rem;
-  margin-bottom: .5rem;
-}
 /*# sourceMappingURL=mabro.css.map */

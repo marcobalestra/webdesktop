@@ -15,7 +15,6 @@ $winshadow : 4px 4px 16px 4px #00000066;
 $windowbordersize : 6px;
 $windowitleheight: 24px;
 
-
 .mabro-main-container, .mabro-wrap, .mabro-webdesktop, .mabro-app.mabro-fullscreen {
 	position: absolute;
 	top: 0;
@@ -88,7 +87,6 @@ $windowitleheight: 24px;
 			z-index: 1;
 			.mabro-app.mabro-window {
 				position: absolute;
-				background-color: white;
 				overflow: hidden;
 				border-radius: 4px;
 				border: $winborderdark;
@@ -203,7 +201,6 @@ $windowitleheight: 24px;
 									display: block;
 									width: calc(#{$windowitleheight} - 4px);
 									height: calc(#{$windowitleheight} - 4px);
-									cursor: pointer;
 									background-color: $winactivecolor;
 									opacity: 0;
 									cursor: move;
