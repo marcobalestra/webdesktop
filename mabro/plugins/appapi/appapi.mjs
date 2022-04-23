@@ -253,6 +253,7 @@ const MBW = class {
 		return this.#prop.w;
 	};
 	window() { return this.wrap().children('.mabro-window-content'); };
+	close() { this.#sysapi.closeWindow( this); };
 };
 
 const API = class {

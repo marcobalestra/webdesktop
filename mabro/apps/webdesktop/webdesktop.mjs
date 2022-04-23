@@ -137,7 +137,12 @@ const WDICON = class {
 	constructor( options ) {
 		this.#prop = { options: options };
 		this.#prop.label = options.label||'No name';
-		this.#prop.type = options.type||'file';
+		this.#prop.type = options.type;
+		if ( ! this.#prop.type && options.node && options.node.id ) {
+			if ( options.node.id.startsWith('dir-')) this.#prop.type = 'folder';
+			else if ( options.node.id.startsWith('file-')) this.#prop.type = 'file';
+		}
+		if ( ! this.#prop.type ) this.#prop.type = 'file';
 		this.#prop.svg = options.svg;
 		if ( ! this.#prop.svg && this.#prop.type === 'folder' ) this.#prop.svg = getIcon('wd-folder');
 	};
@@ -183,6 +188,7 @@ const WDICON = class {
 		$d.append( $('<div class="label"></div>').append($('<label></label>').append( p.label.escape() )) );
 		$d.attr('title',p.label);
 		if ( p.options.node ) $d.attr('fsid',p.options.node.id );
+		if ( p.type ) $d.attr('fstype',p.type);
 		if ( p.options.css ) $d.css(p.options.css);
 		$d.on('click',(e)=>{ obj.click(e) });
 		$d.on('contextmenu',(e)=>{ obj.contextmenu(e) });
@@ -248,16 +254,16 @@ const getClass = async (manifest) => {
 		async openFolder(id) {
 			if ( typeof id === 'object' ) id = id.id;
 			let $w = $(`.wd-folder-window[fsid="${id}"]`,this.#wrap);
-			if ( $w.length ) {
-				$w.trigger("mouseup");
-				return $w;
+			if ( ! $w.length) {
+				const f = this.#fs.getDir(id);
+				if ( ! f ) return;
+				const w = this.#api.newWindow({ title: f.name.escape(), minWidth: '200px', minHeight: '140px' });
+				makeFolderWindow( w, f );
+				w.show();
+				$w = w.wrap();
 			}
-			const f = this.#fs.getDir(id);
-			if ( ! f ) return;
-			const w = this.#api.newWindow({ title: f.name.escape(), minWidth: '200px', minHeight: '140px' });
-			makeFolderWindow( w, f );
-			w.show();
-			return w.wrap();
+			$w.trigger("mouseup");
+			return $w;
 		};
 		async folderInfo( id ) {
 			if ( typeof id === 'object' ) id = id.id;
@@ -284,12 +290,7 @@ const getClass = async (manifest) => {
 				}
 				$(`.wd-icon[fsid="${data.id}"] div.label label`,this.#wrap).html(n.escape());
 				$(`.wd-folder-window[fsid="${data.id}"]>.mabro-window-titlebar>label`,this.#wrap).html(n.escape());
-				if ( data.parent ) {
-					const p = this.#fs.getDir(data.parent);
-					$(`.wd-icon[fsid="${data.id}"]`,this.#wrap).closest('.wd-folder-window').each( (idx,w)=>{
-						makeFolderWindow( this.winById( $(w).attr('id') ), p );
-					});
-				}
+				if ( data.parent ) this.refreshWindowByFsid( data.parent );
 				dlog.close();
 			};
 			$('input.wd-item-name',$c).val(data.name);
@@ -312,11 +313,7 @@ const getClass = async (manifest) => {
 				if ( ! Array.isArray(parent.dirs) ) parent.dirs = [];
 				parent.dirs.push(data.id);
 				this.#fs.setDir(parent);
-				const $pw = $(`.wd-folder-window[fsid="${parent.id}"]`,this.#wrap);
-				if ( $pw.length ) {
-					const wobj = this.winById( $pw.attr('id') );
-					if ( wobj ) makeFolderWindow( wobj, parent);
-				}
+				this.refreshWindowByFsid( parent.id );
 				dlog.close();
 			};
 			$('button.btn-create',$c).on('click',()=>{ createFunc() });
@@ -340,15 +337,9 @@ const getClass = async (manifest) => {
 				t.files.push(oid);
 			}
 			this.#fs.setDir(t);
-			$(`.wd-folder-window[fsid="${oid}"]`,this.#wrap).each( (idx,w)=>{
-				this.#api.closeWindow( $(w).attr('id') );
-			});
-			$(`.wd-folder-window[fsid="${o.parent}"]`,this.#wrap).each( (idx,w)=>{
-				makeFolderWindow( this.winById( $(w).attr('id') ), this.#fs.getDir( o.parent ) );
-			});
-			$(`.wd-folder-window[fsid="${t.id}"]`,this.#wrap).each( (idx,w)=>{
-				makeFolderWindow( this.winById( $(w).attr('id') ), t );
-			});
+			this.closeWindowByFsid(oid);
+			this.refreshWindowByFsid(o.parent);
+			this.refreshWindowByFsid(t.id);
 		}
 		untrashItem( oid ) {
 			if ( typeof oid === 'object' ) oid = oid.id;
@@ -364,12 +355,10 @@ const getClass = async (manifest) => {
 				t.files = t.files.filter( id => ( id != oid ));
 			}
 			this.#fs.setDir(t);
-			$(`.wd-folder-window[fsid="${o.parent}"]`,this.#wrap).each( (idx,w)=>{
-				makeFolderWindow( this.winById( $(w).attr('id') ), this.#fs.getDir( o.parent ) );
-			});
-			$(`.wd-folder-window[fsid="${t.id}"]`,this.#wrap).each( (idx,w)=>{
-				makeFolderWindow( this.winById( $(w).attr('id') ), t );
-			});
+			this.refreshWindowByFsid(o.parent);
+			this.refreshWindowByFsid(t.id);
+			$(`.wd-icon`,this.#wrap).removeClass('wd-selected');
+			$(`.wd-icon[fsid="${o.id}"]`,this.#wrap).addClass('wd-selected');
 		};
 		emptyTrash() {
 			const t = this.#fs.getTrash();
@@ -378,8 +367,16 @@ const getClass = async (manifest) => {
 			delete t.dirs;
 			delete t.files;
 			this.#fs.setDir(t);
-			$(`.wd-folder-window[fsid="${t.id}"]`,this.#wrap).each( (idx,w)=>{
-				makeFolderWindow( this.winById( $(w).attr('id') ), t );
+			this.closeWindowByFsid(t.id);
+			$(`.wd-icon`,this.#wrap).removeClass('wd-selected');
+		};
+		closeWindowByFsid( fsid ) {
+			$(`.wd-folder-window[fsid="${fsid}"]`,this.#wrap).each( (idx,w)=>{ this.#api.closeWindow( $(w).attr('id') ); });
+		};
+		refreshWindowByFsid( fsid ) {
+			$(`.wd-folder-window[fsid="${fsid}"]`,this.#wrap).each( (idx,w)=>{
+				const wobj = this.winById( $(w).attr('id') );
+				if ( wobj ) makeFolderWindow( wobj, this.#fs.getDir( fsid ) );
 			});
 		};
 		winById(id) { return this.#sysapi.winById( id ); };
