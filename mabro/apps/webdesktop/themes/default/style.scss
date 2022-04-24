@@ -151,14 +151,7 @@ $iconsize: 48px;
 			}	
 		}
 	}
-	.wd-ok-dragover {
-		&.wd-folder-window {
-			box-shadow: 0 0 2px 2px #fff, 4px 4px 16px 4px #00000066 !important;
-			.mabro-window-content {
-				filter: unset !important;
-				outline: solid 3px #0ff;
-			}
-		}
+	.dd-dragover {
 		&.wd-icon {
 			>div.icon, > div > label {
 				background-color: white;

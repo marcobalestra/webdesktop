@@ -59,6 +59,7 @@ const makeDraggableWindow = ($w) => {
 	w.addEventListener('dragstart',(e)=>{
 		if( $w.attr('draggable') !== 'true' ) return;
 		e.stopPropagation();
+		e.dataTransfer.effectAllowed = 'move';
 		activateWindow($w);
 		const ddata = {
 			ex0 : e.pageX,
@@ -106,6 +107,7 @@ const makeResizeableWindow = ($w) => {
 	rb.addEventListener('dragstart',(e)=>{
 		if( $rb.attr('draggable') !== 'true' ) return;
 		e.stopPropagation();
+		e.dataTransfer.effectAllowed = 'move';
 		const opts = $w.data('mabro-options');
 		const ddata = {
 			ex0 : e.pageX,
@@ -114,8 +116,8 @@ const makeResizeableWindow = ($w) => {
 			y0 : $w.height(),
 			minx : opts.minWidth ? parseInt(opts.minWidth) : 197,
 			miny: opts.minHeight ? parseInt(opts.minHeight) : 55,
-			maxx : opts.maxWidth ? parseInt(opts.maxWidth) : ($w.closest('.mabro-wrap').width() - parseInt($w.css('left'))),
-			maxy : opts.maxHeight ? parseInt(opts.maxHeight) : ($w.closest('.mabro-wrap').height()  - parseInt($w.css('top')))
+			maxx : opts.maxWidth ? parseInt(opts.maxWidth) : ($w.closest('.mabro-wrap').width() - parseInt($w.css('left')) - 100),
+			maxy : opts.maxHeight ? parseInt(opts.maxHeight) : ($w.closest('.mabro-wrap').height()  - parseInt($w.css('top')) -100)
 		};
 		$w.data('mabro-resize',ddata);
 		$w.addClass('mabro-resizing mabro-gui-action');

@@ -99,8 +99,10 @@
   height: 24px;
   text-align: center;
   padding: 0 24px;
+  cursor: grab;
 }
 .mabro-main-container > .mabro-wrap.mabro-main-wrap .mabro-app.mabro-window > .mabro-window-titlebar > label {
+  cursor: grab;
   display: inline-block;
   height: 24px;
   font-family: "Roboto Condensed", sans-serif;
@@ -134,6 +136,13 @@
   bottom: 6px;
   overflow: hidden;
   filter: grayscale(80%) opacity(80%);
+}
+.mabro-main-container > .mabro-wrap.mabro-main-wrap .mabro-app.mabro-window.dd-dragover {
+  box-shadow: 0 0 2px 2px #fff, 4px 4px 16px 4px #00000066 !important;
+}
+.mabro-main-container > .mabro-wrap.mabro-main-wrap .mabro-app.mabro-window.dd-dragover .mabro-window-content {
+  filter: unset !important;
+  outline: solid 3px #0ff;
 }
 .mabro-main-container > .mabro-wrap.mabro-main-wrap > .mabro-wrap {
   overflow: visible;
@@ -189,7 +198,7 @@
   height: calc(24px - 4px);
   background-color: #ccc;
   opacity: 0;
-  cursor: move;
+  cursor: nwse-resize;
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2hpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDowMzgwMTE3NDA3MjA2ODExODIyQUUwQUFDRUQ0RjM0MSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDowQUVCOEI4NkI3NEUxMUVDQTEwOEJFMUJERTg2QUY1NSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDowQUVCOEI4NUI3NEUxMUVDQTEwOEJFMUJERTg2QUY1NSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M2IChNYWNpbnRvc2gpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6RkM5MTZBQjA0NTIwNjgxMTgyMkFFMEFBQ0VENEYzNDEiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MDM4MDExNzQwNzIwNjgxMTgyMkFFMEFBQ0VENEYzNDEiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz663HuRAAAAaUlEQVR42qSTgQrAIAhEp/jh/bkrmNActTsTKiJe51mKu18nYWMSkVaBu3izecPAIaoF6CWkDPzUi79ghnO9lIXzq2kBxjJYwZCFHfxrAYDXGSDw1gICf3onDsfKjGAs/2025LSdbwEGAGaSjf8u7PARAAAAAElFTkSuQmCC");
 }
 .mabro-main-container > .mabro-wrap.mabro-main-wrap > .mabro-wrap.mabro-active .mabro-app.mabro-window.mabro-active:not(.mabro-fullscreen) > .mabro-resize-button:hover {

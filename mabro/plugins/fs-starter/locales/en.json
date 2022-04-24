@@ -8,6 +8,7 @@
 	"ComputerNotTrustedHelp" : "Your data will be stored in browser session, automatically deleted when browser window is closed.",
 	"PasswordDesc" : "Leave empty for no password",
 	"PasswordHelp" : "If password isn’t empty it will be necessary to read session data.<br />Data are encrypted with password, the same password must be provided when loading a password-protected session file.",
+	"StorageChoose" : "Choose storage type",
 	"StorageInitLoad" : "Load a session file",
 	"StorageInitNew" : "Start a new session",
 	"StoragesMultiFound" : "Multiple archives found (both local and session).",

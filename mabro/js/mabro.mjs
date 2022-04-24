@@ -42,6 +42,7 @@ const getClass = async (pars) => {
 		constructor() {
 			this.#prop = JSON.parse(JSON.stringify(pars));
 			this.#prop.manifests = {};
+			this.#prop.knownApps = {};
 			this.#prop.plugins = {};
 			this.#prop.pluginsingletons = {};
 			this.#prop.apps = {};
@@ -158,11 +159,18 @@ const getClass = async (pars) => {
 			if ( ! this.#prop.manifests[uri] ) {
 				this.#prop.manifests[uri] = (await glob.get(muri))||{error:"Not found"};
 				this.#prop.manifests[uri].base_uri = uri;
-				if ( this.#prop.manifests[uri].app_icon && this.#prop.manifests[uri].app_name ) {
-					glob.localize.main.icon[ 'app_' + this.#prop.manifests[uri].app_name ] = this.#prop.manifests[uri].app_icon;
-				}
+				if ( ! this.#prop.manifests[uri].creator ) this.#prop.manifests[uri].creator = uri;
+				this.#prop.knownApps[ this.#prop.manifests[uri].creator ] = uri;
+				//if ( this.#prop.manifests[uri].app_icon && this.#prop.manifests[uri].app_name ) {
+				//	glob.localize.main.icon[ 'app_' + this.#prop.manifests[uri].app_name ] = this.#prop.manifests[uri].app_icon;
+				//}
 			}
 			return this.#prop.manifests[uri];
+		};
+		getKnownApp( creator ) {
+			if ( ! creator || typeof  creator !== 'string') return undefined;
+			const uri = this.#prop.knownApps[ creator ];
+			return (uri && this.#prop.manifests[uri])||{};
 		};
 		async getFs() {
 			if ( typeof this.#fs === 'undefined' ) this.#fs = await this.plugin('fs');

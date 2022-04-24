@@ -1,65 +1,3 @@
-const initFs = async (mb) => {
-	if ( ! glob.localize.loaded ) {
-		setTimeout( ()=>{ initFs(mb);}, 100 );
-		return;
-	}
-	const fs = await mb.getFs();
-	const es = fs.existingStorages();
-	if ( es.length === 1 ) {
-		fs.init(es[0]);
-		mb.start();
-		return;
-	}
-	const $dlog = await mb.plugin('dialog',{ canclose: false });
-	const $body = $dlog.body();
-	let secured = false;
-	let password = '';
-	if ( es.length === 0 ) {
-		$dlog.title(_l('StoragesNotFound'));
-	} else {
-		$dlog.title(_l('StoragesMultiFound'));
-	}
-	const $form = $('<form class="d-block ml-4"></form>');
-	if ( window.crypto && typeof window.crypto.subtle === 'object' ) {
-		const $pwd = $(`<div class="mb-3" data-placement="bottom" data-html="true">${_l('PasswordDesc')}<div class="input-group"><input type="password" autocomplete="new-password" class="form-control"><div class="input-group-append"><span class="input-group-text">${_l('Password')}</span></div></div></div>`);
-		$pwd.attr('title',_l('PasswordHelp'));
-		$pwd.tooltip();
-		$('input',$pwd).on('keyup change',()=>{ password = $('input',$pwd).val() });
-		$form.append($pwd);
-	}
-	const ntbid = glob.uid('btn');
-	const $ntb = $(`<div class="mb-3" data-placement="right" data-html="true"><input name="secured" checked="checked" type="radio" id="${ntbid}"><label for="${ntbid}"> <b>${_l('ComputerNotTrusted')}</b></label><br /><i>“${_l('ComputerNotTrustedDesc')}”</i></div>`);
-	$ntb.attr('title', _l('ComputerNotTrustedHelp'));
-	$ntb.tooltip();
-	$('input',$ntb).on('click',()=>{ secured = false; });
-	const tbid = glob.uid('btn');
-	const $tb = $(`<div class="mb-3" data-placement="right" data-html="true"><input name="secured" type="radio" id="${tbid}"><label for="${tbid}"> <b>${_l('ComputerIsTrusted')}</b></label><br /><i>“${_l('ComputerIsTrustedDesc')}”</i></div>`);
-	$tb.attr('title',_l('ComputerIsTrustedHelp'));
-	$tb.tooltip();
-	$('input',$tb).on('click',()=>{ secured = true; });
-	$form.append($ntb,$tb);
-	$body.append(
-		$('<div class="mb-2"></div>').append(_l('Privacy level'),':'),
-		$form,
-		$('<div></div>').append( _l('ComputerChoiceCanSaveSession'))
-	);
-	const initStorage = async () =>{
-		$dlog.body(_l('Operation in progress'));
-		$dlog.footer('');
-		await fs.init((secured ? 'local' : 'session'),password);
-		$dlog.close();
-		mb.start();
-	};
-	const loadStorage = () => {
-
-	};
-	const $lsb = $(`<button type="button" class="btn btn-secondary mr-auto">${_l('StorageInitLoad')}</button>`);
-	const $nsb = $(`<button type="button" class="btn btn-primary">${_l('StorageInitNew')}</button>`);
-	$nsb.on('click',initStorage);
-	$dlog.footer().append($lsb,$nsb);
-	$dlog.open();
-};
-
 const existingStorages = () => {
 	const out = [];
 	if ( window.sessionStorage.getItem('mabro') ) out.push('session');
@@ -151,18 +89,20 @@ const getClass = async (mb) => {
 			this.#prop.myuri = manifest.base_uri;
 			this.#vault = (new VAULT());
 		};
-		async boot() { initFs(mb) };
-		async init(mode,password) {
-			if ( mode === 'local' ) {
+		async boot() { mb.plugin('fs-starter',{ cancancel: false, autostart: true }) };
+		async init(idata) {
+			if ( typeof  idata !== 'object' ) idata = { mode: 'local' };
+			if ( idata.mode === 'local' ) {
 				this.#storage = window.localStorage;
 			} else {
 				this.#storage = window.sessionStorage;
 			}
-			if ( password ) this.#vault.setPassword( password );
+			if ( idata.password ) this.#vault.setPassword( idata.password );
 			if ( this.#storage.getItem('mabro') ) {
 				this.#data = await this.#vault.decrypt( this.#storage.getItem('mabro') );
 			} else {
-				this.#data = await glob.get( this.#prop.myuri + 'skeleton.json' );
+				if ( ! idata.profile ) idata.profile = 'skeleton';
+				this.#data = await glob.get( this.#prop.myuri + idata.profile + '.json' );
 				this.commit();
 			}
 		};

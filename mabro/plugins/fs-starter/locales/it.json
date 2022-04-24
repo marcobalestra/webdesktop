@@ -10,8 +10,9 @@
 	"PasswordDesc" : "Lascia vuoto se non vuoi password.",
 	"PasswordHelp" : "Se la password non è vuota sarà necessaria per leggere i dati.<br />I dati sono criptati sulla base della password, la stessa password deve essere fornita per caricare un file di sessione protetto da password.",
 	"Privacy level" : "Livello di privacy",
+	"StorageChoose" : "Scegli il tipo di archivio",
 	"StorageInitLoad" : "Carica un file di sessione",
-	"StorageInitNew" : "Avvia una nuove sessione",
+	"StorageInitNew" : "Avvia una nuova sessione",
 	"Session" : "Avvia una sessione temporanea",
 	"StoragesMultiFound" : "Sono stati trovati gli archivi sia di sessione che locale.",
 	"StoragesNotFound" : "Nessun archivio locale trovato."

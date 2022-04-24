@@ -1,0 +1,10 @@
+{
+	"script" : "fs-starter.<mjs_suffix>",
+	"version" : "0.1",
+	"copyright" : "altersoftware.it",
+	"copyright_link" : "https://altersoftware.it",
+	"creator" : "fs-starter.mabro.altersoftware.it",
+	"locales" : ["en","it"],
+	"locales_dir" : "locales/",
+	"locales_suffix" : ".json"
+}

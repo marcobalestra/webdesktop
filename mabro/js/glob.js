@@ -5,7 +5,7 @@
 	_lang => current user language
 	_icon => localize in icon language
 */
-if ( typeof glob !== 'object' ) glob = {};
+if ( typeof glob !== 'object' ) window.glob = {};
 if ( typeof glob.prop !== 'object' ) glob.prop = {};
 glob.prop.select2_dopDownPosition = 'auto'; // auto, below, above
 
@@ -655,6 +655,136 @@ glob.menu = (ev,menu)=>{
 	};
 	$cm.on('transitionend',rmtrans);
 	window.setTimeout( ()=>{ $cm.css({ transform: 'translateY(0) scaleY(1)' }); }, 0);
+};
+
+/* ***************** Drag&Drop *********************** */
+
+glob.dd = {
+	axles: {},
+	get : (axle) => { return axle ? glob.dd.axles[axle] : undefined },
+	set : (axle,options) => {
+		if ( ! axle || typeof  axle !== 'string' ) return;
+		return glob.dd.axles[axle] = new glob.dd.ddobj( axle, options );
+	},
+	ddobj : class {
+		#axle;#dd;#prop;#func;
+		constructor( axle, options ) {
+			this.#axle = axle;
+			this.#prop = {};
+			this.#func = {};
+			this.#dd = {};
+			if ( typeof options !== 'object' ) options = {};
+			Object.keys( options ).forEach( k => {
+				if ( typeof options[k] === 'function') {
+					this.#func[k] = options[k];
+				} else {
+					this.#prop[k] = options[k];
+				}
+			})
+		};
+		draggable( el, data ) {
+			if ( el instanceof $ ) el = el.get(0);
+			const $el = $(el);
+			const dd = $el.data('glob-dd')||{};
+			const axles = dd.draggable||{};
+			if ( axles[this.#axle] ) return undefined;
+			$el.attr('draggable',true);
+			axles[this.#axle] = true;
+			dd.draggable = axles;
+			$el.data('glob-dd',dd);
+			el.addEventListener('dragstart',(e)=>{ this.dragstart(e,$el,data) },false);
+			el.addEventListener('dragend', (e)=>{ this.dragend(e,$el,data) },false);
+			if ( this.#func.draggable ) this.#func.draggable({ event: e, element: $el });
+		};
+		droppable( el ) {
+			if ( el instanceof $ ) el = el.get(0);
+			const $el = $(el);
+			const dd = $el.data('glob-dd')||{};
+			const axles = dd.droppable||{};
+			if ( axles[this.#axle] ) return undefined;
+			axles[this.#axle] = true;
+			dd.droppable = axles;
+			const inited = dd.droppableInited||{};
+			if ( ! inited[this.#axle] ) {
+				el.addEventListener('dragover',(e)=>{ this.dragover(e) },false);
+				el.addEventListener('dragleave', (e)=>{ this.dragleave(e) },false);
+				el.addEventListener('drop', (e)=>{ this.drop(e) },false);
+				inited[this.#axle] = true;
+				dd.droppableInited = inited;
+			}
+			$el.data('glob-dd',dd);
+			$el.addClass('glob-dd-accept');
+			if ( this.#func.droppable ) this.#func.droppable($el);
+		};
+		undroppable( el ) {
+			if ( el instanceof $ ) el = el.get(0);
+			const $el = $(el);
+			const dd = $el.data('glob-dd')||{};
+			const axles = dd.droppable||{};
+			delete axles[this.#axle];
+			if ( ! Object.keys(axles).length ) $el.removeClass('glob-dd-accept');
+			dd.droppable = axles;
+			$el.data('glob-dd',dd);
+		};
+		canaccept(e) {
+			if ( ! this.#dd.element ) return undefined;
+			const $tgt = $(e.target).closest('.glob-dd-accept');
+			if ( ! $tgt.length ) return false;
+			const axles = ($tgt.data('glob-dd')||{}).droppable||{};
+			if ( ! axles[this.#axle] ) return undefined;
+			if ( this.#func.canaccept && ! this.#func.canaccept({ event: e, element: this.#dd.element, data: this.#dd.data, target: $tgt }) ) return false;
+			if (e.preventDefault) e.preventDefault();
+			return $tgt;
+		};
+		cleardrag( timedout ) {
+			if ( ! timedout ) {
+				setTimeout( ()=>{ this.cleardrag(true) }, 100);
+				return;
+			}
+			if ( this.#dd.dropped ) this.#dd.dropped.removeClass('dd-dragover');
+			if ( this.#func.clear ) this.#func.clear({ event: e, element: this.#dd.element, data: this.#dd.data });
+			this.#dd = {};
+		};
+		dragstart(e,$el,data) {
+			this.#dd.element = $el;
+			this.#dd.data = this.#func.data ? this.#func.data({ event: e, element: $el, data: data }) : data;
+			e.dataTransfer.effectAllowed = this.#prop.effectAllowed||'move';
+			let tdata;
+			if ( this.#func.transferData ) tdata = this.#func.transferData({ event: e, element: $el, data: this.#dd.data });
+			if ( Array.isArray(tdata) && tdata.length === 2 ) {
+				e.dataTransfer.setData(tdata[0], tdata[1] );
+			} else if ( tdata !== false ) {
+				e.dataTransfer.setData('text/html', $el.html() );
+			}
+			if ( this.#func.dragstart ) this.#func.dragstart({ event: e, element: $el, data: this.#dd.data });
+		};
+		dragend(e) {
+			if ( this.#func.dragend ) this.#func.dragend({ event: e, element: this.#dd.element, data: this.#dd.data });
+			this.cleardrag();
+		};
+		dragover(e) {
+			const $tgt = this.canaccept(e);
+			if ( ! $tgt ) return false;
+			$tgt.addClass('dd-dragover');
+			if ( this.#func.dragover ) this.#func.dragover({ event: e, element: this.#dd.element, data: this.#dd.data, target: $tgt });
+		};
+		dragleave(e) {
+			const $tgt = this.canaccept(e);
+			if (!$tgt) return false;
+			$tgt.removeClass('dd-dragover');
+			if ( this.#func.dragleave ) this.#func.dragleave({ event: e, element: this.#dd.element, data: this.#dd.data, target: $tgt });
+		};
+		drop(e) {
+			const $tgt = this.canaccept(e);
+			if ( ! $tgt ) return false;
+			if ( e.stopPropagation ) e.stopPropagation();
+			if ( this.#dd.dropped ) return;
+			this.#dd.dropped = $tgt;
+			if ( this.#func.drop ) this.#func.drop({ event: e, element: this.#dd.element, data: this.#dd.data, target: $tgt });
+			this.cleardrag();
+			return true;
+		};
+	}
 };
 
 /* ***************** Startup operation *********************** */

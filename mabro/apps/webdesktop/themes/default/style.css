@@ -1,25 +1,18 @@
 .mabro-webdesktop .wd-icon {
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
   width: fit-content;
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
   height: fit-content;
   overflow: visible;
   padding: 2px 2px 0 2px;
 }
-
 .mabro-webdesktop .wd-icon svg {
   height: 100%;
   width: 100%;
 }
-
 .mabro-webdesktop .wd-icon > div.icon {
   height: 48px;
   width: 48px;
   position: relative;
 }
-
 .mabro-webdesktop .wd-icon > div.icon > .sub-icon {
   position: absolute;
   right: 0;
@@ -27,7 +20,6 @@
   width: calc(48px / 2);
   height: calc(48px / 2);
 }
-
 .mabro-webdesktop .wd-icon > div.label {
   width: calc(48px * 2);
   height: 8px;
@@ -35,32 +27,25 @@
   padding: 0;
   text-align: center;
 }
-
 .mabro-webdesktop .wd-icon > div.label > label {
   display: inline-block;
   margin: 0;
   padding: 0 4px;
   background-color: #ffffff66;
   font-size: 90%;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
   width: fit-content;
   max-width: calc(48px * 2);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
 .mabro-webdesktop .wd-icon.wd-selected {
   background-color: #000;
 }
-
 .mabro-webdesktop .wd-icon.wd-selected > div.icon, .mabro-webdesktop .wd-icon.wd-selected > div > label {
   background-color: white;
-  -webkit-filter: invert(1);
-          filter: invert(1);
+  filter: invert(1);
 }
-
 .mabro-webdesktop .wd-folder-window .wd-nav-bar {
   background-color: #f0f0f0;
   margin: 0 0 8px 0;
@@ -68,14 +53,12 @@
   border-bottom: solid 1px #ccc;
   padding: 0;
 }
-
 .mabro-webdesktop .wd-folder-window .wd-nav-bar .btn-group {
   padding: 0 4px;
   border: none;
   margin: 1px;
   height: 18px;
 }
-
 .mabro-webdesktop .wd-folder-window .wd-nav-bar .btn-group .btn {
   border: none;
   position: relative;
@@ -84,10 +67,8 @@
   width: 24px;
   height: 18px;
   fill: #999;
-  -webkit-box-shadow: none !important;
-          box-shadow: none !important;
+  box-shadow: none !important;
 }
-
 .mabro-webdesktop .wd-folder-window .wd-nav-bar .btn-group .btn svg {
   position: absolute;
   top: 1px;
@@ -95,69 +76,45 @@
   height: 16px;
   width: 16px;
 }
-
 .mabro-webdesktop .wd-folder-window .wd-nav-bar .btn-group .btn:disabled {
   fill: #ccc;
 }
-
 .mabro-webdesktop .wd-folder-window .wd-nav-bar .btn-group .btn.active {
   background-color: #666;
   fill: #fff;
   cursor: default;
 }
-
 .mabro-webdesktop .wd-folder-window .wd-content-thumbnails {
   margin: 4px 18px;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
-  -webkit-box-align: baseline;
-      -ms-flex-align: baseline;
-          align-items: baseline;
-  -ms-flex-line-pack: start;
-      align-content: flex-start;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: baseline;
+  align-content: flex-start;
   row-gap: 12px;
-  -webkit-column-gap: 24px;
-          column-gap: 24px;
+  column-gap: 24px;
 }
-
 .mabro-webdesktop .wd-folder-window .wd-content-list {
   margin: 4px;
 }
-
 .mabro-webdesktop .wd-folder-window .wd-content-list .wd-icon {
   width: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: nowrap;
-      flex-wrap: nowrap;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -ms-flex-line-pack: start;
-      align-content: flex-start;
-  -webkit-column-gap: 8px;
-          column-gap: 8px;
+  flex-wrap: nowrap;
+  align-items: center;
+  align-content: flex-start;
+  column-gap: 8px;
   padding: 2px;
 }
-
 .mabro-webdesktop .wd-folder-window .wd-content-list .wd-icon svg {
   height: 100%;
   width: 100%;
 }
-
 .mabro-webdesktop .wd-folder-window .wd-content-list .wd-icon > div.icon {
   height: calc(48px / 2);
   width: calc(48px / 2);
   position: relative;
 }
-
 .mabro-webdesktop .wd-folder-window .wd-content-list .wd-icon > div.icon > .sub-icon {
   position: absolute;
   right: 0;
@@ -165,7 +122,6 @@
   width: calc(48px / 4);
   height: calc(48px / 4);
 }
-
 .mabro-webdesktop .wd-folder-window .wd-content-list .wd-icon > div.label {
   width: 100%;
   height: unset;
@@ -173,7 +129,6 @@
   padding: 2px 0 0 0;
   text-align: left;
 }
-
 .mabro-webdesktop .wd-folder-window .wd-content-list .wd-icon > div.label > label {
   display: block;
   margin: 0;
@@ -183,31 +138,16 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
 .mabro-webdesktop .wd-folder-window .wd-content-list .wd-icon.wd-selected {
   background-color: #000;
 }
-
 .mabro-webdesktop .wd-folder-window .wd-content-list .wd-icon.wd-selected > div.icon, .mabro-webdesktop .wd-folder-window .wd-content-list .wd-icon.wd-selected > div > label {
   background-color: white;
-  -webkit-filter: invert(1);
-          filter: invert(1);
+  filter: invert(1);
 }
-
-.mabro-webdesktop .wd-ok-dragover.wd-folder-window {
-  -webkit-box-shadow: 0 0 2px 2px #fff, 4px 4px 16px 4px #00000066 !important;
-          box-shadow: 0 0 2px 2px #fff, 4px 4px 16px 4px #00000066 !important;
-}
-
-.mabro-webdesktop .wd-ok-dragover.wd-folder-window .mabro-window-content {
-  -webkit-filter: unset !important;
-          filter: unset !important;
-  outline: solid 3px #0ff;
-}
-
-.mabro-webdesktop .wd-ok-dragover.wd-icon > div.icon, .mabro-webdesktop .wd-ok-dragover.wd-icon > div > label {
+.mabro-webdesktop .dd-dragover.wd-icon > div.icon, .mabro-webdesktop .dd-dragover.wd-icon > div > label {
   background-color: white;
-  -webkit-filter: invert(1);
-          filter: invert(1);
+  filter: invert(1);
 }
+
 /*# sourceMappingURL=style.css.map */

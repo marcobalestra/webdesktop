@@ -5,83 +5,36 @@ const cache = {
 	tb : {}
 };
 
-const iconDrag = {
-	data : {},
-	draggable : ( $i, obj ) => {
-		if ( $i.attr('draggable') === 'true' ) return;
-		if ( typeof obj === 'undefined' && $i.attr('fsid') && $i.attr('fstype')) {
+glob.dd.set('wd-icon',{
+	effectAllowed : 'move',
+	data : (d) => {
+		const $i = d.element;
+		let obj = (d.data && typeof d.data === 'object') ? d.data : undefined;
+		if ( ! obj && $i.attr('fsid') && $i.attr('fstype')) {
 			switch ( $i.attr('fstype') ) {
 				case 'folder' : obj = cache.fs.getDir( $i.attr('fsid') ); break;
 				case 'file' : obj = cache.fs.getFile( $i.attr('fsid') ); break;
 			}
 		}
-		if ( typeof obj === 'undefined' ) return;
-		$i.attr('draggable',true);
-		if ( $i.data('wd-dragInited') ) return;
-		const i = $i.get(0);
-		i.addEventListener('dragstart',(e)=>{ iconDrag.start(e,$i,obj) },true);
-		i.addEventListener('dragend', iconDrag.end,true);
-		$i.data('wd-dragInited',true);
+		return obj;
 	},
-	accept : (o) => {
-		if ( o instanceof jQuery ) o = o.get(0);
-		const $o = $(o);
-		if ( $o.hasClass('wd-accept-drag')) return;
-		o.addEventListener('dragover',iconDrag.over,false);
-		o.addEventListener('dragleave',iconDrag.leave,false);
-		o.addEventListener('drop',iconDrag.drop,false);
-		$o.addClass('wd-accept-drag');
+	dragstart : (d) =>{
+		d.element.css({ opacity: '.5', 'background-color' : 'transparent'});
 	},
-	canaccept : (e) => {
-		if ( ! iconDrag.data.data ) return false;
-		let $tgt = $(e.target);
-		if ( ! $tgt.hasClass('wd-accept-drag') ) $tgt = $tgt.closest('.wd-accept-drag');
-		if ( ! $tgt.length ) return false;
-		const fsid = $tgt.attr('fsid');
-		if ( fsid === iconDrag.data.data.parent ) return false;
+	dragend : (d) => {
+		d.element.css({ opacity: '', 'background-color' : ''});
+	},
+	canaccept : (d) => {
+		const fsid = d.target.attr('fsid');
+		if ( fsid === d.data.parent ) return false;
 		const list = cache.fs.listAncestors( fsid, [fsid] );
-		if ( list.includes(iconDrag.data.data.id) ) return false;
-		if (e.preventDefault) e.preventDefault();
-		return $tgt;
+		if ( list.includes(d.data.id) ) return false;
+		return true;
 	},
-	clear : ( to ) => {
-		if ( ! to ) return setTimeout( ()=>{ iconDrag.clear(true) },10);
-		iconDrag.data = {};
-	},
-	start : (e,$i,obj) => {
-		iconDrag.data.j = $i;
-		iconDrag.data.element = $i.get(0);
-		iconDrag.data.data = obj;
-		iconDrag.data.element.style.opacity = '.5';
-		iconDrag.data.element.style.backgroundColor = 'transparent';
-		e.dataTransfer.effectAllowed = 'move';
-		e.dataTransfer.setData('text/html', $i.html() );
-		cache.wd.selectIconByFsId();
-	},
-	end : (e) => {
-		iconDrag.data.element.style.opacity = '';
-		iconDrag.data.element.style.backgroundColor = '';
-		iconDrag.clear();
-	},
-	over : (e) => {
-		let $tgt = iconDrag.canaccept(e);
-		if ( ! $tgt ) return false;
-		$tgt.addClass('wd-ok-dragover');
-	},
-	leave : (e) => {
-		let $tgt = iconDrag.canaccept(e);
-		if ( ! $tgt ) return false;
-		$tgt.removeClass('wd-ok-dragover');
-	},
-	drop : (e) => {
-		let $tgt = iconDrag.canaccept(e);
-		if ( ! $tgt ) return false;
-		if ( iconDrag.data.dropped ) return;
-		iconDrag.data.dropped = true;
-		const ele = iconDrag.data.data;
-		const tgt = cache.fs.getDir( $tgt.attr('fsid') );
+	drop : (d) => {
+		const ele = d.data;
+		const tgt = cache.fs.getDir( d.target.attr('fsid') );
 		const parent = cache.fs.getDir( ele.parent );
-		$tgt.removeClass('wd-ok-dragover');
 		if ( tgt.role === 'trash' ) {
 			cache.wd.trashItem( ele.id );
 			return;
@@ -105,7 +58,7 @@ const iconDrag = {
 		cache.wd.refreshWindowByFsid( tgt.id );
 		cache.wd.refreshWindowByFsid( parent.id );
 	}
-};
+});
 
 const getLabel = (l) => (cache.labels[l] || ( cache.labels[l] = _l(l) ));
 const getIcon = (l) => (cache.icons[l] || ( cache.icons[l] = _icon(l) ));
@@ -189,7 +142,7 @@ const makeFolderWindow = ( wobj,folder ) => {
 	});
 	if ( folder.role === 'trash' ) $w.on('contextmenu',(e)=>{ trashCM(e) });
 	else $w.on('contextmenu',(e)=>{ folderCM(e) });
-	setTimeout( ()=>{ iconDrag.accept($w) }, 1);
+	setTimeout( ()=>{ glob.dd.get('wd-icon').droppable($w) }, 1);
 	return $w;
 };
 
@@ -206,15 +159,15 @@ const folderCM = (e) => {
 		if ( isIcon ) {
 			o.content.push({ label: getLabel('wd-open-folder'), action: ()=>{ cache.wd.openFolder( f.id ) } },'-');
 		} else {
-			o.content.push({ label: getLabel('wd-folder-create'), action: ()=>{ cache.wd.createFolder( f.id ) } },'-');
-			if ( f.parent ) o.content.push({ label: getLabel('wd-parent-folder'), action: ()=>{ cache.wd.openFolder( f.parent ) } },'-');
+			o.content.push({ icon: getIcon("wd-folder-plus"), label: getLabel('wd-folder-create'), action: ()=>{ cache.wd.createFolder( f.id ) } },'-');
+			if ( f.parent ) o.content.push({ icon: getIcon("wd-parent-folder"), label: getLabel('wd-parent-folder'), action: ()=>{ cache.wd.openFolder( f.parent ) } },'-');
 		}
 	}
 	if ( ! f.role ) {
 		if ( f.deleted ) {
-			o.content.push( { label: getLabel('wd-trash-putback'), action: ()=>{ cache.wd.untrashItem( f ) } } );
+			o.content.push( { icon: getIcon("wd-folder"), label: getLabel('wd-trash-putback'), action: ()=>{ cache.wd.untrashItem( f ) } } );
 		} else {
-			o.content.push( { label: getLabel('wd-move-to-trash'), action: ()=>{ cache.wd.trashItem( f ) } } );
+			o.content.push( { icon: getIcon("wd-trash"), label: getLabel('wd-move-to-trash'), action: ()=>{ cache.wd.trashItem( f ) } } );
 		}
 	}
 	glob.menu(e.originalEvent||e,o);
@@ -230,7 +183,7 @@ const trashCM = (e) => {
 	const isIcon = o.highlight.is('.wd-icon');
 	o.content.push( f.name.escape() );
 	if ( isIcon ) o.content.push({ label: getLabel('wd-open-trash'), action: ()=>{ cache.wd.openFolder( f.id ) } },'-');
-	o.content.push( { label: getLabel('wd-empty-trash'), action: ()=>{ cache.wd.emptyTrash() } } );
+	o.content.push( { icon: getIcon("wd-trash"), label: getLabel('wd-empty-trash'), action: ()=>{ cache.wd.emptyTrash() } } );
 	glob.menu(e.originalEvent||e,o);
 };
 
@@ -290,13 +243,13 @@ const WDICON = class {
 		if ( p.options.node ) $d.attr('fsid',p.options.node.id );
 		if ( p.type ) {
 			$d.attr('fstype',p.type);
-			if ( p.type === 'folder' ) setTimeout( ()=>{ iconDrag.accept($d) }, 1);
+			if ( p.type === 'folder' ) setTimeout( ()=>{ glob.dd.get('wd-icon').droppable($d) }, 1);
 		}
 		if ( p.options.css ) $d.css(p.options.css);
 		$d.on('click',(e)=>{ obj.click(e) });
 		$d.on('contextmenu',(e)=>{ obj.contextmenu(e) });
 		$d.on('dblclick',(e)=>{ obj.dblclick(e) });
-		if ( ! p.options.nodrag && p.options.node ) setTimeout( ()=>{ iconDrag.draggable( $d, p.options.node ) }, 1 );
+		if ( ! p.options.nodrag && p.options.node ) setTimeout( ()=>{ glob.dd.get('wd-icon').draggable( $d, p.options.node ) }, 1 );
 		return $d;
 	};
 };
@@ -345,7 +298,13 @@ const getClass = async (manifest) => {
 				nodrag: true
 			});
 			this.#wrap.append( this.#prop.trashicon.get() );
-			$('.mabro-main-wrap').on('click',()=>{ this.selectIconByFsId() });
+			$('.mabro-main-wrap').on('click',()=>{ this.selectIconByFsId() }).on( 'contextmenu', (e) => {
+				if ( ! $(e.target).hasClass('mabro-main-wrap')) return;
+				e.preventDefault();
+				const apps = this.#mb.apps();
+				const app = apps[ $(document.body).data('mabro').activeApp ];
+				if ( app ) this.#mb.getMenu().then( m => { m.appContextMenu( e, e.target, app ) });
+			});
 		};
 		async event(name,data) {
 			if ( name === 'run'|| name === 'activate' ) {
