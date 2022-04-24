@@ -50,68 +50,59 @@ const activateDocument = ($w,id,uri) => {
 
 $(document).on("mouseup", ".mabro-app.mabro-window:not(.mabro-gui-action)", (e)=>{ e.stopPropagation(); activateWindow($(e.target)); });
 
-const makeDraggableWindow = ($w) => {
-	const $tb = $('.mabro-window-titlebar',$w);
-	$tb.on('mouseenter',()=>{ if ( ! $w.hasClass('mabro-fullscreen') ) $w.attr('draggable',true)  });
-	$tb.on('dblclick',(e)=>{ e.preventDefault(); e.stopPropagation(); $w.trigger('mabro:togglefs') });
-	$tb.on('mouseleave',()=>{ $w.attr('draggable',false)  });
-	const w = $w.get(0);
-	w.addEventListener('dragstart',(e)=>{
-		if( $w.attr('draggable') !== 'true' ) return;
-		e.stopPropagation();
-		e.dataTransfer.effectAllowed = 'move';
-		activateWindow($w);
-		const ddata = {
-			ex0 : e.pageX,
-			ey0 : e.pageY,
-			x0 : parseInt($w.css('left')),
-			y0 : parseInt($w.css('top')),
+if ( ! glob.dd.get('mabro-window-drag')) glob.dd.set('mabro-window-drag',{
+	data : (d) => {
+		return {
+			ex0 : d.event.pageX,
+			ey0 : d.event.pageY,
+			x0 : parseInt(d.element.css('left')),
+			y0 : parseInt(d.element.css('top')),
 			minx : 0,
 			miny: 0,
-			maxx : $w.closest('.mabro-wrap').width(),
-			maxy : $w.closest('.mabro-wrap').height()
+			maxx : d.element.closest('.mabro-wrap').width(),
+			maxy : d.element.closest('.mabro-wrap').height()
 		};
-		$w.data('mabro-drag',ddata);
-		$w.addClass('mabro-dragging mabro-gui-action');
+	},
+	draggable : (d) => {
+		// { element: $el }
+		if ( ! d.element.hasClass('mabro-window-drag-inited') ) {
+			d.element.attr('draggable',false);
+			const $tb = $('.mabro-window-titlebar',d.element);
+			$tb.on('mouseenter',()=>{ if ( ! d.element.hasClass('mabro-fullscreen') ) d.element.attr('draggable',true)  });
+			$tb.on('dblclick',(e)=>{ e.preventDefault(); e.stopPropagation(); d.element.trigger('mabro:togglefs') });
+			$tb.on('mouseleave',()=>{ d.element.attr('draggable',false)  });
+			d.element.addClass('mabro-window-drag-inited');
+		}
+	},
+	dragstart : (d) =>{
+		d.element.addClass('mabro-dragging mabro-gui-action');
 		return false;
-	},true);
-	w.addEventListener('drag',(e)=>{
-		if ( ! $w.hasClass('mabro-dragging') ) return;
-		e.preventDefault();
-		e.stopPropagation();
-		if ( e.pageY <= 0 || e.pageX <= 0 ) return;
-		const ddata = $w.data('mabro-drag');
-		$w.css({
-			top: String( Math.min(Math.max((ddata.y0 + e.pageY - ddata.ey0),ddata.miny),ddata.maxy) )+'px',
-			left: String( Math.min(Math.max((ddata.x0 + e.pageX - ddata.ex0),ddata.minx),ddata.maxx) )+'px'
+	},
+	drag : (d) => {
+		if ( ! d.element.hasClass('mabro-dragging') ) return;
+		if ( d.event.pageY <= 0 || d.event.pageX <= 0 ) return;
+		d.element.css({
+			top: String( Math.min(Math.max((d.data.y0 + d.event.pageY - d.data.ey0),d.data.miny),d.data.maxy) )+'px',
+			left: String( Math.min(Math.max((d.data.x0 + d.event.pageX - d.data.ex0),d.data.minx),d.data.maxx) )+'px'
 		});
 		return false;
-	},true);
-	w.addEventListener('dragend',(e)=>{
-		if ( ! $w.hasClass('mabro-dragging') ) return;
-		e.preventDefault();
-		e.stopPropagation();
-		$w.removeData('mabro-drag');
-		$w.removeClass('mabro-dragging mabro-gui-action');
-		$(document.body).trigger('mabro:changedWindow',{ uri: $w.attr('for'), id: $w.attr('id') });
+	},
+	dragend : (d) => {
+		if ( ! d.element.hasClass('mabro-dragging') ) return;
+		d.element.removeClass('mabro-dragging mabro-gui-action');
+		$(document.body).trigger('mabro:changedWindow',{ uri: d.element.attr('for'), id: d.element.attr('id') });
 		return false;
-	},true);
-};
+	}
+});
 
-const makeResizeableWindow = ($w) => {
-	const $rb = $('.mabro-resize-button',$w);
-	$rb.on('mouseenter',()=>{ if ( ! $w.hasClass('mabro-fullscreen') ) $rb.attr('draggable',true)  });
-	$rb.on('mouseleave',()=>{ $rb.attr('draggable',false)  });
-	const w = $w.get(0);
-	const rb = $rb.get(0);
-	rb.addEventListener('dragstart',(e)=>{
-		if( $rb.attr('draggable') !== 'true' ) return;
-		e.stopPropagation();
-		e.dataTransfer.effectAllowed = 'move';
+if ( ! glob.dd.get('mabro-window-resize')) glob.dd.set('mabro-window-resize',{
+	data : (d) => {
+		const $w = d.element.closest('.mabro-window');
 		const opts = $w.data('mabro-options');
-		const ddata = {
-			ex0 : e.pageX,
-			ey0 : e.pageY,
+		return {
+			win : $w,
+			ex0 : d.event.pageX,
+			ey0 : d.event.pageY,
 			x0 : $w.width(),
 			y0 : $w.height(),
 			minx : opts.minWidth ? parseInt(opts.minWidth) : 197,
@@ -119,32 +110,36 @@ const makeResizeableWindow = ($w) => {
 			maxx : opts.maxWidth ? parseInt(opts.maxWidth) : ($w.closest('.mabro-wrap').width() - parseInt($w.css('left')) - 100),
 			maxy : opts.maxHeight ? parseInt(opts.maxHeight) : ($w.closest('.mabro-wrap').height()  - parseInt($w.css('top')) -100)
 		};
-		$w.data('mabro-resize',ddata);
-		$w.addClass('mabro-resizing mabro-gui-action');
+	},
+	draggable : (d) => {
+		if ( ! d.element.hasClass('mabro-window-resize-inited') ) {
+			d.element.attr('draggable',false);
+			const $w = d.element.closest('.mabro-window');
+			d.element.on('mouseenter',()=>{ if ( ! $w.hasClass('mabro-fullscreen') ) d.element.attr('draggable',true)  });
+			d.element.on('mouseleave',()=>{ d.element.attr('draggable',false)  });
+			d.element.addClass('mabro-window-resize-inited');
+		}
+	},
+	dragstart : (d) =>{
+		d.data.win.addClass('mabro-resizing mabro-gui-action');
 		return false;
-	},true);
-	rb.addEventListener('drag',(e)=>{
-		if( ! $w.hasClass('mabro-resizing') ) return;
-		e.preventDefault();
-		e.stopPropagation();
-		if ( e.pageY <= 0 || e.pageX <= 0 ) return;
-		const ddata = $w.data('mabro-resize');
-		$w.css({
-			width: String( Math.min(Math.max((ddata.x0 + e.pageX - ddata.ex0),ddata.minx),ddata.maxx) )+'px',
-			height: String( Math.min(Math.max((ddata.y0 + e.pageY - ddata.ey0),ddata.miny),ddata.maxy) )+'px'
+	},
+	drag : (d) => {
+		if ( ! ( d.data.win && d.data.win.hasClass('mabro-resizing') ) ) return;
+		if ( d.event.pageY <= 0 || d.event.pageX <= 0 ) return;
+		d.data.win.css({
+			width: String( Math.min(Math.max((d.data.x0 + d.event.pageX - d.data.ex0),d.data.minx),d.data.maxx) )+'px',
+			height: String( Math.min(Math.max((d.data.y0 + d.event.pageY - d.data.ey0),d.data.miny),d.data.maxy) )+'px'
 		});
 		return false;
-	},true);
-	rb.addEventListener('dragend',(e)=>{
-		if( ! $w.hasClass('mabro-resizing') ) return;
-		e.preventDefault();
-		e.stopPropagation();
-		$w.removeData('mabro-resize');
-		$w.removeClass('mabro-resizing mabro-gui-action');
-		$(document.body).trigger('mabro:changedWindow',{ uri: $w.attr('for'), id: $w.attr('id') });
+	},
+	dragend : (d) => {
+		if ( ! ( d.data.win && d.data.win.hasClass('mabro-resizing') ) ) return;
+		d.data.win.removeClass('mabro-resizing mabro-gui-action');
+		$(document.body).trigger('mabro:changedWindow',{ uri: d.data.win.attr('for'), id: d.data.win.attr('id') });
 		return false;
-	},true);
-};
+	}
+});
 
 const MBWstatic = {
 	default : { width: '20%', height : '20%' },
@@ -213,9 +208,9 @@ const MBW = class {
 		if ( ! prop.options.fixedSize ) {
 			const $resizer = $('<span class="mabro-win-button mabro-resize-button"></span>');
 			$w.append($resizer);
-			makeResizeableWindow($w);
+			setTimeout( ()=>{ glob.dd.get('mabro-window-resize').draggable($('.mabro-resize-button',$w)) }, 1);
 		}
-		makeDraggableWindow($w);
+		setTimeout( ()=>{ glob.dd.get('mabro-window-drag').draggable($w); }, 1);
 		return $w;
 	};
 	active(){ return this.wrap().hasClass('mabro-active') };

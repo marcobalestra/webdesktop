@@ -691,8 +691,9 @@ glob.dd = {
 			dd.draggable = axles;
 			$el.data('glob-dd',dd);
 			el.addEventListener('dragstart',(e)=>{ this.dragstart(e,$el,data) },false);
-			el.addEventListener('dragend', (e)=>{ this.dragend(e,$el,data) },false);
-			if ( this.#func.draggable ) this.#func.draggable({ event: e, element: $el });
+			el.addEventListener('drag',(e)=>{ this.drag(e) },false);
+			el.addEventListener('dragend', (e)=>{ this.dragend(e) },false);
+			if ( this.#func.draggable ) this.#func.draggable({ element: $el });
 		};
 		droppable( el ) {
 			if ( el instanceof $ ) el = el.get(0);
@@ -744,6 +745,7 @@ glob.dd = {
 			this.#dd = {};
 		};
 		dragstart(e,$el,data) {
+			if ( e.stopPropagation ) e.stopPropagation();
 			this.#dd.element = $el;
 			this.#dd.data = this.#func.data ? this.#func.data({ event: e, element: $el, data: data }) : data;
 			e.dataTransfer.effectAllowed = this.#prop.effectAllowed||'move';
@@ -755,14 +757,23 @@ glob.dd = {
 				e.dataTransfer.setData('text/html', $el.html() );
 			}
 			if ( this.#func.dragstart ) this.#func.dragstart({ event: e, element: $el, data: this.#dd.data });
+			return false;
+		};
+		drag(e) {
+			if ( e.stopPropagation ) e.stopPropagation();
+			if ( this.#func.drag ) this.#func.drag({ event: e, element: this.#dd.element, data: this.#dd.data });
+			return false;
 		};
 		dragend(e) {
+			if ( e.stopPropagation ) e.stopPropagation();
 			if ( this.#func.dragend ) this.#func.dragend({ event: e, element: this.#dd.element, data: this.#dd.data });
 			this.cleardrag();
+			return false;
 		};
 		dragover(e) {
 			const $tgt = this.canaccept(e);
 			if ( ! $tgt ) return false;
+			if ( e.stopPropagation ) e.stopPropagation();
 			$tgt.addClass('dd-dragover');
 			if ( this.#func.dragover ) this.#func.dragover({ event: e, element: this.#dd.element, data: this.#dd.data, target: $tgt });
 		};
