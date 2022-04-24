@@ -53,7 +53,7 @@ glob.clone = (so) => {
 			let o = {};
 			Object.keys(so).forEach( k => ( o[k] = glob.clone(so[k]) ));
 			return o;
-		};
+		}
 	}
 	return so;
 };
@@ -64,9 +64,8 @@ glob.getCookies = () => {
 		let kv = pair.split(/\s*=\s*/);
 		let n = kv.shift();
 		if ( typeof n !== 'string' ) return;
-		if ( n == '' ) return;
-		let v = window.decodeURIComponent( kv[0]||'' );
-		cobj[ n ] = v;
+		if ( n === '' ) return;
+		cobj[ n ] = window.decodeURIComponent( kv[0]||'' );;
 	});
 	return cobj;
 };
@@ -81,7 +80,7 @@ glob.setCookie = (n,v,o) => {
 	if ( o.firstLevel ) {
 		let d = o.domain ? o.domain : window.location.hostname;
 		d = d.replace(/^.*\.([^.]+)\.([^.]+)$/,"$1.$2");
-		if ( o.domain || ( d != location.hostname ) ) o.domain = d;
+		if ( o.domain || ( d !== location.hostname ) ) o.domain = d;
 	}
 	if ( typeof o.sameSite !== 'undefined' ) {
 		if ( o.sameSite ) {
@@ -92,7 +91,7 @@ glob.setCookie = (n,v,o) => {
 		}
 	}
 	if ( o.secure ) s += ';Secure';
-	if ( (typeof o.domain === 'string') && (o.domain != '') ) s += ';domain='+o.domain;
+	if ( (typeof o.domain === 'string') && (o.domain !== '') ) s += ';domain='+o.domain;
 	if ( o.maxAge ) s+= ';max-age='+o.maxAge;
 	if ( o.expires ) {
 		if ( o.expires instanceof Date ) o.expires = o.expires.toUTCString();
@@ -109,7 +108,7 @@ glob.rmCookie = (n,o) => {
 	o.expires = 'Thu, 01 Jan 1970 00:00:01 GMT';
 	o.sameSite = true;
 	if ( o.domain === true ) o.domain = window.location.hostname;
-	if ( typeof o.domain === 'string' && o.domain != '' ) o.domain = o.domain.replace(/^\./,'');
+	if ( typeof o.domain === 'string' && o.domain !== '' ) o.domain = o.domain.replace(/^\./,'');
 	let out = glob.setCookie( n, '', o );
 	if ( ! o.domain ) o.domain = window.location.hostname;
 	o.domain = '.' + o.domain;
@@ -190,11 +189,10 @@ glob.localize = {
 			let h = document.documentElement.querySelector('head');
 			let wt = h.querySelector('title');
 			if ( wt ) {
-				let e;
 				try {
 					let ot = wt.innerHTML;
 					let nt = glob.localize.labelize( ot );
-					if ( ot != nt ) {
+					if ( ot !== nt ) {
 						wt.innerHTML  = nt;
 						document.title = nt;
 					}
@@ -224,7 +222,7 @@ glob.localize = {
 			if ( typeof glob.localize.main !== 'object') glob.localize.main = {};
 			Object.entries(data).forEach( ([k,v]) => {
 				if ( typeof glob.localize.main[k] !== 'object' ) glob.localize.main[k]={};
-				if ( lang == 'multi' ) {
+				if ( lang === 'multi' ) {
 					if ( ! v ) return;
 					if ( typeof v == "object" ) {
 						Object.keys(v).forEach( kv => { glob.localize.main[k][kv] = v[kv] });
@@ -236,11 +234,11 @@ glob.localize = {
 				}
 			});
 			glob.localize.pending--;
-			if (glob.localize.pending == 0) glob.localize.loaded = true;
+			if (glob.localize.pending === 0) glob.localize.loaded = true;
 			glob.localize.langloaded = true;
-		}).catch( e => {
+		}).catch( (e) => {
 			glob.localize.pending--;
-			if (glob.localize.pending == 0) glob.localize.loaded = true;
+			if (glob.localize.pending === 0) glob.localize.loaded = true;
 			glob.localize.langloaded = true;
 		})
 		if ( skipNewLoad ) return true;
@@ -280,7 +278,7 @@ glob.localize = {
 				})
 			}
 			ns.forEach( (n) => {
-				n.style.display = (( n.getAttribute('lang').replace(re,"$1").toLowerCase() == ul ) ? '' : 'none');
+				n.style.display = (( n.getAttribute('lang').replace(re,"$1").toLowerCase() === ul ) ? '' : 'none');
 			});
 		}
 	},
@@ -305,7 +303,7 @@ glob.localize = {
 		if ( typeof values === 'object' ) {
 			for (const [i, vi] of Object.entries(values)) {
 				let re;
-				if ( (vi == '') || (typeof vi == 'undefined')) {
+				if ( (vi === '') || (typeof vi == 'undefined')) {
 					re = new RegExp('\{\{'+i+'\}\}','g');
 				} else {
 					re = new RegExp('\{\{'+i+'(\\|[^}]*)?\}\}','g');
@@ -329,7 +327,7 @@ glob.blockUI = ( ...args ) => {
 	});
 	mode = !! mode;
 	const cur = !! $('.UiBlockerDiv',parent).length;
-	if ( cur == mode ) return;
+	if ( cur === mode ) return;
 	if ( mode ) {
 		const $block = $('<div class="UiBlockerDiv"></div>');
 		$block.append($('<div class="spinner"></div>').append($(_l('iconPrefs'))));
@@ -409,7 +407,7 @@ glob.select2 = {
 		if ( $sel.hasClass('glob-select2-events') ) return;
 		if ( opts.allowClear ) $sel.on('select2:clearing', (e)=>{
 			e.preventDefault();
-			if ( opts.selectType == 'search') $sel.html('');
+			if ( opts.selectType === 'search') $sel.html('');
 			setTimeout( ()=>{ $sel.select2('close').val('').trigger('change'); },10);
 		});
 		if ( opts.multiple ) $sel.on('select2:unselecting', (e)=>{
@@ -418,7 +416,7 @@ glob.select2 = {
 				setTimeout( ()=>{ $sel.select2('close'); },10);
 			} else {
 				e.preventDefault();
-				if ( opts.selectType == 'search') $sel.html('');
+				if ( opts.selectType === 'search') $sel.html('');
 				setTimeout( ()=>{ $sel.select2('close').val('').trigger('change'); },10);
 			}
 		});
@@ -434,7 +432,7 @@ glob.select2 = {
 			if ( opts.multiple ) so.multiple = true;
 			if ( opts.dropdownParent ) so.dropdownParent = opts.dropdownParent;
 			if ( typeof opts.uri == 'string' && opts.uri.length > 0 ) {
-				if ( opts.uri.indexOf('/') != 0 ) opts.uri = '/cl/' + opts.uri;
+				if ( opts.uri.indexOf('/') !== 0 ) opts.uri = '/cl/' + opts.uri;
 				if ( ! opts.uri.match(/\/list\/?$/) ) opts.uri += '/list';
 				so.ajax = { url: opts.uri, dataType: 'json', delay: 250 };
 				if ( opts.keys ) so.ajax.processResults = glob.select2.addKeys;
@@ -457,7 +455,7 @@ glob.select2 = {
 			if ( opts.dropdownParent ) so.dropdownParent = opts.dropdownParent;
 			if ( typeof opts.min === 'number' ) so.minimumInputLength = opts.min;
 			if ( typeof opts.uri == 'string' && opts.uri.length > 0 ) {
-				if ( opts.uri.indexOf('/') != 0 ) opts.uri = '/cl/' + opts.uri;
+				if ( opts.uri.indexOf('/') !== 0 ) opts.uri = '/cl/' + opts.uri;
 				if ( ! opts.uri.match(/\/search\/?$/) ) opts.uri += '/search';
 				so.ajax = { url: opts.uri, dataType: 'json', delay: 250 };
 				if ( typeof opts.data === 'function' ) so.ajax.data = opts.data;
@@ -482,8 +480,8 @@ glob.select2 = {
 			if ( opts.multiple ) so.multiple = true;
 			if ( opts.dropdownParent ) so.dropdownParent = opts.dropdownParent;
 		}
-		if ( typeof opts.uri == 'string' && opts.uri.length > 0 ) {
-			if ( opts.uri.indexOf('/') != 0 ) opts.uri = '/cl/' + opts.uri;
+		if ( typeof opts.uri === 'string' && opts.uri.length > 0 ) {
+			if ( opts.uri.indexOf('/') !== 0 ) opts.uri = '/cl/' + opts.uri;
 			if ( ! opts.uri.match(/\/list\/?$/) ) opts.uri += '/list';
 			let data = await glob.get(opts.uri);
 			if ( data && data.results && Array.isArray(data.results) ) {
@@ -524,13 +522,13 @@ glob.menu = (ev,menu)=>{
 		const parseli = v => {
 			const $li = $('<li></li>');
 			if ( typeof v == 'string' ) {
-				if ( v == '-') {
+				if ( v === '-') {
 					$li.html('<hr />');
 				} else {
 					$li.addClass('title').html( v );
 				}
 			} else if ( typeof v == 'object') {
-				let e,lab = '';
+				let lab = '';
 				const ricon = v.ricon || '';
 				// if ( (typeof v.ricon == 'undefined') && (typeof v.action == 'string') ) {
 				// 	ricon = (v.download && 'icon-download4')||( v.target && 'icon-square-up-right')||'icon-arrow-right16';
@@ -584,7 +582,7 @@ glob.menu = (ev,menu)=>{
 	let left, top;
 	const cmw = $cm.width();
 	const cmh = $cm.height();
-	if ( menu.type == 'button' ) {
+	if ( menu.type === 'button' ) {
 		if ( ! menu.parent ) menu.parent = menu.highlight||'button';
 		const $parent = $(ev.target).closest(menu.parent);
 		const pos = $parent.offset();
@@ -597,7 +595,7 @@ glob.menu = (ev,menu)=>{
 		if ( (left - $(window).scrollLeft() + cmw) >= $(window).width() ) {
 			left = Math.ceil( pos.left + $parent.outerWidth() - $cm.width() +1);
 		}
-	} else if ( menu.type == 'menu' ) {
+	} else if ( menu.type === 'menu' ) {
 		if ( typeof menu.sticky === 'undefined' ) menu.sticky = true;
 		if ( ! menu.parent ) menu.parent = menu.highlight||'a';
 		const $parent = $(ev.target).closest(menu.parent);
@@ -779,6 +777,7 @@ glob.dd = {
 			if ( ! $tgt ) return false;
 			if ( e.stopPropagation ) e.stopPropagation();
 			if ( this.#dd.dropped ) return;
+			e.dataTransfer.dropEffect = this.#prop.dropEffect ||'move';
 			this.#dd.dropped = $tgt;
 			if ( this.#func.drop ) this.#func.drop({ event: e, element: this.#dd.element, data: this.#dd.data, target: $tgt });
 			this.cleardrag();
