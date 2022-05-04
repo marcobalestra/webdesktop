@@ -1,4 +1,6 @@
-document.addEventListener('dragover', (e)=>{ e.preventDefault() });
+const triggerAll = ( event, data )=>{ $(document.body).trigger(`mabro:${event}`,data); };
+
+const triggerApp = (uri, event, data) => { $(`body > .mabro-main-container > .mabro-main-wrap > .mabro-wrap[for="${uri}"]`).trigger(`mabro:${event}`,data); };
 
 const activateWindow = ( $w ) => {
 	if ( ! $w.hasClass('.mabro-window') ) $w = $w.closest('.mabro-window');
@@ -10,7 +12,6 @@ const activateWindow = ( $w ) => {
 		activateDocument($w,id,uri);
 	} else {
 		$(`.mabro-app.mabro-wrap:not([for="${uri}"])`).removeClass('mabro-active').addClass('mabro-inactive');
-		//if ( uri.endsWith('/webdesktop/') ) $(`.mabro-app.mabro-wrap:not([for="${uri}"])`).hide();
 		$(`.mabro-app.mabro-wrap[for="${uri}"]`).addClass('mabro-active');
 		dd.activeApp = uri;
 		if ( $(`.mabro-app.mabro-window[for="${uri}"]`).length > 1 ) {
@@ -21,7 +22,8 @@ const activateWindow = ( $w ) => {
 			dd.activeWindow = id;
 			$(document.body).data('mabro',dd);
 		}
-		$(document.body).trigger('mabro:changedApp',{ uri: uri });
+		triggerAll('changedApp',{ uri: uri });
+		triggerApp(uri,'activate');
 	}
 };
 
@@ -45,10 +47,10 @@ const activateDocument = ($w,id,uri) => {
 		$(w).css('z-index',idx).data('zIndex',idx);
 	});
 	dd.activeWindow = id;
-	$(document.body).data('mabro',dd).trigger('mabro:changedWindow',{ uri: uri, id: id });
+	$(document.body).data('mabro',dd);
+	triggerAll('changedWindow',{ uri: uri, id: id });
+	triggerApp(uri,'changedWindow',{ id: id });
 };
-
-$(document).on("mouseup", ".mabro-app.mabro-window:not(.mabro-gui-action)", (e)=>{ e.stopPropagation(); activateWindow($(e.target)); });
 
 if ( ! glob.dd.get('mabro-window-drag')) glob.dd.set('mabro-window-drag',{
 	data : (d) => {
@@ -90,12 +92,14 @@ if ( ! glob.dd.get('mabro-window-drag')) glob.dd.set('mabro-window-drag',{
 	dragend : (d) => {
 		if ( ! d.element.hasClass('mabro-dragging') ) return;
 		d.element.removeClass('mabro-dragging mabro-gui-action');
-		$(document.body).trigger('mabro:changedWindow',{ uri: d.element.attr('for'), id: d.element.attr('id') });
+		d.element.trigger('mouseup');
 		return false;
 	}
 });
 
 if ( ! glob.dd.get('mabro-window-resize')) glob.dd.set('mabro-window-resize',{
+	dropEffect : 'none',
+	dragImage : 'none',
 	data : (d) => {
 		const $w = d.element.closest('.mabro-window');
 		const opts = $w.data('mabro-options');
@@ -134,9 +138,13 @@ if ( ! glob.dd.get('mabro-window-resize')) glob.dd.set('mabro-window-resize',{
 		return false;
 	},
 	dragend : (d) => {
-		if ( ! ( d.data.win && d.data.win.hasClass('mabro-resizing') ) ) return;
-		d.data.win.removeClass('mabro-resizing mabro-gui-action');
-		$(document.body).trigger('mabro:changedWindow',{ uri: d.data.win.attr('for'), id: d.data.win.attr('id') });
+		const w = d.data.win;
+		if ( ! ( w && w.hasClass('mabro-resizing') ) ) return;
+		w.removeClass('mabro-resizing mabro-gui-action');
+		const uri = w.attr('for');
+		const id = w.attr('id');
+		triggerAll('changedWindow',{uri: uri, id: id });
+		triggerApp(uri,'changedWindow', {id:id });
 		return false;
 	}
 });
@@ -177,12 +185,15 @@ const MBW = class {
 		return MBW.parseSize(val);
 	};
 	static render = ( wobj, sysapi, prop ) => {
-		const $w = $(`<div class="mabro-app mabro-window" for="${sysapi.getUri()}" id="${prop.id}"></div>`);
-		const $titlebar = $('<div class="mabro-window-titlebar"></div>').append( $('<label></label>').append( prop.options.title ) );
+		const uri = sysapi.getUri();
+		const $w = $(`<div class="mabro-app mabro-window" for="${uri}" id="${prop.id}"></div>`);
+		const $title = $('<div class="title"></div>').append( $('<label></label>').append( prop.options.title ) );
+		if ( sysapi.getIcon() ) $title.prepend( sysapi.getIcon() );
+		const $titlebar = $('<div class="mabro-window-titlebar"></div>').append( $title );
 		if ( ! prop.options.cantClose ) {
 			const $closer = $('<span class="mabro-win-button mabro-close-button"></span>');
 			$w.on('mabro:close',()=>{ sysapi.closeWindow(wobj) });
-			$closer.on('click',()=>{ $w.trigger('mabro:close') } );
+			$closer.on('click',()=>{ $w.trigger('mabro:close'); } );
 			$titlebar.append( $closer );
 		}
 		if ( ! prop.options.fixedSize ) {
@@ -318,6 +329,7 @@ const getClass = async (mb) => {
 			return this.dispatch(name,data);
 		};
 		getApp() { return this.#app; };
+		getIcon() { return this.#prop.manifest ? this.#prop.manifest.app_icon : undefined };
 		getManifest() { return this.#prop.manifest }; 
 		getAppName() { return this.#prop.manifest.app_name };
 		getAppApi() { return this.#api; };
@@ -395,6 +407,7 @@ const getClass = async (mb) => {
 			if ( ! w ) return;
 			const $w = w.wrap();
 			const id = $w.attr('id');
+			triggerApp($w.attr('for'),'closeWindow',{id: id });
 			$w.remove();
 			this.#prop.wins = this.#prop.wins.filter( w => ( w.wrap().attr('id') !== id ));
 			const fm = this.frontmostWindow();
@@ -463,5 +476,11 @@ const getClass = async (mb) => {
 	};
 	return SYSAPI;
 };
+
+if ( ! $('body>.mabro-main-container').hasClass('mabro-api-inited') ) {
+	document.addEventListener('dragover', (e)=>{ e.preventDefault() });
+	$(document).on("mouseup", ".mabro-app.mabro-window:not(.mabro-gui-action)", (e)=>{ e.stopPropagation(); activateWindow($(e.target)); });
+	$('body>.mabro-main-container').addClass('mabro-api-inited');
+}
 
 export default getClass;

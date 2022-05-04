@@ -87,7 +87,7 @@ const getFolderToolbar = (w,f) => {
 	const wdata = w.wrap().data('wd-nav')||{};
 	const setView = (v) => { wdata.view=v; w.wrap().data('wd-nav',wdata); makeFolderWindow(w,f) };
 	if ( f.parent ) {
-		$('button.wd-parent-folder',$out).on('click',()=>{ cache.wd.openFolder(f.parent) });
+		$('button.wd-parent-folder',$out).on('click', async ()=>{ await cache.wd.openFolder(f.parent); cache.wd.selectIconByFsId(f.id); });
 	} else {
 		$('button.wd-parent-folder',$out).parent().remove();
 	}
@@ -97,6 +97,18 @@ const getFolderToolbar = (w,f) => {
 	} else {
 		$('button.wd-view-thumbnails',$out).addClass('active');
 		$('button.wd-view-list',$out).on('click',()=>{ setView('list') });
+	}
+	const svg = svgByFs(f);
+	let ti;
+	if ( svg.lock ) {
+		$out.append( $('<div class="wd-view-folder-lock"></div>').append(svg.lock));
+		ti = svg.lock
+	} else if ( svg.icon ) {
+		ti = svg.icon;
+	}
+	if ( ti ) {
+		$('.mabro-window-titlebar .title svg',w.wrap()).remove();
+		$('.mabro-window-titlebar .title',w.wrap()).prepend(ti);
 	}
 	return $out;
 };
@@ -135,15 +147,26 @@ const makeFolderWindow = ( wobj,folder ) => {
 		$list.append( i.get() );
 	});
 	$c.append($list);
-	$c.on('click',( e )=>{
-		e.preventDefault();
-		e.stopPropagation();
-		cache.wd.selectIconByFsId(folder.id);
-	});
 	if ( folder.role === 'trash' ) $w.on('contextmenu',(e)=>{ trashCM(e) });
 	else $w.on('contextmenu',(e)=>{ folderCM(e) });
 	setTimeout( ()=>{ glob.dd.get('wd-icon').droppable($w) }, 1);
 	return $w;
+};
+
+const svgByFs = ( o ) => {
+	const out = {};
+	if ( o.role ) {
+		switch (o.role) {
+			case 'trash' : out.lock = out.icon = getIcon('wd-trash'); return out;
+			case 'root' : out.lock = out.icon = cache.wd.appIcon(); return out;
+		}
+	}
+	if ( o.id.startsWith('dir-') ) {
+		out.icon = getIcon('wd-folder');
+	} else {
+		out.icon = getIcon('wd-file');
+	}
+	return out;
 };
 
 const folderCM = (e) => {
@@ -198,8 +221,9 @@ const WDICON = class {
 			else if ( options.node.id.startsWith('file-')) this.#prop.type = 'file';
 		}
 		if ( ! this.#prop.type ) this.#prop.type = 'file';
-		this.#prop.svg = options.svg;
-		if ( ! this.#prop.svg && this.#prop.type === 'folder' ) this.#prop.svg = getIcon('wd-folder');
+		const svg = options.node ? svgByFs(options.node) : {};
+		this.#prop.svg = options.svg || svg.icon;
+		this.#prop.subsvg = options.subsvg || svg.subicon;
 	};
 	get() {
 		if ( ! this.#prop.render ) this.#prop.render = WDICON.render(this,this.#prop);
@@ -267,6 +291,7 @@ const getClass = async (manifest) => {
 			this.#mb.loadCSS(`${this.#prop.manifest.base_uri}themes/${this.#prop.options.theme}/style.css`);
 			this.#wrap.addClass('mabro-webdesktop mabro-active');
 		};
+		appIcon(){ return this.#prop.manifest.app_icon; };
 		async init() {
 			if ( ! glob.localize.loaded ) {
 				setTimeout( ()=>{ this.init();}, 100 );
@@ -319,7 +344,7 @@ const getClass = async (manifest) => {
 			if ( ! $w.length) {
 				const f = this.#fs.getDir(id);
 				if ( ! f ) return;
-				const w = this.#api.newWindow({ title: f.name.escape(), minWidth: '200px', minHeight: '140px' });
+				const w = this.#api.newWindow({ title: f.name.escape(), width: '320px', height: '160px', minWidth: '240px', minHeight: '140px' });
 				makeFolderWindow( w, f );
 				w.show();
 				$w = w.wrap();

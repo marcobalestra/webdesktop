@@ -1,6 +1,6 @@
 .mabro-webdesktop .wd-icon {
   width: fit-content;
-  height: fit-content;
+  height: calc( 48px + 4px);
   overflow: visible;
   padding: 2px 2px 0 2px;
 }
@@ -12,6 +12,14 @@
   height: 48px;
   width: 48px;
   position: relative;
+  overflow: hidden;
+}
+.mabro-webdesktop .wd-icon > div.icon > span.icon {
+  display: block;
+  width: 100%;
+  font-size: calc( 48px / 1.1);
+  margin-top: calc( 48px / -8 );
+  text-align: center;
 }
 .mabro-webdesktop .wd-icon > div.icon > .sub-icon {
   position: absolute;
@@ -28,6 +36,7 @@
   text-align: center;
 }
 .mabro-webdesktop .wd-icon > div.label > label {
+  user-select: none;
   display: inline-block;
   margin: 0;
   padding: 0 4px;
@@ -39,12 +48,15 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.mabro-webdesktop .wd-icon.wd-selected {
-  background-color: #000;
+.mabro-webdesktop .wd-icon.wd-selected > div.icon {
+  overflow: visible;
 }
-.mabro-webdesktop .wd-icon.wd-selected > div.icon, .mabro-webdesktop .wd-icon.wd-selected > div > label {
-  background-color: white;
-  filter: invert(1);
+.mabro-webdesktop .wd-icon.wd-selected > div.icon svg {
+  filter: invert(1) drop-shadow(0 0 6px #fff) drop-shadow(0 0 4px #ffc) drop-shadow(0 0 2px #300);
+}
+.mabro-webdesktop .wd-icon.wd-selected > div > label {
+  background-color: #00000066;
+  color: white;
 }
 .mabro-webdesktop .wd-folder-window .wd-nav-bar {
   background-color: #f0f0f0;
@@ -52,6 +64,19 @@
   height: 20px;
   border-bottom: solid 1px #ccc;
   padding: 0;
+  position: relative;
+}
+.mabro-webdesktop .wd-folder-window .wd-nav-bar .wd-view-folder-lock {
+  position: absolute;
+  top: 0;
+  right: 2px;
+  height: 16px;
+  width: 16px;
+}
+.mabro-webdesktop .wd-folder-window .wd-nav-bar .wd-view-folder-lock > svg {
+  filter: saturate(0);
+  opacity: 0.5;
+  vertical-align: baseline;
 }
 .mabro-webdesktop .wd-folder-window .wd-nav-bar .btn-group {
   padding: 0 4px;
@@ -85,20 +110,23 @@
   cursor: default;
 }
 .mabro-webdesktop .wd-folder-window .wd-content-thumbnails {
-  margin: 4px 18px;
+  margin: 4px 24px;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: baseline;
   align-content: flex-start;
   row-gap: 12px;
-  column-gap: 24px;
+  column-gap: 40px;
 }
 .mabro-webdesktop .wd-folder-window .wd-content-list {
   margin: 4px;
 }
 .mabro-webdesktop .wd-folder-window .wd-content-list .wd-icon {
-  width: 100%;
+  width: auto;
+  max-width: 100%;
+  height: min-content;
+  margin-right: auto;
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
@@ -109,6 +137,7 @@
 .mabro-webdesktop .wd-folder-window .wd-content-list .wd-icon svg {
   height: 100%;
   width: 100%;
+  vertical-align: center;
 }
 .mabro-webdesktop .wd-folder-window .wd-content-list .wd-icon > div.icon {
   height: calc(48px / 2);
@@ -123,27 +152,29 @@
   height: calc(48px / 4);
 }
 .mabro-webdesktop .wd-folder-window .wd-content-list .wd-icon > div.label {
-  width: 100%;
   height: unset;
   margin: unset;
   padding: 2px 0 0 0;
   text-align: left;
+  width: auto;
+  max-width: calc(100% - 48px);
 }
 .mabro-webdesktop .wd-folder-window .wd-content-list .wd-icon > div.label > label {
   display: block;
   margin: 0;
-  padding: 0;
+  padding: 0 4px;
   font-size: 90%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  width: auto;
+  max-width: 100%;
 }
-.mabro-webdesktop .wd-folder-window .wd-content-list .wd-icon.wd-selected {
-  background-color: #000;
+.mabro-webdesktop .wd-folder-window .wd-content-list .wd-icon.wd-selected > div.icon {
+  overflow: visible;
 }
-.mabro-webdesktop .wd-folder-window .wd-content-list .wd-icon.wd-selected > div.icon, .mabro-webdesktop .wd-folder-window .wd-content-list .wd-icon.wd-selected > div > label {
-  background-color: white;
-  filter: invert(1);
+.mabro-webdesktop .wd-folder-window .wd-content-list .wd-icon.wd-selected > div.icon svg {
+  filter: invert(1) drop-shadow(0 0 3px #fff) drop-shadow(0 0 2px #ffc) drop-shadow(0 0 #300);
 }
 .mabro-webdesktop .dd-dragover.wd-icon > div.icon, .mabro-webdesktop .dd-dragover.wd-icon > div > label {
   background-color: white;

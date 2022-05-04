@@ -4,7 +4,7 @@ $iconsize: 48px;
 .mabro-webdesktop {
 	.wd-icon {
 		width: fit-content;
-		height: fit-content;
+		height: calc(  #{$iconsize} + 4px);
 		overflow: visible;
 		padding: 2px 2px 0 2px;
 		svg {
@@ -15,6 +15,14 @@ $iconsize: 48px;
 			height: $iconsize;
 			width: $iconsize;
 			position: relative;
+			overflow: hidden;
+			> span.icon {
+				display: block;
+				width: 100%;
+				font-size: calc( #{$iconsize} / 1.1);
+				margin-top: calc( #{$iconsize} / -8 );
+				text-align: center;
+			}
 			> .sub-icon {
 				position: absolute;
 				right: 0;
@@ -30,6 +38,7 @@ $iconsize: 48px;
 			padding: 0;
 			text-align: center;
 			> label {
+				user-select: none;
 				display: inline-block;
 				margin: 0;
 				padding: 0 4px;
@@ -43,10 +52,15 @@ $iconsize: 48px;
 			}
 		}
 		&.wd-selected {
-			background-color: #000;
-			>div.icon, > div > label {
-				background-color: white;
-				filter: invert(1);
+			> div.icon {
+				overflow: visible;
+				svg {
+					filter: invert(1) drop-shadow(0 0 6px #fff) drop-shadow(0 0 4px #ffc) drop-shadow(0 0 2px #300);
+				}
+			}
+			> div > label {
+				background-color: #00000066;
+				color: white;
 			}
 		}
 	}
@@ -57,6 +71,19 @@ $iconsize: 48px;
 			height: 20px;
 			border-bottom: solid 1px #ccc;
 			padding: 0;
+			position: relative;
+			.wd-view-folder-lock {
+				position: absolute;
+				top: 0;
+				right: 2px;
+				height: 16px;
+				width: 16px;
+				> svg {
+					filter: saturate(0);
+					opacity: .5;
+					vertical-align: baseline;
+				};
+			}
 			.btn-group {
 				padding: 0 4px;
 				border: none;
@@ -90,19 +117,22 @@ $iconsize: 48px;
 			}
 		}
 		.wd-content-thumbnails {
-			margin: 4px 18px;
+			margin: 4px 24px;
 			display: flex;
 			flex-wrap: wrap;
 			justify-content: flex-start;
 			align-items: baseline;
 			align-content: flex-start;
 			row-gap: 12px;
-  			column-gap: 24px;
+  			column-gap: 40px;
 		}
 		.wd-content-list {
 			margin: 4px;
 			.wd-icon {
-				width: 100%;
+				width: auto;
+				max-width: 100%;
+				height: min-content;
+				margin-right: auto;
 				display: flex;
 				flex-wrap: nowrap;
 				align-items: center;
@@ -112,6 +142,7 @@ $iconsize: 48px;
 				svg {
 					height: 100%;
 					width: 100%;
+					vertical-align: center;
 				}
 				> div.icon {
 					height: calc(#{$iconsize} / 2);
@@ -126,29 +157,33 @@ $iconsize: 48px;
 					}
 				}
 				> div.label {
-					width: 100%;
 					height: unset;
 					margin: unset;
 					padding: 2px 0 0 0;
 					text-align: left;
+					width: auto;
+					max-width: calc(100% - #{$iconsize});
 					> label {
 						display: block;
 						margin: 0;
-						padding: 0;
+						padding: 0 4px;
 						font-size: 90%;
 						white-space: nowrap;
 						overflow: hidden;
 						text-overflow: ellipsis;
+						width: auto;
+						max-width: 100%;
 					}
 				}
 				&.wd-selected {
-					background-color: #000;
-					>div.icon, > div > label {
-						background-color: white;
-						filter: invert(1);
+					> div.icon {
+						overflow: visible;
+						svg {
+							filter: invert(1) drop-shadow(0 0 3px #fff) drop-shadow(0 0 2px #ffc) drop-shadow(0 0 #300);
+						}
 					}
 				}
-			}	
+			}
 		}
 	}
 	.dd-dragover {

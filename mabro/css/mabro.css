@@ -96,24 +96,45 @@
   left: 0;
   right: 0;
   top: 0;
-  height: 24px;
+  height: calc(24px - 2px);
   text-align: center;
   padding: 0 24px;
   cursor: grab;
 }
-.mabro-main-container > .mabro-wrap.mabro-main-wrap .mabro-app.mabro-window > .mabro-window-titlebar > label {
-  cursor: grab;
+.mabro-main-container > .mabro-wrap.mabro-main-wrap .mabro-app.mabro-window > .mabro-window-titlebar > .title {
+  position: relative;
   display: inline-block;
   height: 24px;
-  font-family: "Roboto Condensed", sans-serif;
   margin: 0 6px;
   padding: 0 calc( 2 * 6px);
   background-color: #ddd;
-  vertical-align: 1px;
+  line-height: 16px;
+  max-width: calc( 100% - 2 * 6px );
+  overflow: hidden;
+}
+.mabro-main-container > .mabro-wrap.mabro-main-wrap .mabro-app.mabro-window > .mabro-window-titlebar > .title > label {
+  display: inline-block;
+  margin: 0;
+  padding: 4px 0;
   color: #999;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  cursor: grab;
+  font-family: "Roboto Condensed", sans-serif;
+  max-width: 100%;
+}
+.mabro-main-container > .mabro-wrap.mabro-main-wrap .mabro-app.mabro-window > .mabro-window-titlebar > .title > svg {
+  position: absolute;
+  display: block;
+  opacity: 0.25;
+  width: 14px;
+  height: 14px;
+  top: 4px;
+  left: 6px;
+}
+.mabro-main-container > .mabro-wrap.mabro-main-wrap .mabro-app.mabro-window > .mabro-window-titlebar > .title > svg + label {
+  margin-left: 12px;
 }
 .mabro-main-container > .mabro-wrap.mabro-main-wrap .mabro-app.mabro-window .mabro-win-button {
   position: absolute;
@@ -180,10 +201,15 @@
 .mabro-main-container > .mabro-wrap.mabro-main-wrap > .mabro-wrap.mabro-active .mabro-app.mabro-window.mabro-active > .mabro-window-titlebar {
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2hpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDpGNzdGMTE3NDA3MjA2ODExODIyQUEzNjg5ODQwNUJEMSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDowQUVCOEI4MkI3NEUxMUVDQTEwOEJFMUJERTg2QUY1NSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDowQUVCOEI4MUI3NEUxMUVDQTEwOEJFMUJERTg2QUY1NSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M2IChNYWNpbnRvc2gpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6RkQ5MTZBQjA0NTIwNjgxMTgyMkFFMEFBQ0VENEYzNDEiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6Rjc3RjExNzQwNzIwNjgxMTgyMkFBMzY4OTg0MDVCRDEiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz7KamM0AAAALklEQVR42mL6//8/AyWYiYFCwALEDZQYwAjEWhQZAPIHJWA0DEbDYJiEAUCAAQDvSzuRY50YoAAAAABJRU5ErkJggg==");
 }
-.mabro-main-container > .mabro-wrap.mabro-main-wrap > .mabro-wrap.mabro-active .mabro-app.mabro-window.mabro-active > .mabro-window-titlebar > label {
+.mabro-main-container > .mabro-wrap.mabro-main-wrap > .mabro-wrap.mabro-active .mabro-app.mabro-window.mabro-active > .mabro-window-titlebar > .title {
+  background-color: #ccc;
+}
+.mabro-main-container > .mabro-wrap.mabro-main-wrap > .mabro-wrap.mabro-active .mabro-app.mabro-window.mabro-active > .mabro-window-titlebar > .title > svg {
+  opacity: 0.75;
+}
+.mabro-main-container > .mabro-wrap.mabro-main-wrap > .mabro-wrap.mabro-active .mabro-app.mabro-window.mabro-active > .mabro-window-titlebar > .title > label {
   color: #333;
   text-shadow: 0 0 2px #fff;
-  background-color: #ccc;
 }
 .mabro-main-container > .mabro-wrap.mabro-main-wrap > .mabro-wrap.mabro-active .mabro-app.mabro-window.mabro-active > .mabro-window-titlebar > .mabro-win-button {
   display: block;
